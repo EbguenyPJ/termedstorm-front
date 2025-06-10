@@ -1,8 +1,8 @@
 "use client"
 import React from "react";
 import { useState } from "react";
-import Input from "../../../components/UI/Inputs/Input";
-import { ButtonAccent } from "../../../components/UI/Buttons/Buttons";
+import Input from "../../../../components/UI/Inputs/Input";
+import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
 
 const RegisterCategory = () => {
     // Estado para almacenar los datos del producto
