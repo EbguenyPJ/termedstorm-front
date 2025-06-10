@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #6e5cc4;
+  --color-primary-20: #6d5cc468;
+  --color-secondary: #4e4090;
+  --color-accent: #ea4029;
+  --color-base-1: #ffffff;
+  --color-base-2: #f0f2f1;
+  --color-base-25: #777;
+  --color-base-3: #444141;
+  --color-base-4: #0d0d0d;
+
+  --font-sans: "Lexend", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary);
+  }
+  
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-primary-20 {
+    background-color: #6d5cc42d;
+  }
+
+  .border-primary-20 {
+    border: 1px solid var(--color-primary-20);
+  }
+
+  .border-primary-22{
+    border: 2px solid var(--color-secondary);
+  }
+
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .text-accent {
+    color: var(--color-accent);
+  }
+  
+  .text-base-250 {
+    color: var(--color-base-25);
+  }
+
+  .text-base-300 {
+    color: var(--color-base-3);
+  }
+
+  .text-base-400 {
+    color: var(--color-base-4);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+
+  .bg-base-100 {
+    background-color: var(--color-base-1);
+  }
+
+  .bg-base-200 {
+    background-color: var(--color-base-2);
+  }
+
+  .bg-base-300 {
+    background-color: var(--color-base-3);
+  }
+}
+
+body {
+  background: var(--color-base-1);
+  color: var(--color-base-300);
+  font-family: var(--font-sans), sans-serif;
+}
