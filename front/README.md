@@ -13,3 +13,12 @@
 2. Persistencia de la sesión:
 - En cada solicitud al backend, el navegador envía la cookie HTTPOnly automáticamente.
 y back valida el JWT en la cookie y devuelve datos del usuario (ej.: { id, email, role }).
+
+
+NextAuth
+
+- Crear servicio para cookies y usuarios
+- Que datos necesita la empresa para crear al usuario empleado?
+- Este usuario empleado se va a poder loguear con google despues?
+- podés agregar un campo s_email_personal para enviarle automáticamente sus credenciales.
+

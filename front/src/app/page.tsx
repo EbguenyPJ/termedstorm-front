@@ -1,8 +1,12 @@
+import React from "react";
+import LoginForm from "../components/Forms/LoginForm";
 
-export default function Home() {
+const LoginPage = () => {
   return (
-    <div className="flex items-center justify-center">
-      <h1 className="text-5xl">Aca entonces iria un register/login?</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <LoginForm />
     </div>
   );
-}
+};
+
+export default LoginPage;
