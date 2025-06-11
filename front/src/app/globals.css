@@ -47,6 +47,10 @@
     color: var(--color-accent);
   }
   
+  .text-base {
+    color: var(--color-base-100)
+  }
+
   .text-base-250 {
     color: var(--color-base-25);
   }
