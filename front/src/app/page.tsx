@@ -1,8 +1,17 @@
+import React from "react";
+import LoginForm from "../components/Forms/LoginForm";
 
-export default function Home() {
+const LoginPage = () => {
   return (
-    <div className="flex items-center justify-center">
-      <h1 className="text-5xl">Aca entonces iria un login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <LoginForm />
     </div>
   );
-}
+};
+
+export default LoginPage;
+
+
+// creacion de formularios de login, register y creacion
+// context que lo voy a pasar a zustand
+// server components para httpOnly-cookies

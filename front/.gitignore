@@ -1,5 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Node
+node_modules/
+
+# Builds
+dist/
+.next/
+out/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+
 # dependencies
 /node_modules
 /.pnp
