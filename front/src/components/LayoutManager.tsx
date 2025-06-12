@@ -13,8 +13,10 @@ export default function LayoutManager({
 }) {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
     const [isMobileOverlay, setIsMobileOverlay] = useState(false);
+    const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const navbarRef = useRef<HTMLDivElement>(null);
 
     const toggleSidebarCollapse = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -24,6 +26,7 @@ export default function LayoutManager({
         const handleResize = () => {
         if (window.innerWidth < 1024) {
             setSidebarCollapsed(true);
+            setIsNavbarOpen(false);
         }
         };
         handleResize();
@@ -41,6 +44,12 @@ export default function LayoutManager({
     useOutsideClick(sidebarRef, () => {
         if (window.innerWidth < 1024 && !isSidebarCollapsed) {
         setSidebarCollapsed(true);
+        }
+    });
+
+    useOutsideClick(navbarRef, () => {
+        if (window.innerWidth < 1024 && isNavbarOpen) {
+        setIsNavbarOpen(false);
         }
     });
 
@@ -64,8 +73,14 @@ export default function LayoutManager({
             }`}
         >
             <ExcludedWrapper>
-            <Navbar />
+            <div ref={navbarRef}>
+                <Navbar
+                isOpen={isNavbarOpen}
+                toggleMenu={() => setIsNavbarOpen(!isNavbarOpen)}
+                />
+            </div>
             </ExcludedWrapper>
+
             <div className="p-4 absolute">{children}</div>
         </div>
         </>
