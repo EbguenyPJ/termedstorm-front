@@ -1,3 +1,4 @@
+"use client"
 import { ICardProduct } from "@/interfaces";
 import Image from "next/image";
 import React from "react";

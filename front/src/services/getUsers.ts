@@ -13,3 +13,9 @@ export async function getUser(): Promise<IUser | null> {
     return null;
   }
 }
+
+
+//superadmin
+//dueño de empresa
+// emplyees o workers
+//cliente final de la empresa

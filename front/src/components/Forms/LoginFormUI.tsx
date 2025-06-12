@@ -1,9 +1,10 @@
-import React from "react";
-import { Formik, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Input from "../UI/Inputs/Input";
-import { useRouter } from "next/router";
+"use client";
 
+import React from "react";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputFormik from "../UI/Inputs/InputFormik";
+// import { useRouter } from "next/router";
 
 interface LoginValues {
   email: string;
@@ -21,10 +22,10 @@ const validationSchema = Yup.object({
 });
 
 const LoginForm: React.FC = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-//   await axios.post("/api/auth/login", values);
-//   router.push("/dashboard");
+  //   await axios.post("/api/auth/login", values);
+  //   router.push("/dashboard");
 
   const handleSubmit = (values: LoginValues) => {
     console.log("Login data", values);
@@ -40,40 +41,21 @@ const LoginForm: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ handleChange, values }) => (
+        {({ isSubmitting }) => (
           <Form>
-            <Input
-              name="email"
-              label="Correo electrónico"
-              type="email"
-              placeholder="tucorreo@ejemplo.com"
-              value={values.email}
-              onChange={handleChange}
-              required
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="text-red-500 text-sm mb-2"
-            />
+            <InputFormik name="email" label="Correo" type="email" />
 
-            <Input
+            {/* PASSWORD */}
+            <InputFormik
               name="password"
               label="Contraseña"
               type="password"
-              placeholder="••••••••"
-              value={values.password}
-              onChange={handleChange}
-              required
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="text-red-500 text-sm mb-2"
+              placeholder="contraseña"
             />
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full bg-[#4e4090] text-white py-2 mt-4 rounded hover:bg-[#3b3272]"
             >
               Iniciar sesión

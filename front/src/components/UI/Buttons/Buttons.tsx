@@ -1,3 +1,4 @@
+"use client"
 import React, { FC } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
