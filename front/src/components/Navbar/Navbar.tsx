@@ -33,7 +33,7 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
             <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full p-4 md:gap-">
                 <SearchBar />
 
-                <div className="flex flex-row-reverse w-full md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row">
+                <div className="flex flex-row-reverse w-full md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">
                     <div className="my-auto">
                     <Cart />
                     </div>

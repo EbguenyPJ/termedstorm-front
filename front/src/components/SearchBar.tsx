@@ -32,13 +32,13 @@ const SearchBar = (
   // };
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto w-fit">
       <input
         type="text"
         placeholder="Search products..."
         //value={searchTerm}
         //onChange={handleSearch}
-        className="border border-gray-300 p-2 rounded-lg text-base1"
+        className="border border-gray-300 p-2 rounded-lg text-base1 lg:w-xs"
       />
 
       {
