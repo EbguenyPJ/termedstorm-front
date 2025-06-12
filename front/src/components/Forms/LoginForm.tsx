@@ -1,8 +1,9 @@
+"use client"
 import React from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Input from "../UI/Inputs/Input";
-import { useRouter } from "next/router";
+//import { useRouter } from "next/navigation";
 
 
 interface LoginValues {
@@ -21,7 +22,7 @@ const validationSchema = Yup.object({
 });
 
 const LoginForm: React.FC = () => {
-  const router = useRouter();
+//  const router = useRouter();
 
 //   await axios.post("/api/auth/login", values);
 //   router.push("/dashboard");

@@ -40,7 +40,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
     return (
       <aside
         ref={ref}
-        className={`fixed top-0 left-0 z-40 h-screen bg-primary text-base1 shadow-md flex flex-col transition-all duration-300 ${
+        className={`fixed top-0 left-0 z-40 h-screen bg-primary text-base-100 shadow-md flex flex-col transition-all duration-300 ${
           isCollapsed ? "w-20" : "w-64"
         }`}
         aria-label="Sidebar"
@@ -50,14 +50,14 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
           <div className="flex items-center gap-2">
             <Image src={logo} alt="logo" className="h-8 w-8 rounded-lg" />
             {!isCollapsed && (
-              <span className="font-bold text-xl text-base1">POINTSALE</span>
+              <span className="font-bold text-xl text-base-100">POINTSALE</span>
             )}
           </div>
           <button
             onClick={toggleCollapse}
             className="p-1 rounded hover:bg-base3 transition"
           >
-            <PanelRight className="h-5 w-5 text-base1" />
+            <PanelRight className="h-5 w-5 text-base-100" />
           </button>
         </div>
 
@@ -66,14 +66,14 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
           <div className="px-4 py-3 border-b border-base1">
             <div className="flex flex-col gap-2 text-sm">
               <div className="w-16 h-16 bg-black rounded-lg"></div>
-              <h2 className="font-semibold text-base1">POINTSALE</h2>
+              <h2 className="font-semibold text-base-100">POINTSALE</h2>
               <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-base1" />
-                <span className="text-base1">Calle Falsa 1234</span>
+                <MapPin className="h-5 w-5 text-base-100" />
+                <span className="text-base-100">Calle Falsa 1234</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="h-5 w-5 text-base1" />
-                <span className="text-base1">+54 11 5470 1111</span>
+                <Phone className="h-5 w-5 text-base-100" />
+                <span className="text-base-100">+54 11 5470 1111</span>
               </div>
             </div>
           </div>
@@ -85,11 +85,11 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
             <li>
               <button
                 onClick={() => setIsSubmenuOpen(!isSubmenuOpen)}
-                className={`flex items-center p-2 w-full rounded-lg hover:bg-base3 transition group text-base1 ${
+                className={`flex items-center p-2 w-full rounded-lg hover:bg-base3 transition group text-base-100 ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
-                <Sliders className="h-6 w-6 text-base1 group-hover:text-white" />
+                <Sliders className="h-6 w-6 text-base-100 group-hover:text-white" />
                 {!isCollapsed && (
                   <>
                     <span className="ms-3 flex-1 text-left">Editar Listas</span>
@@ -137,11 +137,11 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center p-2 rounded-lg hover:bg-base3 transition group text-base1 ${
+                  className={`flex items-center p-2 rounded-lg hover:bg-base3 transition group text-base-100 ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
-                  <item.icon className="h-6 w-6 text-base1 group-hover:text-white" />
+                  <item.icon className="h-6 w-6 text-base-100 group-hover:text-white" />
                   {!isCollapsed && (
                     <span className="ms-3 whitespace-nowrap overflow-hidden">
                       {item.label}

@@ -14,15 +14,15 @@ export const UserWidget = () => {
         //         <button onClick={() => {
         //             logout();
         //             emptyCart();
-        //         }} className='bg-accent rounded-full text-base1 px-2 text-center'>
+        //         }} className='bg-accent rounded-full text-base-100 px-2 text-center'>
         //             LOG OUT
         //         </button>
         //     </div>
         // ) : 
         (
             <div className='flex flex-col my-auto gap-2'>
-                <Link href={"/login"} className='bg-cyan-600 rounded-full text-base1 text-center'>LOG IN</Link>
-                <Link href={"/register"} className='bg-teal-700 rounded-full text-base1 text-center px-2'>SIGN IN</Link>
+                <Link href={"/login"} className='bg-cyan-600 rounded-full text-base-100 text-center'>LOG IN</Link>
+                <Link href={"/register"} className='bg-teal-700 rounded-full text-base-100 text-center px-2'>SIGN IN</Link>
             </div>
         )
     )

@@ -56,7 +56,7 @@ export default function LayoutManager({
     return (
         <>
         {isMobileOverlay && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+            <div className="fixed inset-0 bg-base-400-op50 z-30"></div>
         )}
 
         <ExcludedWrapper>

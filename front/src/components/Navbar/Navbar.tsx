@@ -3,9 +3,7 @@
 import Cart from "../Cart";
 import SearchBar from "../SearchBar";
 import { UserWidget } from "./UserWidget/UserWidget";
-import menuOpen from "@/utils/menu-navigation-open.svg";
-import menuClose from "@/utils/menu-navigation-closed.svg";
-import Image from "next/image";
+import {Menu, X } from "lucide-react"
 
 type NavbarProps = {
     isOpen: boolean;
@@ -18,9 +16,9 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
         <div className="fixed top-2 right-2 z-50 md:hidden">
             <button onClick={toggleMenu} className="bg-primary p-2 rounded-lg">
             {isOpen ? (
-                <Image src={menuOpen} alt="menuOpen" className="w-8" />
+                <X className="w-8 text-base-100" />
             ) : (
-                <Image src={menuClose} alt="menuClose" className="w-8" />
+                <Menu className="w-8 text-base-100" />
             )}
             </button>
         </div>
@@ -30,10 +28,10 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
             isOpen ? "translate-x-0" : "translate-x-full"
             } md:translate-x-0`}
         >
-            <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full p-4 md:gap-">
+            <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full">
                 <SearchBar />
 
-                <div className="flex flex-row-reverse w-full md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">
+                <div className="flex flex-row-reverse w-2/3 justify-around md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">
                     <div className="my-auto">
                     <Cart />
                     </div>

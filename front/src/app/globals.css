@@ -47,7 +47,7 @@
     color: var(--color-accent);
   }
   
-  .text-base1 {
+  .text-base-100 {
     color: var(--color-base-1)
   }
 
@@ -78,10 +78,14 @@
   .bg-base-300 {
     background-color: var(--color-base-3);
   }
+
+  .bg-base-400-op50 {
+    background-color: #0d0d0d80;
+  }
 }
 
 body {
-  background: var(--color-base-1);
+  background: var(--color-base-2);
   color: var(--color-base-300);
   font-family: var(--font-sans), sans-serif;
 }
