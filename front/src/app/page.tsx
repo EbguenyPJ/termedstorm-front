@@ -10,3 +10,8 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+
+// creacion de formularios de login, register y creacion
+// context que lo voy a pasar a zustand
+// server components para httpOnly-cookies
