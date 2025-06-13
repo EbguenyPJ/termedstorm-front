@@ -1,19 +1,41 @@
 "use client"
-import React from "react";
+import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import toast from "react-hot-toast";
 
-// Validación con Yup
+const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
     .string()
-    .required("El nombre de la categoria es obligatorio"),
-  nombre: yup.string().required("La clave es obligatoria"),
-  image: yup.mixed().nullable(),
+    .required("El nombre de la categoría es obligatorio")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "El nombre de la categoría no puede estar vacío"),
+
+  nombre: yup
+    .string()
+    .required("La clave es obligatoria")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La clave no puede estar vacía"),
+
+  image: yup
+    .mixed()
+    .required("La imagen es obligatoria")
+    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
+      return (
+        value instanceof File &&
+        ["image/jpeg", "image/png"].includes(value.type)
+      );
+    })
+    .test("fileSize", "La imagen no debe superar los 2MB", (value) => {
+      return value instanceof File && value.size <= FILE_SIZE_LIMIT;
+    }),
 });
 
 const RegisterCategory = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   return (
     <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
       <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
@@ -23,13 +45,20 @@ const RegisterCategory = () => {
       <Formik
         initialValues={{
           nombre: "",
-          categoria: "",
+          nombreCategoria: "",
           image: null,
         }}
         validationSchema={categorySchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log("Categoría a registrar:", values);
-          // Aquí iría la lógica para enviar al backend (incluso como FormData si lleva imagen)
+          // Llamada a api
+          toast.success("Categoría registrada correctamente ✅");
+
+          resetForm();
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -92,13 +121,13 @@ const RegisterCategory = () => {
             </div>
 
             <div className="flex justify-end mt-6 mr-38">
-              <ButtonAccent textContent="GUARDAR" />
+              <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>
         )}
       </Formik>
     </section>
-    );
+  );
 };
 
 export default RegisterCategory;

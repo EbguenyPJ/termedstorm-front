@@ -1,23 +1,57 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
+import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
 
-// Validaciones con Yup
+const Select = dynamic(() => import("react-select"), { ssr: false });
+
+type OptionType = {
+    value: string;
+    label: string;
+};
+
+const subCategoriaOptions = [
+    { value: "trekking", label: "Trekking" },
+    { value: "urbanas", label: "Urbanas" },
+];
+
+const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+
 const brandSchema = yup.object().shape({
     nombreMarca: yup
         .string()
-        .required("El nombre de la marca es obligatorio"),
-    nombre: yup.string().required("La clave es obligatoria"),
+        .required("El nombre de la marca es obligatorio")
+        .trim("No se permiten espacios en blanco")
+        .min(1, "El nombre de la marca no puede estar vacío"),
+
+    nombre: yup
+        .string()
+        .required("La clave es obligatoria")
+        .trim("No se permiten espacios en blanco")
+        .min(1, "La clave no puede estar vacía"),
+
     subCategoria: yup
         .array()
         .min(1, "Selecciona al menos una Sub-Categoría")
         .of(yup.string().required()),
-    image: yup.mixed().nullable(),
+
+    image: yup
+        .mixed()
+        .required("La imagen es obligatoria")
+        .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
+            return value instanceof File && ["image/jpeg", "image/png"].includes(value.type);
+        })
+        .test("fileSize", "La imagen no debe superar los 2MB", (value) => {
+            return value instanceof File && value.size <= FILE_SIZE_LIMIT;
+        }),
 });
 
 const RegisterBrand = () => {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     return (
         <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
             <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
@@ -26,15 +60,22 @@ const RegisterBrand = () => {
 
             <Formik
                 initialValues={{
-                    nombreCategoria: "",
+                    nombreMarca: "",
                     nombre: "",
                     image: null,
-                    categoria: [], // ← ahora es un array
+                    subCategoria: [],
                 }}
                 validationSchema={brandSchema}
-                onSubmit={(values) => {
+                onSubmit={(values, { resetForm }) => {
                     console.log("Marca a registrar:", values);
-                    // Aquí podés construir FormData si necesitás enviar la imagen
+                    // Llamada a api
+                    toast.success("Marca registrada correctamente ✅");
+
+                    resetForm();
+
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                    }
                 }}
             >
                 {({ setFieldValue }) => (
@@ -101,16 +142,17 @@ const RegisterBrand = () => {
                                     <label className="block text-md font-semibold text-[#4e4090]">
                                         Sub-Categoría
                                     </label>
-                                    <Field
-                                        as="select"
+                                    <Select
+                                        isMulti
                                         name="subCategoria"
-                                        multiple
-                                        className="w-full border border-gray-300 rounded p-2 h-32"
-                                    >
-                                        <option value="">Seleccionar Sub-Categoría</option>
-                                        <option value="trekking">Trekking</option>
-                                        <option value="urbanas">Urbanas</option>
-                                    </Field>
+                                        options={subCategoriaOptions}
+                                        className="basic-multi-select"
+                                        classNamePrefix="select"
+                                        onChange={(newValue: any) => {
+                                            const values = newValue ? newValue.map((option: OptionType) => option.value) : [];
+                                            setFieldValue("subCategoria", values);
+                                        }}
+                                    />
                                     <ErrorMessage
                                         name="subCategoria"
                                         component="div"
@@ -121,7 +163,7 @@ const RegisterBrand = () => {
                         </div>
 
                         <div className="flex justify-end mt-6 mr-10">
-                            <ButtonAccent textContent="GUARDAR" />
+                            <ButtonAccent type="submit" textContent="GUARDAR" />
                         </div>
                     </Form>
                 )}
