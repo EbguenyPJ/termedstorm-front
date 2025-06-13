@@ -42,3 +42,8 @@ export interface ILogin {
   email: string;
   password: string;
 }
+
+
+type RecordSearchParams = { [key: string]: string | string[] | undefined }
+export type Params = Promise<{ slug: string }>;
+export type SearchParams = Promise<RecordSearchParams>;

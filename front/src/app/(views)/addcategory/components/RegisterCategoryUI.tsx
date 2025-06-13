@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
 
 // Validación con Yup
 const categorySchema = yup.object().shape({
@@ -98,7 +98,7 @@ const RegisterCategory = () => {
         )}
       </Formik>
     </section>
-    );
+  );
 };
 
 export default RegisterCategory;

@@ -1,16 +1,15 @@
 "use client";
 
+import { registerAction } from "../../actions/authAction";
+import { IRegister } from "@/interfaces";
+import { Formik, Form, FormikHelpers } from "formik";
+import InputFormik from "@/components/ui/Inputs/InputFormik";
+import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import { IRegister } from "@/interfaces";
-import { Formik, Form } from "formik";
-import * as yup from "yup";
-import { registerAction } from "@/actions/authAction";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
-import { ButtonSecondary } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
 
-export const CreateEnterpriseUI = () => {
+export const RegisterForm = () => {
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -33,16 +32,25 @@ export const CreateEnterpriseUI = () => {
       .required("Campo requerido"),
   });
 
-  const handleSubmit = async (values: IRegister) => {
+  const handleSubmit = async (
+    values: IRegister,
+    { setSubmitting, setErrors }: FormikHelpers<IRegister>
+  ) => {
     try {
-      await registerAction(values);
-      toast.success("El usuario se ha creado exitosamente");
+      const res = await registerAction(values);
+
+      if (!res.success) {
+        throw new Error(res.error || "Error desconocido");
+      }
+
+      toast.success("¡Registro exitoso!");
       router.push(routes.login);
-    } catch (error) {
-      console.error(error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Error al crear el usuario";
-      toast.error(errorMessage);
+    } catch (error: any) {
+      const message = error.message || "Error desconocido";
+      setErrors({ password: message }); // opcional, depende del mensaje
+      toast.error(message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -60,12 +68,7 @@ export const CreateEnterpriseUI = () => {
       {({ isSubmitting }) => (
         <Form>
           {/* EMAIL */}
-          <InputFormik
-            name="email"
-            label="Correo"
-            type="email"
-            placeholder="correo@correo.com"
-          />
+          <InputFormik name="email" label="Correo" type="email" />
 
           {/* NOMBRE */}
           <InputFormik
@@ -80,7 +83,7 @@ export const CreateEnterpriseUI = () => {
             name="phone"
             label="Número de celular"
             type="tel"
-            placeholder="(011) 1111-1111"
+            placeholder="+54 (011) 1111-1111"
           />
 
           {/* PASSWORD */}
@@ -91,13 +94,13 @@ export const CreateEnterpriseUI = () => {
             placeholder="contraseña"
           />
 
-          <div className="flex items-center justify-end mt-4">
-            <ButtonSecondary
-              textContent="Nuevo Cliente"
-              type="submit"
-              disabled={isSubmitting}
-            />
-          </div>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-3 mt-8 font-medium text-white bg-black rounded-lg border-black inline-flex space-x-2 items-center justify-center cursor-pointer hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span>Crear cliente</span>
+          </button>
         </Form>
       )}
     </Formik>

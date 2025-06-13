@@ -1,4 +1,4 @@
-import CardProduct from "@/components/UI/Cards/CardProduct";
+import CardProduct from "@/components/ui/Cards/CardProduct";
 import { ICardProduct } from "@/interfaces";
 
 const products: ICardProduct[] = [
