@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
@@ -69,7 +69,6 @@ const productoSchema = yup.object().shape({
     }),
 });
 
-
 const RegisterProduct = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -106,25 +105,64 @@ const RegisterProduct = () => {
         {({ setFieldValue }) => (
           <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
-
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
-                <label className="block text-md font-semibold text-[#4e4090]">Nombre del Producto:</label>
-                <Field name="nombre" className="w-full border border-gray-300 rounded p-2" />
-                <ErrorMessage name="nombre" component="div" className="text-red-500 text-sm mb-2" />
+                <label className="block text-md font-semibold text-[#4e4090]">
+                  Nombre del Producto:
+                </label>
+                <Field
+                  name="nombre"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="nombre"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Descripción:</label>
-                <Field name="descripcion" className="w-full border border-gray-300 rounded p-2" />
-                <ErrorMessage name="descripcion" component="div" className="text-red-500 text-sm mb-2" />
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Descripción:
+                </label>
+                <Field
+                  name="descripcion"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="descripcion"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Precio de Compra:</label>
-                <Field name="precioCompra" type="number" className="w-full border border-gray-300 rounded p-2" />
-                <ErrorMessage name="precioCompra" component="div" className="text-red-500 text-sm mb-2" />
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Precio de Compra:
+                </label>
+                <Field
+                  name="precioCompra"
+                  type="number"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="precioCompra"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Stock Inicial:</label>
-                <Field name="stock" type="number" className="w-full border border-gray-300 rounded p-2" />
-                <ErrorMessage name="stock" component="div" className="text-red-500 text-sm mb-2" />
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Stock Inicial:
+                </label>
+                <Field
+                  name="stock"
+                  type="number"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="stock"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Imagen:</label>
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Imagen:
+                </label>
                 <input
                   name="image"
                   type="file"
@@ -134,40 +172,80 @@ const RegisterProduct = () => {
               </div>
 
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
-                <label className="block text-md font-semibold text-[#4e4090]">Categoría</label>
-                <Field as="select" name="categoria" className="w-full border border-gray-300 rounded p-2">
+                <label className="block text-md font-semibold text-[#4e4090]">
+                  Categoría
+                </label>
+                <Field
+                  as="select"
+                  name="categoria"
+                  className="w-full border border-gray-300 rounded p-2"
+                >
                   <option value="">Seleccionar categoría</option>
                   <option value="zapatillas">Zapatillas</option>
                   <option value="botas">Botas</option>
                   <option value="sandalias">Sandalias</option>
                 </Field>
-                <ErrorMessage name="categoria" component="div" className="text-red-500 text-sm mb-2" />
+                <ErrorMessage
+                  name="categoria"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Sub-Categoría</label>
-                <Field as="select" name="subcategoria" className="w-full border border-gray-300 rounded p-2">
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Sub-Categoría
+                </label>
+                <Field
+                  as="select"
+                  name="subcategoria"
+                  className="w-full border border-gray-300 rounded p-2"
+                >
                   <option value="">Seleccionar Sub-Categoría</option>
                   <option value="trekking">Trekking</option>
                   <option value="urbanas">Urbanas</option>
                 </Field>
-                <ErrorMessage name="subcategoria" component="div" className="text-red-500 text-sm mb-2" />
+                <ErrorMessage
+                  name="subcategoria"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Marca</label>
-                <Field as="select" name="marca" className="w-full border border-gray-300 rounded p-2">
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Marca
+                </label>
+                <Field
+                  as="select"
+                  name="marca"
+                  className="w-full border border-gray-300 rounded p-2"
+                >
                   <option value="">Seleccionar marca</option>
                   <option value="nike">Nike</option>
                   <option value="adidas">Adidas</option>
                   <option value="puma">Puma</option>
                 </Field>
-                <ErrorMessage name="marca" component="div" className="text-red-500 text-sm mb-2" />
+                <ErrorMessage
+                  name="marca"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">Unidad de Medida</label>
-                <Field as="select" name="unidaddemedida" className="w-full border border-gray-300 rounded p-2">
+                <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                  Unidad de Medida
+                </label>
+                <Field
+                  as="select"
+                  name="unidaddemedida"
+                  className="w-full border border-gray-300 rounded p-2"
+                >
                   <option value="">Seleccionar unidad</option>
                   <option value="36">36</option>
                   <option value="39">39</option>
                   <option value="42">42</option>
                 </Field>
-                <ErrorMessage name="unidaddemedida" component="div" className="text-red-500 text-sm mb-2" />
+                <ErrorMessage
+                  name="unidaddemedida"
+                  component="div"
+                  className="text-red-500 text-sm mb-2"
+                />
               </div>
             </div>
 

@@ -1,39 +1,21 @@
-import { CreateEmployeeUI } from "./components/CreateEnterpriseUI";
-import Link from "next/link";
-import { routes } from "@/app/routes";
+import { CreateEnterpriseUI } from "./components/CreateEnterpriseUI";
 
 export default function RegisterPage() {
   return (
-    <>
-      <div className="relative h-screen w-full">
-
-        {/* Contenedor del formulario */}
-        <div className="bg-white shadow-[8px_8px_0_0_#111111] max-w-lg w-full px-8 py-4">
-          <div className="mb-3">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-2 text-base-400">
-              Creá la cuenta de tu cliente.
-            </h2>
-            <p className="text-base-400">
-              Por favor completá el siguiente formulario para crear correctamente al nuevo cliente.
-            </p>
-          </div>
-
-          {/* Formulario de registro */}
-          <div className="py-2 sm:py-6">
-            <CreateEmployeeUI />
-          </div>
-
-          <p className="text-center">
-            ¿Ya tenés cuenta?{" "}
-            <Link
-              href={routes.login}
-              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
-            >
-              Click aquí
-            </Link>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="bg-white shadow-md rounded-xl w-full max-w-md p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">Crear Cliente</h2>
+          <p className="text-sm text-gray-500">
+            Completá el siguiente formulario para registrar un nuevo cliente.
           </p>
         </div>
+
+        {/* Formulario */}
+        <div className="space-y-6">
+          <CreateEnterpriseUI />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

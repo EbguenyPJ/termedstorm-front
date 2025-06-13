@@ -36,9 +36,13 @@
     border: 2px solid var(--color-secondary);
   }
 
+  .border-base-200 {
+    color: var(--color-base-2);
+  }
   .text-secondary {
     color: var(--color-secondary);
   }
+
   .bg-secondary {
     background-color: var(--color-secondary);
   }
@@ -77,6 +81,10 @@
 
   .bg-base-300 {
     background-color: var(--color-base-3);
+  }
+
+  .bg-base-400 {
+    background-color: var(--color-base-4);
   }
 
   .bg-base-400-op50 {

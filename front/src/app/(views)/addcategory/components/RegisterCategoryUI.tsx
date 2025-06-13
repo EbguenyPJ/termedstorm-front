@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB

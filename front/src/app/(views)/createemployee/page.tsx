@@ -1,39 +1,23 @@
 import { CreateEmployeeUI } from "./components/CreateEmployeeUI";
-import Link from "next/link";
-import { routes } from "@/app/routes";
 
 export default function RegisterPage() {
   return (
-    <>
-      <div className="relative h-screen w-full">
-
-        {/* Contenedor del formulario */}
-        <div className="bg-white shadow-[8px_8px_0_0_#111111] max-w-lg w-full px-8 py-4">
-          <div className="mb-3">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-2 text-base-400">
-              Creá tu cuenta.
-            </h2>
-            <p className="text-base-400">
-              Por favor completá el siguiente formulario para crear correctamente a un usuario.
-            </p>
-          </div>
-
-          {/* Formulario de registro */}
-          <div className="py-2 sm:py-6">
-            <CreateEmployeeUI />
-          </div>
-
-          <p className="text-center">
-            ¿Ya tenés cuenta?{" "}
-            <Link
-              href={routes.login}
-              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
-            >
-              Click aquí
-            </Link>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="bg-white shadow-md rounded-xl w-full max-w-md p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            Nuevo Empleado
+          </h2>
+          <p className="text-sm text-gray-500">
+            Completá el siguiente formulario para registrar un nuevo usuario.
           </p>
         </div>
+
+        {/* Formulario */}
+        <div className="space-y-6">
+          <CreateEmployeeUI />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

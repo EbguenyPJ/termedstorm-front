@@ -1,7 +1,6 @@
 export const routes = {
   //pueden ver todos (segun el rol puede cambiar)
-  home: "/",
-  login: "/login",
+  login: "/",
   register: "/register",
   categories: "/categories",
   subcategories: "/subcategories",
@@ -11,6 +10,7 @@ export const routes = {
   reports: "/reports", //cambia con la autorizacion respectiva
   support: "/support", // cambia con la autorización respectiva
   // solo gerente
+  createemployee: "createemployee",
   addProduct: "addproduct",
   addCategory: "addcategory",
   addSubCategory: "addsubcategory",
@@ -21,4 +21,6 @@ export const routes = {
   newCashCount: "cashcount", //registrar nuevo arqueo
   newCashRegister: "cashregister", //registrar nuevo corte
   orders: "orders", //lista de venta/ordenes
+  //superAdmin
+  createenterprise: "createenterprise",
 };

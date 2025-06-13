@@ -5,8 +5,9 @@ import { routes } from "@/app/routes";
 import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { registerAction } from "@/services/auth";
-import InputFormik from "@/components/UI/Inputs/InputFormik";
+import { registerAction } from "@/actions/authAction";
+import InputFormik from "@/components/ui/Inputs/InputFormik";
+import { ButtonSecondary } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 export const CreateEmployeeUI = () => {
@@ -58,7 +59,6 @@ export const CreateEmployeeUI = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          
           {/* TIPO DE EMPLEADO */}
           <InputFormik
             name="role"
@@ -73,7 +73,7 @@ export const CreateEmployeeUI = () => {
           />
 
           {/* EMAIL */}
-          <InputFormik name="email" label="Correo" type="email" />
+          <InputFormik name="email" label="Correo" type="email" placeholder="correo@correo.com"/>
 
           {/* NOMBRE */}
           <InputFormik
@@ -99,13 +99,13 @@ export const CreateEmployeeUI = () => {
             placeholder="contraseña"
           />
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3 mt-8 font-medium text-white bg-black rounded-lg border-black inline-flex space-x-2 items-center justify-center cursor-pointer hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span>Crear Usuario</span>
-          </button>
+          <div className="flex items-center justify-end mt-4">
+            <ButtonSecondary
+              textContent="Nuevo Empleado"
+              type="submit"
+              disabled={isSubmitting}
+            />
+          </div>
         </Form>
       )}
     </Formik>
