@@ -1,47 +1,110 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import toast from "react-hot-toast";
 
-// Validaciones con Yup
+const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+
 const productoSchema = yup.object().shape({
-    nombre: yup.string().required("Requerido"),
-    descripcion: yup.string().max(300, "Máx. 300 caracteres"),
-    precioCompra: yup.number().typeError("Debe ser número").required("Requerido"),
-    stock: yup.number().typeError("Debe ser número").min(0, "No negativo").required("Requerido"),
-    categoria: yup.string().required("Selecciona una categoría"),
-    subcategoria: yup.string().required("Selecciona una Sub-Categoría"),
-    marca: yup.string().required("Selecciona una marca"),
-    unidaddemedida: yup.string().required("Selecciona una unidad"),
-    image: yup.mixed().nullable(),
+  nombre: yup
+    .string()
+    .required("El nombre es obligatorio")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "El nombre no puede estar vacío"),
+
+  descripcion: yup
+    .string()
+    .trim("No se permiten espacios en blanco")
+    .max(300, "Máx. 300 caracteres"),
+
+  precioCompra: yup
+    .number()
+    .typeError("Debe ser un número")
+    .required("El precio de compra es obligatorio")
+    .moreThan(0, "El precio debe ser mayor a 0"),
+
+  stock: yup
+    .number()
+    .typeError("Debe ser un número")
+    .required("El stock es obligatorio")
+    .moreThan(0, "El stock debe ser mayor a 0"),
+
+  categoria: yup
+    .string()
+    .required("Selecciona una categoría")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La categoría no puede estar vacía"),
+
+  subcategoria: yup
+    .string()
+    .required("Selecciona una Sub-Categoría")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La Sub-Categoría no puede estar vacía"),
+
+  marca: yup
+    .string()
+    .required("Selecciona una marca")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La marca no puede estar vacía"),
+
+  unidaddemedida: yup
+    .string()
+    .required("Selecciona una unidad")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La unidad no puede estar vacía"),
+
+  image: yup
+    .mixed()
+    .required("La imagen es obligatoria")
+    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
+      return (
+        value instanceof File &&
+        ["image/jpeg", "image/png"].includes(value.type)
+      );
+    })
+    .test("fileSize", "La imagen no debe superar los 2MB", (value) => {
+      return value instanceof File && value.size <= FILE_SIZE_LIMIT;
+    }),
 });
 
+
 const RegisterProduct = () => {
-    return (
-        <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
-            <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
-                Registrar nuevo Producto
-            </h2>
-            <Formik
-                initialValues={{
-                    nombre: "",
-                    descripcion: "",
-                    precioCompra: "",
-                    categoria: "",
-                    stock: "",
-                    subcategoria: "",
-                    marca: "",
-                    unidaddemedida: "",
-                    image: null,
-                }}
-                validationSchema={productoSchema}
-                onSubmit={(values) => {
-                    console.log("Producto a registrar:", values);
-                }}
-            >
-                {({ setFieldValue }) => (
-                   <Form>
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
+      <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
+        Registrar nuevo Producto
+      </h2>
+      <Formik
+        initialValues={{
+          nombre: "",
+          descripcion: "",
+          precioCompra: "",
+          categoria: "",
+          stock: "",
+          subcategoria: "",
+          marca: "",
+          unidaddemedida: "",
+          image: null,
+        }}
+        validationSchema={productoSchema}
+        onSubmit={(values, { resetForm }) => {
+          console.log("Producto a registrar:", values);
+          // Llamada a api
+          toast.success("Producto registrado correctamente ✅");
+
+          resetForm();
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+        }}
+      >
+        {({ setFieldValue }) => (
+          <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
 
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
@@ -109,7 +172,7 @@ const RegisterProduct = () => {
             </div>
 
             <div className="flex justify-end mt-6 mr-10">
-              <ButtonAccent textContent="GUARDAR" />
+              <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>
         )}
