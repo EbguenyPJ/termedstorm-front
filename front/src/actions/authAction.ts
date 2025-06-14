@@ -6,7 +6,7 @@ import { loginApi, registerApi } from "../lib/authBase";
 
 export async function loginAction(values: ILogin) {
   try {
-    const res = await loginApi(values); // llamamos a la API del backend
+    const res = await loginApi(values);
     // Si tu backend ya setea la cookie, no tenés que hacer nada acá.
     // Pero si querés setear el token desde acá, podés:
     // cookies().set("token", res.token, { httpOnly: true });

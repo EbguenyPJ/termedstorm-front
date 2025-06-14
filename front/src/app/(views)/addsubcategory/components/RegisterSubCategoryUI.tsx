@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+
+import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "@/components/ui/Buttons/Buttons";
+import {toast} from "react-hot-toast"
 
 // Validación con Yup
 const subCategorySchema = yup.object().shape({
@@ -14,13 +16,26 @@ const subCategorySchema = yup.object().shape({
     .array()
     .min(1, "Selecciona al menos una categoría")
     .of(yup.string().required()),
-  image: yup.mixed().nullable(),
+  image: yup
+    .mixed()
+    .required("La imagen es obligatoria")
+    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
+      return (
+        !value ||
+        (value instanceof File &&
+          ["image/jpeg", "image/png"].includes(value.type))
+      );
+    })
 });
 
 const RegisterSubCategory = () => {
+    // const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
-      <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+      <h2 className="text-2xl font-bold text-[#4e4090]">
         Registrar nueva Sub-Categoria
       </h2>
 
@@ -35,6 +50,15 @@ const RegisterSubCategory = () => {
         onSubmit={(values) => {
           console.log("Subcategoría a registrar:", values);
           // Aquí podrías usar FormData si subís la imagen a un backend
+          // Llamada a api
+
+          toast.success("Subcategoría registrada correctamente");
+          console.log("Subcategoría a registrar:", values);
+          // resetForm();
+          
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -111,6 +135,20 @@ const RegisterSubCategory = () => {
                     <option value="trekking">Trekking</option>
                     <option value="urbanas">Urbanas</option>
                   </Field>
+                    {/* options={categoriaOptions}
+                    value={selectedOptions} //nuevo input
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(newValue: any) => {
+                      const values = newValue
+                        ? newValue.map((option: OptionType) => option.value)
+                        : [];
+                      setSelectedOptions(newValue || []);
+                      setFieldValue("categoria", values);
+                      console.log("Form values:", values);
+
+                    }}
+                  /> */}
                   <ErrorMessage
                     name="categoria"
                     component="div"

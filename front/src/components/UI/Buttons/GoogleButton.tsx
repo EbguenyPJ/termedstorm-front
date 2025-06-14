@@ -3,9 +3,9 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc"; 
 import { useSearchParams } from "next/navigation";
+import {Suspense} from "react"
 
-
-export default function GoogleLoginButton() {
+function GoogleLogin() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/profile";
 
@@ -21,5 +21,13 @@ export default function GoogleLoginButton() {
       <FcGoogle size={20} />
       <span>Continuar con Google</span>
     </button>
+  );
+}
+
+export default function GoogleLoginButton() {
+  return (
+    <Suspense fallback={<div>Cargando botón...</div>}>
+      <GoogleLogin />
+    </Suspense>
   );
 }

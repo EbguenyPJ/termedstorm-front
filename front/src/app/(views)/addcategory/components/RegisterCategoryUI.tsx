@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+
+import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
+import toast from "react-hot-toast";
 
 // Validación con Yup
 const categorySchema = yup.object().shape({
@@ -14,8 +16,11 @@ const categorySchema = yup.object().shape({
 });
 
 const RegisterCategory = () => {
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
       <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
         Registrar nueva Categoria
       </h2>
@@ -30,6 +35,14 @@ const RegisterCategory = () => {
         onSubmit={(values) => {
           console.log("Categoría a registrar:", values);
           // Aquí iría la lógica para enviar al backend (incluso como FormData si lleva imagen)
+          // Llamada a api
+          toast.success("Categoría registrada correctamente");
+          console.log("Subcategoría a registrar:", values);
+          // resetForm();
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -81,6 +94,7 @@ const RegisterCategory = () => {
                       const file = event.currentTarget.files?.[0];
                       setFieldValue("image", file);
                     }}
+                    ref={fileInputRef}
                   />
                   <ErrorMessage
                     name="image"

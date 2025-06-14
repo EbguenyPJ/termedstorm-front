@@ -13,4 +13,4 @@ export async function getUserAction(): Promise<IUser | null> {
   }
 }
 
-// NO es necesario setear las cookies aqui si lo hace el backend
+// NO es necesario setear las cookies aca si lo hace el backend

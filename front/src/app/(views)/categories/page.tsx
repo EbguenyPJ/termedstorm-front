@@ -19,8 +19,8 @@ const categories: ICard[] = [
 
 export default async function Home() {
   return (
-    <div className="bg-base1 rounded-xl text-black p-14 border-base3 border-opacity-30 border-l-2 border-t-2">
-      <div className="mx-auto flex flex-wrap justify-center gap-y-10 gap-x-10 mt-20 ml-60">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+      <div className="mx-auto flex flex-wrap justify-center gap-10">
         {categories.map((category, index) => (
           <CardCategory
             key={index}
@@ -29,6 +29,6 @@ export default async function Home() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

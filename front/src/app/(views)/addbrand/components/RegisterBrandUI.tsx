@@ -2,6 +2,9 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
+// import dynamic from "next/dynamic";
+import { useRef } from "react";
+import toast from "react-hot-toast";
 import { ButtonAccent } from "@/components/ui/Buttons/Buttons";
 
 // Validaciones con Yup
@@ -16,8 +19,10 @@ const brandSchema = yup.object().shape({
 });
 
 const RegisterBrand = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
       <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
         Registrar nueva Marca
       </h2>
@@ -33,6 +38,14 @@ const RegisterBrand = () => {
         onSubmit={(values) => {
           console.log("Marca a registrar:", values);
           // Aquí podés construir FormData si necesitás enviar la imagen
+          // Llamada a api
+          toast.success("Marca registrada correctamente");
+
+          // resetForm();
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -109,6 +122,17 @@ const RegisterBrand = () => {
                     <option value="trekking">Trekking</option>
                     <option value="urbanas">Urbanas</option>
                   </Field>
+                    {/* options={subCategoriaOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(newValue: any) => {
+                      const values = newValue
+                        ? newValue.map(() => option.value)
+                        : [];
+                      setSelectedOptions(newValue || []);
+                      setFieldValue("subCategoria", values);
+                    }}
+                  /> */}
                   <ErrorMessage
                     name="subCategoria"
                     component="div"

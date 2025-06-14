@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+
+import React, { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
+import toast from "react-hot-toast";
 
 // Validaciones con Yup
 const productoSchema = yup.object().shape({
@@ -22,9 +24,11 @@ const productoSchema = yup.object().shape({
 });
 
 const RegisterProduct = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
-      <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+      <h2 className="text-2xl font-bold text-[#4e4090]">
         Registrar nuevo Producto
       </h2>
       <Formik
@@ -42,6 +46,14 @@ const RegisterProduct = () => {
         validationSchema={productoSchema}
         onSubmit={(values) => {
           console.log("Producto a registrar:", values);
+          // Llamada a api
+          toast.success("Producto registrado correctamente");
+
+          // resetForm();
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -110,6 +122,7 @@ const RegisterProduct = () => {
                   type="file"
                   className="w-full border border-gray-300 rounded p-2"
                   onChange={(e) => setFieldValue("image", e.target.files?.[0])}
+                  ref={fileInputRef}
                 />
               </div>
 
