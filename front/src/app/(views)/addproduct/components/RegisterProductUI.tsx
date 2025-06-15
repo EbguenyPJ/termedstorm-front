@@ -1,26 +1,65 @@
 "use client";
-
 import React, { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
+import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import Image from "next/image"
 
-// Validaciones con Yup
+
 const productoSchema = yup.object().shape({
-  nombre: yup.string().required("Requerido"),
-  descripcion: yup.string().max(300, "Máx. 300 caracteres"),
-  precioCompra: yup.number().typeError("Debe ser número").required("Requerido"),
+  nombre: yup
+    .string()
+    .required("El nombre es obligatorio")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "El nombre no puede estar vacío"),
+
+  descripcion: yup
+    .string()
+    .trim("No se permiten espacios en blanco")
+    .max(300, "Máx. 300 caracteres"),
+
+  precioCompra: yup
+    .number()
+    .typeError("Debe ser un número")
+    .required("El precio de compra es obligatorio")
+    .moreThan(0, "El precio debe ser mayor a 0"),
+
   stock: yup
     .number()
-    .typeError("Debe ser número")
-    .min(0, "No negativo")
-    .required("Requerido"),
-  categoria: yup.string().required("Selecciona una categoría"),
-  subcategoria: yup.string().required("Selecciona una Sub-Categoría"),
-  marca: yup.string().required("Selecciona una marca"),
-  unidaddemedida: yup.string().required("Selecciona una unidad"),
-  image: yup.mixed().nullable(),
+    .typeError("Debe ser un número")
+    .required("El stock es obligatorio")
+    .moreThan(0, "El stock debe ser mayor a 0"),
+
+  categoria: yup
+    .string()
+    .required("Selecciona una categoría")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La categoría no puede estar vacía"),
+
+  subcategoria: yup
+    .string()
+    .required("Selecciona una Sub-Categoría")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La Sub-Categoría no puede estar vacía"),
+
+  marca: yup
+    .string()
+    .required("Selecciona una marca")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La marca no puede estar vacía"),
+
+  unidaddemedida: yup
+    .string()
+    .required("Selecciona una unidad")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La unidad no puede estar vacía"),
+
+  image: yup
+    .string()
+    .required("La imagen es obligatoria"),
 });
 
 const RegisterProduct = () => {
@@ -41,89 +80,75 @@ const RegisterProduct = () => {
           subcategoria: "",
           marca: "",
           unidaddemedida: "",
-          image: null,
+          image: "",
         }}
         validationSchema={productoSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log("Producto a registrar:", values);
           // Llamada a api
           toast.success("Producto registrado correctamente");
 
-          // resetForm();
+          resetForm();
 
           if (fileInputRef.current) {
             fileInputRef.current.value = "";
           }
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
-                <label className="block text-md font-semibold text-[#4e4090]">
-                  Nombre del Producto:
-                </label>
-                <Field
-                  name="nombre"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="nombre"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="nombre"
+                    label="Nombre del Producto:"
+                    type="text"
+                    placeholder="Nombre del Producto"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Descripción:
-                </label>
-                <Field
-                  name="descripcion"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="descripcion"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="descripcion"
+                    label="Descripción:"
+                    type="text"
+                    placeholder="Descripción del producto"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Precio de Compra:
-                </label>
-                <Field
-                  name="precioCompra"
-                  type="number"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="precioCompra"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="precioCompra"
+                    label="Precio de Compra:"
+                    type="text"
+                    placeholder="Ingrese precio"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Stock Inicial:
-                </label>
-                <Field
-                  name="stock"
-                  type="number"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="stock"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="stock"
+                    label="Stock Inicial:"
+                    type="text"
+                    placeholder="Ingrese stock"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Imagen:
-                </label>
-                <input
-                  name="image"
-                  type="file"
-                  className="w-full border border-gray-300 rounded p-2"
-                  onChange={(e) => setFieldValue("image", e.target.files?.[0])}
-                  ref={fileInputRef}
-                />
+                <div>
+                  <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                    Imagen:
+                  </label>
+                  <CloudinaryButton
+                    onUploadSuccess={(url: string) => setFieldValue("image", url)}
+                  />
+                  {values.image && (
+                    <div className="mt-4">
+                      <Image
+                        src={values.image}
+                        alt="Preview"
+                        className="w-40 h-40 object-cover border rounded"
+                      />
+                    </div>
+                  )}
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
               </div>
 
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
@@ -205,7 +230,7 @@ const RegisterProduct = () => {
             </div>
 
             <div className="flex justify-end mt-6 mr-10">
-              <ButtonAccent textContent="GUARDAR" />
+              <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>
         )}

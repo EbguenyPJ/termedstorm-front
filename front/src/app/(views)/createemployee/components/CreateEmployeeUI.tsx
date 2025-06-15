@@ -6,8 +6,8 @@ import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { registerAction } from "@/actions/authAction";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
-import { ButtonSecondary } from "../../../../components/ui/Buttons/Buttons";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 export const CreateEmployeeUI = () => {
@@ -73,7 +73,12 @@ export const CreateEmployeeUI = () => {
           />
 
           {/* EMAIL */}
-          <InputFormik name="email" label="Correo" type="email" placeholder="correo@correo.com"/>
+          <InputFormik
+            name="email"
+            label="Correo"
+            type="email"
+            placeholder="correo@correo.com"
+          />
 
           {/* NOMBRE */}
           <InputFormik

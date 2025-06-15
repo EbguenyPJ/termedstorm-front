@@ -3,12 +3,12 @@
 import { useAuthStore } from "../../app/stores/authStore";
 import { ILogin } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
-import InputFormik from "../ui/Inputs/InputFormik";
+import InputFormik from "../UI/Inputs/InputFormik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import GoogleLoginButton from "../ui/Buttons/GoogleButton";
-import { ButtonSecondary } from "../../components/ui/Buttons/Buttons";
+import GoogleLoginButton from "../UI/Buttons/GoogleButton";
+import { ButtonSecondary } from "../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 const LoginForm = () => {

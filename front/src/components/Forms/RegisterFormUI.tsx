@@ -3,7 +3,7 @@
 import { registerAction } from "../../actions/authAction";
 import { IRegister } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";

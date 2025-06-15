@@ -1,22 +1,32 @@
-"use client";
-
+"use client"
 import React, { useRef } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
+import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import Image from "next/image"
 
-// Validación con Yup
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
     .string()
-    .required("El nombre de la categoria es obligatorio"),
-  nombre: yup.string().required("La clave es obligatoria"),
-  image: yup.mixed().nullable(),
+    .required("El nombre de la categoría es obligatorio")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "El nombre de la categoría no puede estar vacío"),
+
+  nombre: yup
+    .string()
+    .required("La clave es obligatoria")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La clave no puede estar vacía"),
+
+  image: yup
+    .string()
+    .required("La imagen es obligatoria"),
 });
 
 const RegisterCategory = () => {
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -28,57 +38,40 @@ const RegisterCategory = () => {
       <Formik
         initialValues={{
           nombre: "",
-          categoria: "",
-          image: null,
+          nombreCategoria: "",
+          image: "",
         }}
         validationSchema={categorySchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log("Categoría a registrar:", values);
-          // Aquí iría la lógica para enviar al backend (incluso como FormData si lleva imagen)
           // Llamada a api
-          toast.success("Categoría registrada correctamente");
-          console.log("Subcategoría a registrar:", values);
-          // resetForm();
+          toast.success("Categoría registrada correctamente ");
+
+          resetForm();
 
           if (fileInputRef.current) {
             fileInputRef.current.value = "";
           }
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form>
             <div className="w-full max-w-4xl mx-auto px-10">
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Nombre de la Categoria:
-                  </label>
-                  <Field
+                  <InputFormik
                     name="nombreCategoria"
+                    label="Nombre de la Categoria:"
                     type="text"
-                    placeholder="Nombre de la Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="nombreCategoria"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
+                    placeholder="Nombre de la Sub-Categoría"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Clave de la Categoria:
-                  </label>
-                  <Field
+                  <InputFormik
                     name="nombre"
+                    label="Clave de la Categoria:"
                     type="text"
                     placeholder="Clave de la Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="nombre"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
                   />
                 </div>
 
@@ -86,16 +79,18 @@ const RegisterCategory = () => {
                   <label className="block text-md font-semibold text-[#4e4090]">
                     Imagen de la Categoria
                   </label>
-                  <input
-                    name="image"
-                    type="file"
-                    className="w-full border border-gray-300 rounded p-2"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files?.[0];
-                      setFieldValue("image", file);
-                    }}
-                    ref={fileInputRef}
+                  <CloudinaryButton
+                    onUploadSuccess={(url: string) => setFieldValue("image", url)}
                   />
+                  {values.image && (
+                    <div className="mt-4">
+                      <Image
+                        src={values.image}
+                        alt="Preview"
+                        className="w-40 h-40 object-cover border rounded"
+                      />
+                    </div>
+                  )}
                   <ErrorMessage
                     name="image"
                     component="div"
@@ -106,7 +101,7 @@ const RegisterCategory = () => {
             </div>
 
             <div className="flex justify-end mt-6 mr-38">
-              <ButtonAccent textContent="GUARDAR" />
+              <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>
         )}

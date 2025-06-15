@@ -1,117 +1,119 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "@/components/ui/Buttons/Buttons";
-import {toast} from "react-hot-toast"
+import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
+import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
+import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import InputFormik from "../../../../components/UI/Inputs/InputFormik";
+import Image from "next/image"
+
+const Select = dynamic(() => import("react-select"), { ssr: false });
+
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+const categoriaOptions = [
+  { value: "trekking", label: "Trekking" },
+  { value: "urbanas", label: "Urbanas" },
+];
 
 // Validación con Yup
 const subCategorySchema = yup.object().shape({
   nombreSubCategoria: yup
     .string()
-    .required("El nombre de la Sub-Categoria es obligatorio"),
-  nombre: yup.string().required("La clave es obligatoria"),
+    .required("El nombre de la Sub-Categoria es obligatorio")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "El nombre no puede estar vacío"),
+
+  nombre: yup
+    .string()
+    .required("La clave es obligatoria")
+    .trim("No se permiten espacios en blanco")
+    .min(1, "La clave no puede estar vacía"),
+
   categoria: yup
     .array()
     .min(1, "Selecciona al menos una categoría")
     .of(yup.string().required()),
+
   image: yup
-    .mixed()
-    .required("La imagen es obligatoria")
-    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
-      return (
-        !value ||
-        (value instanceof File &&
-          ["image/jpeg", "image/png"].includes(value.type))
-      );
-    })
+    .string()
+    .required("La imagen es obligatoria"),
 });
 
 const RegisterSubCategory = () => {
-    // const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const [selectedCategoria, setSelectedCategoria] = React.useState<OptionType[]>([]);
 
   return (
     <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
-      <h2 className="text-2xl font-bold text-[#4e4090]">
+      <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
         Registrar nueva Sub-Categoria
       </h2>
 
       <Formik
         initialValues={{
-          nombreCategoria: "",
+          nombreSubCategoria: "",
           nombre: "",
-          image: null,
-          categoria: [], // ← ahora es un array
+          image: "",
+          categoria: [],
         }}
         validationSchema={subCategorySchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log("Subcategoría a registrar:", values);
-          // Aquí podrías usar FormData si subís la imagen a un backend
           // Llamada a api
-
           toast.success("Subcategoría registrada correctamente");
-          console.log("Subcategoría a registrar:", values);
-          // resetForm();
-          
+
+          resetForm();
+          setSelectedCategoria([]);
+
           if (fileInputRef.current) {
             fileInputRef.current.value = "";
           }
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Nombre de la Sub-Categoria:
-                  </label>
-                  <Field
+                  <InputFormik
                     name="nombreSubCategoria"
+                    label="Nombre de la Sub-Categoría:"
                     type="text"
-                    placeholder="Nombre de la Sub-Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
+                    placeholder="Calzado de Montaña"
                   />
-                  <ErrorMessage
-                    name="nombreSubCategoria"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
+                </div>
+                <div className="mb-4">
+                  <InputFormik
+                    name="nombre"
+                    label="Clave de la Sub-Categoría:"
+                    type="text"
+                    placeholder="Clave de la Sub-Categoría"
                   />
                 </div>
 
                 <div className="mb-4">
                   <label className="block text-md font-semibold text-[#4e4090]">
-                    Clave de la Sub-Categoria:
+                    Imagen de la Sub-Categoría
                   </label>
-                  <Field
-                    name="nombre"
-                    type="text"
-                    placeholder="Clave de la Sub-Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
+                  <CloudinaryButton
+                    onUploadSuccess={(url: string) => setFieldValue("image", url)}
                   />
-                  <ErrorMessage
-                    name="nombre"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Imagen de la Sub-Categoria
-                  </label>
-                  <input
-                    name="image"
-                    type="file"
-                    className="w-full border border-gray-300 rounded p-2"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files?.[0];
-                      setFieldValue("image", file);
-                    }}
-                  />
+                  {values.image && (
+                    <div className="mt-4">
+                      <Image
+                        src={values.image}
+                        alt="Preview"
+                        className="w-40 h-40 object-cover border rounded"
+                      />
+                    </div>
+                  )}
                   <ErrorMessage
                     name="image"
                     component="div"
@@ -123,32 +125,21 @@ const RegisterSubCategory = () => {
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
                   <label className="block text-md font-semibold text-[#4e4090]">
-                    Categoria
+                    Categoría
                   </label>
-                  <Field
-                    as="select"
+                  <Select
+                    isMulti
                     name="categoria"
-                    multiple
-                    className="w-full border border-gray-300 rounded p-2 h-32"
-                  >
-                    <option value="">Seleccionar Categoria</option>
-                    <option value="trekking">Trekking</option>
-                    <option value="urbanas">Urbanas</option>
-                  </Field>
-                    {/* options={categoriaOptions}
-                    value={selectedOptions} //nuevo input
+                    options={categoriaOptions}
                     className="basic-multi-select"
                     classNamePrefix="select"
+                    value={selectedCategoria}
                     onChange={(newValue: any) => {
-                      const values = newValue
-                        ? newValue.map((option: OptionType) => option.value)
-                        : [];
-                      setSelectedOptions(newValue || []);
+                      setSelectedCategoria(newValue);
+                      const values = newValue ? newValue.map((option: OptionType) => option.value) : [];
                       setFieldValue("categoria", values);
-                      console.log("Form values:", values);
-
                     }}
-                  /> */}
+                  />
                   <ErrorMessage
                     name="categoria"
                     component="div"
@@ -157,9 +148,8 @@ const RegisterSubCategory = () => {
                 </div>
               </div>
             </div>
-
             <div className="flex justify-end mt-6 mr-10">
-              <ButtonAccent textContent="GUARDAR" />
+              <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>
         )}

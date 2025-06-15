@@ -28,7 +28,7 @@ const InputFormik: React.FC<InputProps> = ({
 }) => {
   return (
     <label htmlFor={name} className="block mt-4">
-      <p className="font-medium text-slate-700 pb-1">{label}</p>
+      <p className="font-semibold text-secondary pb-1">{label}</p>
 
       {/* Campo dinámico */}
       {type === "select" ? (
