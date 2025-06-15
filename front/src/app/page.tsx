@@ -26,7 +26,7 @@ const LoginPage = () => {
         </div>
 
         <p className="text-center mt-2">
-            ¿Aún no tenés cuenta?{" "}
+            ¿Aún no tenés cuenta?
             <Link
               href={routes.createenterprise}
               className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
