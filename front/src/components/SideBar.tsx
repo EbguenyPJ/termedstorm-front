@@ -25,7 +25,7 @@ interface SideBarProps {
 }
 
 const menuItems = [
-  { href: "/", icon: List, label: "Categorías" },
+  { href: "/categories", icon: List, label: "Categorías" },
   { href: "/products", icon: Box, label: "Productos" },
   { href: "/sales", icon: SquarePlus, label: "Nueva Venta" },
   { href: "/reports", icon: ChartColumnIncreasing, label: "Reportes" },
@@ -41,18 +41,23 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
       <aside
         ref={ref}
         className={`fixed top-0 left-0 z-40 h-screen bg-primary text-base-100 shadow-md flex flex-col transition-all duration-300 ${
-          isCollapsed ? "w-20" : "w-64"
+          isCollapsed ? "w-10 sm:w-20" : "w-64"
         }`}
         aria-label="Sidebar"
       >
         {/* HEADER */}
-        <div className="flex items-center justify-between h-16 p-2 border-b border-base1 ">
-          <div className="flex items-center gap-2">
-            <Image src={logo} alt="logo" className="h-8 w-8 rounded-lg" />
+        <div className={`flex items-center justify-between h-16 p-2 border-b border-base1${
+          isCollapsed ? "gap-0.5" : "gap-2"
+        }`}>
+          <div className={`flex items-center`}>
+            <Image src={logo} alt="logo" className={` ${
+          isCollapsed ? "h-6 w-6" : "h-8 w-8 rounded-lg"
+        }`} />
             {!isCollapsed && (
               <span className="font-bold text-xl text-base-100">POINTSALE</span>
             )}
           </div>
+
           <button
             onClick={toggleCollapse}
             className="p-1 rounded hover:bg-base3 transition"
