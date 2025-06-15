@@ -4,8 +4,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
-
-const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import InputFormik from "@/components/ui/Inputs/InputFormik";
 
 const productoSchema = yup.object().shape({
   nombre: yup
@@ -56,17 +56,8 @@ const productoSchema = yup.object().shape({
     .min(1, "La unidad no puede estar vacía"),
 
   image: yup
-    .mixed()
-    .required("La imagen es obligatoria")
-    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
-      return (
-        value instanceof File &&
-        ["image/jpeg", "image/png"].includes(value.type)
-      );
-    })
-    .test("fileSize", "La imagen no debe superar los 2MB", (value) => {
-      return value instanceof File && value.size <= FILE_SIZE_LIMIT;
-    }),
+    .string()
+    .required("La imagen es obligatoria"),
 });
 
 const RegisterProduct = () => {
@@ -87,7 +78,7 @@ const RegisterProduct = () => {
           subcategoria: "",
           marca: "",
           unidaddemedida: "",
-          image: null,
+          image: "",
         }}
         validationSchema={productoSchema}
         onSubmit={(values, { resetForm }) => {
@@ -102,73 +93,60 @@ const RegisterProduct = () => {
           }
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
-                <label className="block text-md font-semibold text-[#4e4090]">
-                  Nombre del Producto:
-                </label>
-                <Field
-                  name="nombre"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="nombre"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="nombre"
+                    label="Nombre del Producto:"
+                    type="text"
+                    placeholder="Nombre del Producto"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Descripción:
-                </label>
-                <Field
-                  name="descripcion"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="descripcion"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="descripcion"
+                    label="Descripción:"
+                    type="text"
+                    placeholder="Descripción del producto"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Precio de Compra:
-                </label>
-                <Field
-                  name="precioCompra"
-                  type="number"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="precioCompra"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="precioCompra"
+                    label="Precio de Compra:"
+                    type="text"
+                    placeholder="Ingrese precio"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Stock Inicial:
-                </label>
-                <Field
-                  name="stock"
-                  type="number"
-                  className="w-full border border-gray-300 rounded p-2"
-                />
-                <ErrorMessage
-                  name="stock"
-                  component="div"
-                  className="text-red-500 text-sm mb-2"
-                />
+                <InputFormik
+                    name="stock"
+                    label="Stock Inicial:"
+                    type="text"
+                    placeholder="Ingrese stock"
+                  />
 
-                <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                  Imagen:
-                </label>
-                <input
-                  name="image"
-                  type="file"
-                  className="w-full border border-gray-300 rounded p-2"
-                  onChange={(e) => setFieldValue("image", e.target.files?.[0])}
-                />
+                <div>
+                  <label className="block text-md font-semibold text-[#4e4090] mt-4">
+                    Imagen:
+                  </label>
+                  <CloudinaryButton
+                    onUploadSuccess={(url: string) => setFieldValue("image", url)}
+                  />
+                  {values.image && (
+                    <div className="mt-4">
+                      <img
+                        src={values.image}
+                        alt="Preview"
+                        className="w-40 h-40 object-cover border rounded"
+                      />
+                    </div>
+                  )}
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
               </div>
 
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">

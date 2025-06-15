@@ -1,11 +1,11 @@
 "use client"
 import React, { useRef } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
 import toast from "react-hot-toast";
-
-const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import InputFormik from "@/components/ui/Inputs/InputFormik";
 
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
@@ -21,21 +21,13 @@ const categorySchema = yup.object().shape({
     .min(1, "La clave no puede estar vacía"),
 
   image: yup
-    .mixed()
-    .required("La imagen es obligatoria")
-    .test("fileType", "Solo se permiten imágenes (jpeg, png)", (value) => {
-      return (
-        value instanceof File &&
-        ["image/jpeg", "image/png"].includes(value.type)
-      );
-    })
-    .test("fileSize", "La imagen no debe superar los 2MB", (value) => {
-      return value instanceof File && value.size <= FILE_SIZE_LIMIT;
-    }),
+    .string()
+    .required("La imagen es obligatoria"),
 });
 
 const RegisterCategory = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
       <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
@@ -46,7 +38,7 @@ const RegisterCategory = () => {
         initialValues={{
           nombre: "",
           nombreCategoria: "",
-          image: null,
+          image: "",
         }}
         validationSchema={categorySchema}
         onSubmit={(values, { resetForm }) => {
@@ -61,40 +53,24 @@ const RegisterCategory = () => {
           }
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form>
             <div className="w-full max-w-4xl mx-auto px-10">
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Nombre de la Categoria:
-                  </label>
-                  <Field
+                  <InputFormik
                     name="nombreCategoria"
+                    label="Nombre de la Categoria:"
                     type="text"
-                    placeholder="Nombre de la Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="nombreCategoria"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
+                    placeholder="Nombre de la Sub-Categoría"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-md font-semibold text-[#4e4090]">
-                    Clave de la Categoria:
-                  </label>
-                  <Field
+                  <InputFormik
                     name="nombre"
+                    label="Clave de la Categoria:"
                     type="text"
                     placeholder="Clave de la Categoria"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="nombre"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
                   />
                 </div>
 
@@ -102,15 +78,18 @@ const RegisterCategory = () => {
                   <label className="block text-md font-semibold text-[#4e4090]">
                     Imagen de la Categoria
                   </label>
-                  <input
-                    name="image"
-                    type="file"
-                    className="w-full border border-gray-300 rounded p-2"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files?.[0];
-                      setFieldValue("image", file);
-                    }}
+                  <CloudinaryButton
+                    onUploadSuccess={(url: string) => setFieldValue("image", url)}
                   />
+                  {values.image && (
+                    <div className="mt-4">
+                      <img
+                        src={values.image}
+                        alt="Preview"
+                        className="w-40 h-40 object-cover border rounded"
+                      />
+                    </div>
+                  )}
                   <ErrorMessage
                     name="image"
                     component="div"
