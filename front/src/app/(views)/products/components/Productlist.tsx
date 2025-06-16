@@ -26,7 +26,7 @@ const ProductList = () => {
                         key={index}
                         name={product.name}
                         image={product.image}
-                        price={product.price}
+                        sale_price={product.sale_price}
                     />
                 ))
             ) : (

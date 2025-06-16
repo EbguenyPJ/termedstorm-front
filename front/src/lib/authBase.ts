@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ILogin, IRegister } from "@/interfaces";
+import { ILogin, IRegisterEmployee } from "@/interfaces";
 
 const baseAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
@@ -11,7 +11,7 @@ export const loginApi = async (values: ILogin) => {
   return res.data; // user, token, lo que tu backend retorne
 };
 
-export const registerApi = async (values: IRegister) => {
+export const registerApi = async (values: IRegisterEmployee) => {
   const res = await baseAxios.post("/auth/employee/register", values);
   return res.data;
 };

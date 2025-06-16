@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import { IRegister } from "@/interfaces";
+import { IRegisterEmployee } from "@/interfaces";
+import { registerApi } from "@/lib/authBase";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { registerAction } from "@/actions/authAction";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
@@ -14,28 +14,32 @@ export const CreateEmployeeUI = () => {
   const router = useRouter();
 
   const validationSchema = yup.object({
-    name: yup
+    first_name: yup
       .string()
-      .max(20, "Debe tener 20 caracteres o menos")
-      .required("Campo requerido"),
+      .max(50, "El nombre debe tener 50 caracteres o menos")
+      .required("El nombre es requerido"),
+    last_name: yup
+      .string()
+      .max(50, "El apellido debe tener 50 caracteres o menos")
+      .required("El apellido es requerido"),
     email: yup
       .string()
       .email("Correo electrónico no válido")
-      .required("Campo requerido"),
-    phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Solo se permiten números")
-      .min(10, "Debe tener al menos 10 dígitos")
-      .required("Campo requerido"),
+      .required("El correo electrónico es requerido"),
     password: yup
       .string()
-      .min(5, "Debe tener al menos 5 caracteres")
-      .required("Campo requerido"),
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .matches(/[a-zA-Z]/, "La contraseña debe contener al menos una letra")
+      .matches(
+        /[^a-zA-Z0-9]/,
+        "La contraseña debe contener al menos un carácter especial"
+      )
+      .required("La contraseña es requerida"),
   });
 
-  const handleSubmit = async (values: IRegister) => {
+  const handleSubmit = async (values: IRegisterEmployee) => {
     try {
-      await registerAction(values);
+      await registerApi(values);
       toast.success("El usuario se ha creado exitosamente");
       router.push(routes.login);
     } catch (error) {
@@ -49,7 +53,8 @@ export const CreateEmployeeUI = () => {
   return (
     <Formik
       initialValues={{
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         password: "",
       }}
@@ -58,17 +63,20 @@ export const CreateEmployeeUI = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          {/* TIPO DE EMPLEADO */}
+          {/* FIRST NAME */}
           <InputFormik
-            name="role"
-            label="Tipo de empleado"
-            type="select"
-            options={[
-              { label: "Ventas", value: "ventas" },
-              { label: "Contabilidad", value: "contabilidad" },
-              { label: "Producción", value: "produccion" },
-              { label: "Otro", value: "otro" },
-            ]}
+            name="first_name"
+            label="Nombre"
+            type="text"
+            placeholder="nombre"
+          />
+
+          {/* LAST NAME */}
+          <InputFormik
+            name="last_name"
+            label="Apellido"
+            type="text"
+            placeholder="apellido"
           />
 
           {/* EMAIL */}
@@ -77,14 +85,6 @@ export const CreateEmployeeUI = () => {
             label="Correo"
             type="email"
             placeholder="correo@correo.com"
-          />
-
-          {/* NOMBRE */}
-          <InputFormik
-            name="name"
-            label="Nombre y Apellido"
-            type="text"
-            placeholder="Tu nombre"
           />
 
           {/* PASSWORD */}

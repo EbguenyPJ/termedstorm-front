@@ -31,7 +31,7 @@ const LoginForm = () => {
   ) => {
     try {
       await loginApi(values);
-      toast.success("Te has registrado exitosamente");
+      toast.success("Has iniciado sesión exitosamente");
       router.push(routes.categories);
     } catch (error: any) {
       const message = error.response?.data?.message || "Error desconocido";
