@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useAuthStore } from "../app/stores/authStore";
 
-const AuthInit = () => {
+export const useAuthInit = () => {
   const fetchUser = useAuthStore((s) => s.fetchUser);
 
   useEffect(() => {
@@ -12,4 +12,4 @@ const AuthInit = () => {
   return null;
 };
 
-export default AuthInit;
+

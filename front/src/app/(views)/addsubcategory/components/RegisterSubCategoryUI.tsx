@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
@@ -50,7 +51,7 @@ const RegisterSubCategory = () => {
   const [selectedCategoria, setSelectedCategoria] = React.useState<OptionType[]>([]);
 
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
       <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
         Registrar nueva Sub-Categoria
       </h2>
@@ -106,6 +107,7 @@ const RegisterSubCategory = () => {
                   />
                   {values.image && (
                     <div className="mt-4">
+                      <Image
                       <Image
                         src={values.image}
                         alt="Preview"

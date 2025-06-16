@@ -1,17 +1,17 @@
 "use client";
 
-import { useAuthStore } from "../../app/stores/authStore";
+import { useAuthStore } from "../../../app/stores/authStore";
 import { ILogin } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
-import InputFormik from "../UI/Inputs/InputFormik";
+import InputFormik from "../../UI/Inputs/InputFormik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import GoogleLoginButton from "../UI/Buttons/GoogleButton";
-import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
+import GoogleLoginButton from "../../UI/Buttons/GoogleButton";
+import { ButtonSecondary } from "../../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 
-const LoginForm = () => {
+const LoginFormClient = () => {
   const router = useRouter();
   const login = useAuthStore((s) => s.login);
 
@@ -31,8 +31,8 @@ const LoginForm = () => {
   ) => {
     try {
       await login(values);
-      toast.success("Te has registrado exitosamente");
-      router.push(routes.profile);
+      toast.success("Has ingresado exitosamente");
+      router.push(routes.categories);
     } catch (error: any) {
       const message = error.message || "Error desconocido";
       setErrors({ password: message });
@@ -45,7 +45,8 @@ const LoginForm = () => {
   return (
     <div className="max-w-sm mx-auto mt-10">
       <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
-      <GoogleLoginButton />
+      <GoogleLoginButton role="client" label="Entrar como cliente con Google" />
+
       <div className="my-4 text-center text-sm text-gray-500">
         o ingresa con tu correo
       </div>
@@ -67,7 +68,7 @@ const LoginForm = () => {
               placeholder="contraseña"
             />
 
-            <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-end mt-4">
               <ButtonSecondary
                 textContent="Iniciar Sesión"
                 type="submit"
@@ -81,4 +82,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginFormClient;

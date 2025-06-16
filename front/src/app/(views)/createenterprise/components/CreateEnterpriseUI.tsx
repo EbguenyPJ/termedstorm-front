@@ -6,8 +6,8 @@ import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { registerAction } from "@/actions/authAction";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
-import { ButtonSecondary } from "../../../../components/ui/Buttons/Buttons";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 export const CreateEnterpriseUI = () => {

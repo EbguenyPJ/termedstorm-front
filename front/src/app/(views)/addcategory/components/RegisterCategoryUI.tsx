@@ -2,10 +2,11 @@
 import React, { useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../components/ui/Buttons/Buttons";
+import { ButtonAccent } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import Image from "next/image"
 
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
@@ -29,7 +30,7 @@ const RegisterCategory = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <section className="bg-white rounded-lg shadow-xl pt-30 pb-20 mr-20 ml-85">
+    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
       <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
         Registrar nueva Categoria
       </h2>
@@ -44,7 +45,7 @@ const RegisterCategory = () => {
         onSubmit={(values, { resetForm }) => {
           console.log("Categoría a registrar:", values);
           // Llamada a api
-          toast.success("Categoría registrada correctamente ✅");
+          toast.success("Categoría registrada correctamente ");
 
           resetForm();
 
@@ -83,7 +84,7 @@ const RegisterCategory = () => {
                   />
                   {values.image && (
                     <div className="mt-4">
-                      <img
+                      <Image
                         src={values.image}
                         alt="Preview"
                         className="w-40 h-40 object-cover border rounded"

@@ -19,7 +19,7 @@ export const CardProduct: React.FC<ICardProduct> = ({ name, image, price }) => {
                 {name}
             </div>
             <div className="mt-4 flex justify-between items-center text-sm font-semibold text-gray-800">
-                <strong>${price}</strong>
+                <strong className="text-lg">${price}</strong>
                 <ButtonPrimary
                     textContent="Comprar"
                 />

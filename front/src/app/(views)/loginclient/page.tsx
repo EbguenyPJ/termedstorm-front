@@ -1,9 +1,9 @@
 import React from "react";
-import LoginForm from "../components/Auth/Employee/LoginFormUI";
+import LoginFormClient from "../../../components/Auth/Employee/LoginFormUI";
 import Link from "next/link";
-import { routes } from "./routes";
+import { routes } from "../../routes/index";
 
-const LoginPage = () => {
+const LoginPageClient = () => {
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2">
       {/* Sección izquierda: imagen o color */}
@@ -13,22 +13,22 @@ const LoginPage = () => {
           <div>
             <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
             <p className="text-lg">
-              Iniciá sesión para acceder a tu cuenta EMPLEADO
+              Iniciá sesión para acceder a tu cuenta CLIENTE
             </p>
           </div>
         </div>
       </div>
 
       {/* Sección derecha: formulario */}
-      <div className="flex flex-col items-center justify-center bg-base-100 px-1 sm:px-6 p1-6 sm:py-12">
+      <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
         <div className="w-full max-w-md">
-          <LoginForm />
+          <LoginFormClient />
         </div>
 
         <p className="text-center mt-2">
-          ¿Sos cliente?{" "}
+          ¿Sos empleado?{" "}
           <Link
-            href={routes.loginclient}
+            href={routes.login}
             className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
           >
             Clickea aquí
@@ -39,4 +39,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginPageClient;
