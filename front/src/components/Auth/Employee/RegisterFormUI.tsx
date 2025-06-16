@@ -1,6 +1,6 @@
 "use client";
 
-import { registerAction } from "../../actions/authAction";
+import { registerAction } from "../../../actions/authAction";
 import { IRegister } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
 import InputFormik from "@/components/UI/Inputs/InputFormik";

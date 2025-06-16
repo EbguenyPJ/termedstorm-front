@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import { IUser, ILogin } from "@/interfaces";
-import { logout as logoutAction } from "@/actions/logout";
-import { getUserAction } from "../../actions/getUserAction";
-import { loginAction } from "../../actions/authAction";
+import {getUserApi, loginApi, logoutApi} from "@/lib/authBase";
 
 interface AuthState {
   user: IUser | null;
@@ -21,7 +19,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   fetchUser: async () => {
     try {
-      const user = await getUserAction();
+      set({ loading: true });
+      const user = await getUserApi();
       set({ user, loading: false });
     } catch (err) {
       console.error("Error al obtener usuario", err);
@@ -30,14 +29,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   login: async (values: ILogin) => {
-    const res = await loginAction(values);
-    if (!res.success) throw new Error(res.error);
-    const user = await getUserAction();
+    await loginApi(values);
+    const user = await getUserApi();
     set({ user });
   },
 
   logout: async () => {
-    await logoutAction();
+    await logoutApi();
     set({ user: null });
   },
 }));

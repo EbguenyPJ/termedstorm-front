@@ -1,6 +1,7 @@
 export const routes = {
   //pueden ver todos (segun el rol puede cambiar)
   login: "/",
+  loginclient: "/loginclient",
   register: "/register",
   categories: "/categories",
   subcategories: "/subcategories",
