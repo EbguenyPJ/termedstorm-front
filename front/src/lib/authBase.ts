@@ -2,7 +2,7 @@ import axios from "axios";
 import { ILogin, IRegisterEmployee } from "@/interfaces";
 
 export const baseAxios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/",
   withCredentials: true, // Importante: envía cookies HTTPOnly
 });
 
