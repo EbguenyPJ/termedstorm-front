@@ -2,11 +2,12 @@
 import React, { useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "@/components/ui/Buttons/Buttons";
+import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
-import InputFormik from "@/components/ui/Inputs/InputFormik";
+import InputFormik from "@/components/UI/Inputs/InputFormik";
+import Image from "next/image";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -105,7 +106,7 @@ const RegisterSubCategory = () => {
                   />
                   {values.image && (
                     <div className="mt-4">
-                      <img
+                      <Image
                         src={values.image}
                         alt="Preview"
                         className="w-40 h-40 object-cover border rounded"

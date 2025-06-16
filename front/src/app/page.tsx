@@ -5,9 +5,9 @@ import {routes} from "./routes";
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 h-screen">
       {/* Sección izquierda: imagen o color */}
-      <div className="hidden lg:block bg-[#4e4090] relative">
+      <div className="hidden lg:block bg-[#4f4090e7] relative">
         {/* Imagen opcional */}
 
         {/* Texto */}
@@ -20,13 +20,13 @@ const LoginPage = () => {
       </div>
 
       {/* Sección derecha: formulario */}
-      <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
+      <div className="flex flex-col items-center justify-center bg-base-100 px-1 sm:px-6 p1-6 sm:py-12">
         <div className="w-full max-w-md">
           <LoginForm />
         </div>
 
         <p className="text-center mt-2">
-            ¿Aún no tenés cuenta?{" "}
+            ¿Aún no tenés cuenta?
             <Link
               href={routes.createenterprise}
               className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
