@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image"
+import { baseAxios } from "@/lib/authBase";
 
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
@@ -42,17 +43,30 @@ const RegisterCategory = () => {
           image: "",
         }}
         validationSchema={categorySchema}
-        onSubmit={(values, { resetForm }) => {
-          console.log("Categoría a registrar:", values);
-          // Llamada a api
-          toast.success("Categoría registrada correctamente ");
+        onSubmit={async (values, { resetForm }) => {
+          try {
+            console.log("Categoría a registrar:", values);
 
-          resetForm();
+            // Llamada al backend
+            await baseAxios.post("/categories", {
+              name: values.nombreCategoria,
+              key: values.nombre,
+              image: values.image,
+            });
 
-          if (fileInputRef.current) {
-            fileInputRef.current.value = "";
+            toast.success("Categoría registrada correctamente");
+            resetForm();
+
+            if (fileInputRef.current) {
+              fileInputRef.current.value = "";
+            }
+          } catch (error: any) {
+            console.error("Error al registrar la categoría:", error.response?.data || error.message);
+            toast.error("Ocurrió un error al registrar la categoría");
           }
+
         }}
+
       >
         {({ setFieldValue, values }) => (
           <Form>
@@ -83,11 +97,12 @@ const RegisterCategory = () => {
                     onUploadSuccess={(url: string) => setFieldValue("image", url)}
                   />
                   {values.image && (
-                    <div className="mt-4">
+                    <div className="w-40 h-40 relative border rounded overflow-hidden mt-4">
                       <Image
                         src={values.image}
                         alt="Preview"
-                        className="w-40 h-40 object-cover border rounded"
+                        fill  
+                        className="object-cover"
                       />
                     </div>
                   )}
