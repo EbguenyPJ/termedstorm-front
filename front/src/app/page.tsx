@@ -20,7 +20,7 @@ const LoginPage = () => {
       </div>
 
       {/* Sección derecha: formulario */}
-      <div className="flex flex-col items-center justify-center bg-base-100 px-1 sm:px-6 p1-6 sm:py-12">
+      <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
         <div className="w-full max-w-md">
           <LoginForm />
         </div>
