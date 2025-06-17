@@ -10,10 +10,8 @@ import {routes} from "@/app/routes";
 export const UserWidget = () => {
   const { user, logout } = useAuthStore();
   const router = useRouter();
-  console.log("user en UserWidget:", user);
 
   const handleLogout = async () => {
-  console.log("user en UserWidget:", user);
     await logout();
     router.push(routes.login);
   };
