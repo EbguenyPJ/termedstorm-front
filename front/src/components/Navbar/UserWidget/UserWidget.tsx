@@ -2,11 +2,11 @@
 
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import { useAuthStore } from "../../../app/stores/authStore";
-import {useRouter} from "next/navigation";
-import {routes} from "@/app/routes";
+import { useRouter } from "next/navigation";
+import { routes } from "@/app/routes";
 
 export const UserWidget = () => {
-  const {logout } = useAuthStore();
+  const { logout } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = async () => {
