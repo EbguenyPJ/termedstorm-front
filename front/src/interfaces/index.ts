@@ -1,14 +1,14 @@
-interface ICard{
-    name: string;
-    image: string;
+interface ICard {
+  name: string;
+  image: string;
 }
 
-interface ICardProduct extends ICard{
-    price: number;
-    stock?: number;
+interface ICardProduct extends ICard {
+  sale_price: number;
+  stock?: number;
 }
 
-export type {ICard, ICardProduct};
+export type { ICard, ICardProduct };
 
 
 
@@ -36,6 +36,6 @@ export interface IRegister {
 
 
 
-type RecordSearchParams = { [key: string]: string | string[] | undefined }
+type RecordSearchParams = { [key: string]: string | string[] | undefined };
 export type Params = Promise<{ slug: string }>;
 export type SearchParams = Promise<RecordSearchParams>;

@@ -2,6 +2,7 @@
 
 import { ILogin } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
+
 import InputFormik from "../../UI/Inputs/InputFormik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -30,8 +31,13 @@ const LoginForm = () => {
     { setSubmitting, setErrors }: FormikHelpers<ILogin>
   ) => {
     try {
+<<<<<<< HEAD
       await login("employee", values);
       toast.success("Has ingresado exitosamente");
+=======
+      await loginApi(values);
+      toast.success("Has iniciado sesión exitosamente");
+>>>>>>> 14434e0f21c2d3d4e0bc50eb52c9618e04bc69f0
       router.push(routes.categories);
     } catch (error: any) {
       const message = error.response?.data?.message || "Error desconocido";
@@ -67,7 +73,7 @@ const LoginForm = () => {
               placeholder="contraseña"
             />
 
-            <div className="flex items-center justify-end mt-4">
+            <div className="flex items-center justify-center mt-4">
               <ButtonSecondary
                 textContent="Iniciar Sesión"
                 type="submit"

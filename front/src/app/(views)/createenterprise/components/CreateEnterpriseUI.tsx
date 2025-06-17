@@ -8,9 +8,10 @@ import * as yup from "yup";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
-import {registerApi} from "@/lib/authBase";
+import { useAuthStore } from "../../../stores/authStore";
 
 export const CreateEnterpriseUI = () => {
+  const { registerEmployee } = useAuthStore();
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -27,7 +28,7 @@ export const CreateEnterpriseUI = () => {
       .matches(/^[0-9]+$/, "Solo se permiten números")
       .min(10, "Debe tener al menos 10 dígitos")
       .required("Campo requerido"),
-    
+
     password: yup
       .string()
       .min(8, "La contraseña debe tener al menos 8 caracteres")
@@ -40,7 +41,7 @@ export const CreateEnterpriseUI = () => {
 
   const handleSubmit = async (values: IRegister) => {
     try {
-      await registerApi(values);
+      await registerEmployee(values);
       toast.success("El usuario se ha creado exitosamente");
       router.push(routes.login);
     } catch (error) {

@@ -11,10 +11,11 @@ const CategoryList = () => {
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
-      .then((res) => setCategories(res.data))
+      .then((res) => {setCategories(res.data); console.log("categories", res.data)})
       .catch((err) => console.error("Error al obtener categorías:", err))
       .finally(() => setLoading(false));
   }, []);
+
 
   if (loading) return <p className="text-center mt-10">Cargando categorías...</p>;
 

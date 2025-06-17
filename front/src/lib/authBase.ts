@@ -1,11 +1,7 @@
 import axios from "axios";
-<<<<<<< Updated upstream
-import { ILogin, IRegister } from "@/interfaces";
-=======
 import { ILogin, IRegister, IUser } from "@/interfaces";
->>>>>>> Stashed changes
 
-const baseAxios = axios.create({
+export const baseAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
   withCredentials: true, // Importante: envía cookies HTTPOnly
 });

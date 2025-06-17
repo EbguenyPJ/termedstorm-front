@@ -28,7 +28,7 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
             isOpen ? "translate-x-0" : "translate-x-full"
             } md:translate-x-0`}
         >
-            <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full">
+            <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full md:mx-3">
                 <SearchBar />
 
                 <div className="flex flex-row-reverse w-2/3 justify-around md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">

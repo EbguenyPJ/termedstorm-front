@@ -10,7 +10,7 @@ const SubCategoryList = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/subcategories`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/sub-categories`)
       .then((res) => setSubCategories(res.data))
       .catch((err) => console.error("Error al obtener subcategorías:", err))
       .finally(() => setLoading(false));

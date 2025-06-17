@@ -9,6 +9,7 @@ interface InputProps {
     | "email"
     | "password"
     | "tel"
+    | "number" 
     | "select"
     | "textarea"
     | "checkbox"

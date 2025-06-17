@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import { IRegister } from "../../../../interfaces/index";
+import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
@@ -15,23 +15,27 @@ export const CreateEmployeeUI = () => {
   const router = useRouter();
 
   const validationSchema = yup.object({
-    name: yup
+    first_name: yup
       .string()
-      .max(20, "Debe tener 20 caracteres o menos")
-      .required("Campo requerido"),
+      .max(50, "El nombre debe tener 50 caracteres o menos")
+      .required("El nombre es requerido"),
+    last_name: yup
+      .string()
+      .max(50, "El apellido debe tener 50 caracteres o menos")
+      .required("El apellido es requerido"),
     email: yup
       .string()
       .email("Correo electrónico no válido")
-      .required("Campo requerido"),
-    phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Solo se permiten números")
-      .min(10, "Debe tener al menos 10 dígitos")
-      .required("Campo requerido"),
+      .required("El correo electrónico es requerido"),
     password: yup
       .string()
-      .min(5, "Debe tener al menos 5 caracteres")
-      .required("Campo requerido"),
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .matches(/[a-zA-Z]/, "La contraseña debe contener al menos una letra")
+      .matches(
+        /[^a-zA-Z0-9]/,
+        "La contraseña debe contener al menos un carácter especial"
+      )
+      .required("La contraseña es requerida"),
   });
 
   const handleSubmit = async (values: IRegister) => {
@@ -50,9 +54,9 @@ export const CreateEmployeeUI = () => {
   return (
     <Formik
       initialValues={{
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        phone: "",
         password: "",
       }}
       onSubmit={handleSubmit}
@@ -60,17 +64,20 @@ export const CreateEmployeeUI = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          {/* TIPO DE EMPLEADO */}
+          {/* FIRST NAME */}
           <InputFormik
-            name="role"
-            label="Tipo de empleado"
-            type="select"
-            options={[
-              { label: "Ventas", value: "ventas" },
-              { label: "Contabilidad", value: "contabilidad" },
-              { label: "Producción", value: "produccion" },
-              { label: "Otro", value: "otro" },
-            ]}
+            name="first_name"
+            label="Nombre"
+            type="text"
+            placeholder="nombre"
+          />
+
+          {/* LAST NAME */}
+          <InputFormik
+            name="last_name"
+            label="Apellido"
+            type="text"
+            placeholder="apellido"
           />
 
           {/* EMAIL */}
@@ -79,22 +86,6 @@ export const CreateEmployeeUI = () => {
             label="Correo"
             type="email"
             placeholder="correo@correo.com"
-          />
-
-          {/* NOMBRE */}
-          <InputFormik
-            name="name"
-            label="Nombre y Apellido"
-            type="text"
-            placeholder="Tu nombre"
-          />
-
-          {/* PHONE */}
-          <InputFormik
-            name="phone"
-            label="Número de celular"
-            type="tel"
-            placeholder="+54 (011) 1111-1111"
           />
 
           {/* PASSWORD */}
