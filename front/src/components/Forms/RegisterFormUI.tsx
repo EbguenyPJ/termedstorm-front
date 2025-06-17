@@ -7,11 +7,11 @@ import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../../app/stores/authStore";
+import { useAuthStore } from "../../app/stores/authStore";
 
 export const RegisterForm = () => {
-  const router = useRouter();
   const { registerEmployee } = useAuthStore();
+  const router = useRouter();
 
   const validationSchema = yup.object({
     first_name: yup
@@ -39,12 +39,12 @@ export const RegisterForm = () => {
   const handleSubmit = async (values: IRegister) => {
     try {
       await registerEmployee(values);
-      toast.success("Se ha creado un nuevo empleado");
+      toast.success("¡Registro exitoso!");
       router.push(routes.login);
     } catch (error) {
       console.error(error);
       const errorMessage =
-        error instanceof Error ? error.message : "Error al crear el usuario";
+        error instanceof Error ? error.message : "Error al registrarse";
       toast.error(errorMessage);
     }
   };
@@ -67,7 +67,7 @@ export const RegisterForm = () => {
             name="first_name"
             label="Nombre"
             type="text"
-            placeholder="nombre"
+            placeholder="Nombre"
           />
 
           {/* LAST NAME */}
@@ -75,7 +75,7 @@ export const RegisterForm = () => {
             name="last_name"
             label="Apellido"
             type="text"
-            placeholder="apellido"
+            placeholder="Apellido"
           />
 
           {/* EMAIL */}
