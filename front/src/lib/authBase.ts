@@ -23,4 +23,4 @@ export const getUserApi = async () => {
 
 export const logoutApi = async () => {
   await baseAxios.get("/auth/logout");// o client/me según el rol
-}
+};

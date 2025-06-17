@@ -1,6 +1,6 @@
 "use client";
 
-import Cart from "../Cart";
+import { Cart } from "../Cart";
 import SearchBar from "../SearchBar";
 import { UserWidget } from "./UserWidget/UserWidget";
 import {Menu, X } from "lucide-react"
