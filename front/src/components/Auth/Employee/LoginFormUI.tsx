@@ -2,7 +2,6 @@
 
 import { ILogin } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
-
 import InputFormik from "../../UI/Inputs/InputFormik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -11,6 +10,7 @@ import GoogleLoginButton from "../../UI/Buttons/GoogleButton";
 import { ButtonSecondary } from "../../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../../app/stores/authStore";
+import { loginApi } from "@/lib/authBase";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -31,13 +31,10 @@ const LoginForm = () => {
     { setSubmitting, setErrors }: FormikHelpers<ILogin>
   ) => {
     try {
-<<<<<<< HEAD
       await login("employee", values);
       toast.success("Has ingresado exitosamente");
-=======
       await loginApi(values);
       toast.success("Has iniciado sesión exitosamente");
->>>>>>> 14434e0f21c2d3d4e0bc50eb52c9618e04bc69f0
       router.push(routes.categories);
     } catch (error: any) {
       const message = error.response?.data?.message || "Error desconocido";
