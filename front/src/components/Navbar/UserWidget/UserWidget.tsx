@@ -5,10 +5,8 @@ import { useAuthStore } from "../../../app/stores/authStore";
 import {useRouter} from "next/navigation";
 import {routes} from "@/app/routes";
 
-//CartStore; 
-
 export const UserWidget = () => {
-  const { user, logout } = useAuthStore();
+  const {logout } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = async () => {
