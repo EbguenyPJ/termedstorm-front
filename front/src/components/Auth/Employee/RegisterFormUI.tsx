@@ -1,65 +1,60 @@
 "use client";
 
-import { registerAction } from "../../../actions/authAction";
 import { IRegister } from "@/interfaces";
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, Form } from "formik";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../../app/stores/authStore";
 
 export const RegisterForm = () => {
   const router = useRouter();
+  const { registerEmployee } = useAuthStore();
 
   const validationSchema = yup.object({
-    name: yup
+    first_name: yup
       .string()
-      .max(20, "Debe tener 20 caracteres o menos")
-      .required("Campo requerido"),
+      .max(50, "El nombre debe tener 50 caracteres o menos")
+      .required("El nombre es requerido"),
+    last_name: yup
+      .string()
+      .max(50, "El apellido debe tener 50 caracteres o menos")
+      .required("El apellido es requerido"),
     email: yup
       .string()
       .email("Correo electrónico no válido")
-      .required("Campo requerido"),
-    phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Solo se permiten números")
-      .min(10, "Debe tener al menos 10 dígitos")
-      .required("Campo requerido"),
+      .required("El correo electrónico es requerido"),
     password: yup
       .string()
-      .min(5, "Debe tener al menos 5 caracteres")
-      .required("Campo requerido"),
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .matches(/[a-zA-Z]/, "La contraseña debe contener al menos una letra")
+      .matches(
+        /[^a-zA-Z0-9]/,
+        "La contraseña debe contener al menos un carácter especial"
+      ),
   });
 
-  const handleSubmit = async (
-    values: IRegister,
-    { setSubmitting, setErrors }: FormikHelpers<IRegister>
-  ) => {
+  const handleSubmit = async (values: IRegister) => {
     try {
-      const res = await registerAction(values);
-
-      if (!res.success) {
-        throw new Error(res.error || "Error desconocido");
-      }
-
-      toast.success("¡Registro exitoso!");
+      await registerEmployee(values);
+      toast.success("Se ha creado un nuevo empleado");
       router.push(routes.login);
-    } catch (error: any) {
-      const message = error.message || "Error desconocido";
-      setErrors({ password: message }); // opcional, depende del mensaje
-      toast.error(message);
-    } finally {
-      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Error al crear el usuario";
+      toast.error(errorMessage);
     }
   };
 
   return (
     <Formik
       initialValues={{
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        phone: "",
         password: "",
       }}
       onSubmit={handleSubmit}
@@ -67,23 +62,28 @@ export const RegisterForm = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          {/* EMAIL */}
-          <InputFormik name="email" label="Correo" type="email" />
-
-          {/* NOMBRE */}
+          {/* FIRST NAME */}
           <InputFormik
-            name="name"
-            label="Nombre y Apellido"
+            name="first_name"
+            label="Nombre"
             type="text"
-            placeholder="Tu nombre"
+            placeholder="nombre"
           />
 
-          {/* PHONE */}
+          {/* LAST NAME */}
           <InputFormik
-            name="phone"
-            label="Número de celular"
-            type="tel"
-            placeholder="+54 (011) 1111-1111"
+            name="last_name"
+            label="Apellido"
+            type="text"
+            placeholder="apellido"
+          />
+
+          {/* EMAIL */}
+          <InputFormik
+            name="email"
+            label="Correo"
+            type="email"
+            placeholder="correo@correo.com"
           />
 
           {/* PASSWORD */}

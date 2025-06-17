@@ -2,9 +2,11 @@ export const routes = {
   //pueden ver todos (segun el rol puede cambiar)
   login: "/",
   loginclient: "/loginclient",
-  register: "/register",
+  registerclient: "/registerclient",
   categories: "/categories",
   subcategories: "/subcategories",
+  brands:"/brands",  //NUEVO
+  sizes:"/sizes", //NUEVO
   products: "/products",
   //cart: '/cart', (NO es necesario si trabajamos con modal)
   profile: "/profile", //informacion personal basica
@@ -13,9 +15,11 @@ export const routes = {
   // solo gerente
   createemployee: "createemployee",
   addProduct: "addproduct",
+  addVariant:"addvariant",  //NUEVO
   addCategory: "addcategory",
   addSubCategory: "addsubcategory",
   addBrand: "addbrand",
+  addSize: "addsize",  //NUEVO
   editLists: "editLists",
   // contador o caja
   cashCount: "cashcount", //historial de arqueos

@@ -1,14 +1,25 @@
 import { create } from "zustand";
-import { IUser, ILogin } from "@/interfaces";
-import {getUserApi, loginApi, logoutApi} from "@/lib/authBase";
+import { IUser, ILogin, IRegister } from "@/interfaces";
+import {
+  getUserApi,
+  logoutApi,
+  loginApi,
+  registerApi,
+  loginClientApi,
+  registerClientApi,
+} from "@/lib/authBase";
+
+type UserType = "client" | "employee";
 
 interface AuthState {
   user: IUser | null;
   loading: boolean;
-  login: (values: ILogin) => Promise<void>;
-  logout: () => Promise<void>;
   setUser: (user: IUser | null) => void;
   fetchUser: () => Promise<void>;
+  login: (type: UserType, credentials: ILogin) => Promise<void>;
+  logout: () => Promise<void>;
+  registerClient: (data: IRegister) => Promise<void>;
+  registerEmployee: (data: IRegister) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -28,8 +39,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  login: async (values: ILogin) => {
-    await loginApi(values);
+  login: async (type: UserType, credentials: ILogin) => {
+    if (type === "employee") {
+      await loginApi(credentials);
+    } else {
+      await loginClientApi(credentials);
+    }
+
     const user = await getUserApi();
     set({ user });
   },
@@ -37,5 +53,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: async () => {
     await logoutApi();
     set({ user: null });
+  },
+
+  registerClient: async (data) => {
+    await registerClientApi(data);
+  },
+
+  registerEmployee: async (data) => {
+    await registerApi(data);
   },
 }));

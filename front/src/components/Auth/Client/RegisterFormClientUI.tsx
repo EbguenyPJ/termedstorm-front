@@ -7,10 +7,11 @@ import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../app/stores/authStore";
+import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
+import { useAuthStore } from "@/app/stores/authStore";
 
-export const RegisterForm = () => {
-  const { registerEmployee } = useAuthStore();
+export const RegisterFormClient = () => {
+  const { registerClient } = useAuthStore();
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -33,19 +34,21 @@ export const RegisterForm = () => {
       .matches(
         /[^a-zA-Z0-9]/,
         "La contraseña debe contener al menos un carácter especial"
-      ),
+      )
+      .required("La contraseña es requerida"),
   });
 
   const handleSubmit = async (values: IRegister) => {
     try {
-      await registerEmployee(values);
+      await registerClient(values);
       toast.success("¡Registro exitoso!");
-      router.push(routes.login);
-    } catch (error) {
+      router.push(routes.loginclient);
+    } catch (error: any) {
       console.error(error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Error al registrarse";
-      toast.error(errorMessage);
+      const errorMessage = error?.response?.data?.message || "Error al registrarse";
+      toast.error(typeof errorMessage === "string"
+    ? errorMessage
+    : "Ocurrió un error inesperado");
     }
   };
 
@@ -91,16 +94,14 @@ export const RegisterForm = () => {
             name="password"
             label="Contraseña"
             type="password"
-            placeholder="contraseña"
+            placeholder="Contraseña"
           />
 
-          <button
+          <ButtonSecondary
+            textContent="Registrarse"
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 mt-8 font-medium text-white bg-black rounded-lg border-black inline-flex space-x-2 items-center justify-center cursor-pointer hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span>Crear cliente</span>
-          </button>
+          />
         </Form>
       )}
     </Formik>

@@ -2,15 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
-import { IRegisterEmployee } from "@/interfaces";
-import { registerApi } from "@/lib/authBase";
+import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../../stores/authStore";
 
 export const CreateEmployeeUI = () => {
+  const { registerEmployee } = useAuthStore();
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -37,9 +38,9 @@ export const CreateEmployeeUI = () => {
       .required("La contraseña es requerida"),
   });
 
-  const handleSubmit = async (values: IRegisterEmployee) => {
+  const handleSubmit = async (values: IRegister) => {
     try {
-      await registerApi(values);
+      await registerEmployee(values);
       toast.success("El usuario se ha creado exitosamente");
       router.push(routes.login);
     } catch (error) {

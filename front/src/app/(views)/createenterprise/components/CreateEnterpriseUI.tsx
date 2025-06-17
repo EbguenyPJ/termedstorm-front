@@ -5,18 +5,19 @@ import { routes } from "@/app/routes";
 import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { registerAction } from "@/actions/authAction";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../../stores/authStore";
 
 export const CreateEnterpriseUI = () => {
+  const { registerEmployee } = useAuthStore();
   const router = useRouter();
 
   const validationSchema = yup.object({
     name: yup
       .string()
-      .max(20, "Debe tener 20 caracteres o menos")
+      .max(40, "Debe tener 40 caracteres o menos")
       .required("Campo requerido"),
     email: yup
       .string()
@@ -27,15 +28,20 @@ export const CreateEnterpriseUI = () => {
       .matches(/^[0-9]+$/, "Solo se permiten números")
       .min(10, "Debe tener al menos 10 dígitos")
       .required("Campo requerido"),
+
     password: yup
       .string()
-      .min(5, "Debe tener al menos 5 caracteres")
-      .required("Campo requerido"),
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .matches(/[a-zA-Z]/, "La contraseña debe contener al menos una letra")
+      .matches(
+        /[^a-zA-Z0-9]/,
+        "La contraseña debe contener al menos un carácter especial"
+      ),
   });
 
   const handleSubmit = async (values: IRegister) => {
     try {
-      await registerAction(values);
+      await registerEmployee(values);
       toast.success("El usuario se ha creado exitosamente");
       router.push(routes.login);
     } catch (error) {
