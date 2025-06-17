@@ -55,3 +55,4 @@ export const logoutApi = async () => {
     console.error("Error al cerrar sesión", error);
   }
 };
+;

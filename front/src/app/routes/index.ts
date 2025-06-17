@@ -13,19 +13,19 @@ export const routes = {
   reports: "/reports", //cambia con la autorizacion respectiva
   support: "/support", // cambia con la autorización respectiva
   // solo gerente
-  createemployee: "createemployee",
-  addProduct: "addproduct",
+  createemployee: "/createemployee",
+  addProduct: "/addproduct",
   addVariant:"addvariant",  //NUEVO
-  addCategory: "addcategory",
-  addSubCategory: "addsubcategory",
-  addBrand: "addbrand",
+  addCategory: "/addcategory",
+  addSubCategory: "/addsubcategory",
+  addBrand: "/addbrand",
   addSize: "addsize",  //NUEVO
-  editLists: "editLists",
+  editLists: "/editLists",
   // contador o caja
-  cashCount: "cashcount", //historial de arqueos
-  newCashCount: "cashcount", //registrar nuevo arqueo
-  newCashRegister: "cashregister", //registrar nuevo corte
-  orders: "orders", //lista de venta/ordenes
+  cashCount: "/cashcount", //historial de arqueos
+  newCashCount: "/cashcount", //registrar nuevo arqueo
+  newCashRegister: "/cashregister", //registrar nuevo corte
+  orders: "/orders", //lista de venta/ordenes
   //superAdmin
-  createenterprise: "createenterprise",
+  createenterprise: "/createenterprise",
 };

@@ -18,6 +18,7 @@ import {
 import logo from "@/../public/logoNivo.jpeg";
 import { forwardRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { routes } from "@/app/routes";
 
 interface SideBarProps {
   isCollapsed: boolean;
@@ -25,11 +26,11 @@ interface SideBarProps {
 }
 
 const menuItems = [
-  { href: "/categories", icon: List, label: "Categorías" },
-  { href: "/products", icon: Box, label: "Productos" },
-  { href: "/sales", icon: SquarePlus, label: "Nueva Venta" },
-  { href: "/reports", icon: ChartColumnIncreasing, label: "Reportes" },
-  { href: "/help", icon: CircleHelp, label: "Soporte / Ayuda" },
+  { href: `${routes.categories}`, icon: List, label: "Categorías" },
+  { href: `${routes.products}`, icon: Box, label: "Productos" },
+  { href: `${routes.orders}`, icon: SquarePlus, label: "Ventas" },
+  { href: `${routes.reports}`, icon: ChartColumnIncreasing, label: "Reportes" },
+  { href: `${routes.support}`, icon: CircleHelp, label: "Soporte / Ayuda" },
 ];
 
 const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
@@ -48,7 +49,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
           <div className={`flex items-center`}>
             <Image src={logo} alt="logo" className={`${isCollapsed ? "h-6 w-6 rounded-md" : "h-8 w-8 rounded-lg mr-4"}`} />
             {!isCollapsed && (
-              <span className="font-bold text-xl text-base-100">POINTSALE</span>
+              <span className="font-bold text-xl text-base-100">NIVO</span>
             )}
           </div>
 
@@ -65,7 +66,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
             <div className={`bg-black rounded-lg ${isCollapsed ? "h-6 w-6 rounded-md" : "w-16 h-16 rounded-lg"}`}></div>
         {!isCollapsed && (
             <div className="flex flex-col gap-2 text-sm">
-              <h2 className="font-semibold text-base-100">POINTSALE</h2>
+              <h2 className="font-semibold text-base-100 mt-2">NOMBRE-EMPRESA</h2>
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-base-100" />
                 <span className="text-base-100">Calle Falsa 1234</span>
@@ -98,7 +99,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                 <ul className="ml-10 mt-2 space-y-1 text-sm">
                   <li>
                     <Link
-                      href="/dashboard/categories"
+                      href={routes.addCategory}
                       className={`block px-2 py-1 rounded hover:bg-base3 ${
                         pathname === "/dashboard/categories" ? "font-bold" : ""
                       }`}
@@ -108,7 +109,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   </li>
                   <li>
                     <Link
-                      href="/dashboard/subcategories"
+                      href={routes.addSubCategory}
                       className={`block px-2 py-1 rounded hover:bg-base3 ${
                         pathname === "/dashboard/subcategories" ? "font-bold bg-base3" : ""
                       }`}
@@ -118,7 +119,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   </li>
                   <li>
                     <Link
-                      href="/dashboard/products"
+                      href={routes.products}
                       className={`block px-2 py-1 rounded hover:bg-base3 ${
                         pathname === "/dashboard/products" ? "font-bold bg-base3" : ""
                       }`}
