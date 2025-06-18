@@ -1,7 +1,7 @@
 import React from "react";
-import { RegisterFormClient } from "../../components/Auth/Client/RegisterFormClientUI";
+import { RegisterFormClient } from "../../../components/Auth/Client/RegisterFormClientUI";
 import Link from "next/link";
-import { routes } from "../routes/index";
+import { routes } from "../../routes/index";
 
 const LoginPageClient = () => {
   return (
