@@ -13,7 +13,7 @@ const LoginPage = () => {
           <div>
             <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
             <p className="text-lg">
-              Iniciá sesión para acceder a tu cuenta EMPLEADO
+              Iniciá sesión para acceder a la app Empresa
             </p>
           </div>
         </div>
