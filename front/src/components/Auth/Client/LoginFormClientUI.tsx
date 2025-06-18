@@ -22,7 +22,7 @@ const LoginFormClient = () => {
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Email inválido").required("Requerido"),
-    password: Yup.string().min(6, "Mínimo 6 caracteres").required("Requerido"),
+    password: Yup.string().required("Requerido"),
   });
 
   const handleSubmit = async (
@@ -30,7 +30,7 @@ const LoginFormClient = () => {
     { setSubmitting, setErrors }: FormikHelpers<ILogin>
   ) => {
     try {
-      await login(values);
+      await login("client", values);
       toast.success("Has ingresado exitosamente");
       router.push(routes.categories);
     } catch (error: any) {
@@ -45,7 +45,9 @@ const LoginFormClient = () => {
   return (
     <div className="max-w-sm mx-auto mt-10">
       <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
-      <GoogleLoginButton role="client" label="Entrar como cliente con Google" />
+      <GoogleLoginButton role="client" label="Continuar con Google" />
+
+
 
       <div className="my-4 text-center text-sm text-gray-500">
         o ingresa con tu correo
@@ -58,7 +60,7 @@ const LoginFormClient = () => {
         {({ isSubmitting }) => (
           <Form>
             {/* Email */}
-            <InputFormik name="email" label="Correo" type="email" />
+            <InputFormik name="email" label="Correo" type="email" placeholder="correo@correo.com"/>
 
             {/* PASSWORD */}
             <InputFormik

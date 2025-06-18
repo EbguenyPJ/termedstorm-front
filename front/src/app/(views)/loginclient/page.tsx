@@ -1,5 +1,5 @@
 import React from "react";
-import LoginFormClient from "../../../components/Auth/Employee/LoginFormUI";
+import LoginFormClient from "../../../components/Auth/Client/LoginFormClientUI";
 import Link from "next/link";
 import { routes } from "../../routes/index";
 
@@ -25,15 +25,26 @@ const LoginPageClient = () => {
           <LoginFormClient />
         </div>
 
-        <p className="text-center mt-2">
-          ¿Sos empleado?{" "}
-          <Link
-            href={routes.login}
-            className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
-          >
-            Clickea aquí
-          </Link>
-        </p>
+        <div className="flex flex-col">
+          <p className="text-center mt-2">
+            ¿Sos empleado?{" "}
+            <Link
+              href={routes.login}
+              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
+            >
+              Clickea aquí
+            </Link>
+          </p>
+          <p className="text-center mt-2">
+            ¿Aún no tenes cuenta?{" "}
+            <Link
+              href={routes.registerclient}
+              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
+            >
+              Clickea aquí
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

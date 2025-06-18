@@ -3,12 +3,13 @@
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import dynamic from "next/dynamic";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image"
+import { baseAxios } from "@/lib/authBase";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -16,11 +17,6 @@ type OptionType = {
   value: string;
   label: string;
 };
-
-const subCategoriaOptions = [
-  { value: "trekking", label: "Trekking" },
-  { value: "urbanas", label: "Urbanas" },
-];
 
 const brandSchema = yup.object().shape({
   nombreMarca: yup
@@ -47,7 +43,29 @@ const brandSchema = yup.object().shape({
 
 const RegisterBrand = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [subCategoryOptions, setSubCategoryOptions] = useState<OptionType[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = React.useState<OptionType[]>([]);
+
+  useEffect(() => {
+    const fetchSubCategories = async () => {
+      try {
+        const response = await baseAxios.get("/sub-categories");
+
+        const formattedOptions = response.data.map((sub: any) => ({
+          value: sub.id,
+          label: sub.name,
+        }));
+
+        setSubCategoryOptions(formattedOptions);
+      } catch (error) {
+        console.error("Error al cargar subcategorías:", error);
+        toast.error("No se pudieron cargar las subcategorías");
+      }
+    };
+
+    fetchSubCategories();
+  }, []);
+
 
   return (
     <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
@@ -63,16 +81,28 @@ const RegisterBrand = () => {
           subCategoria: [],
         }}
         validationSchema={brandSchema}
-        onSubmit={(values, { resetForm }) => {
-          console.log("Marca a registrar:", values);
-          // Llamada a api
-          toast.success("Marca registrada correctamente");
+        onSubmit={async (values, { resetForm }) => {
+          try {
+            console.log("Marca a registrar:", values);
 
-          resetForm();
-          setSelectedSubCategory([]);
+            // Llamada al backend
+            await baseAxios.post("/brands", {
+              name: values.nombreMarca,
+              key: values.nombre,
+              image: values.image,
+              subcategories: values.subCategoria, 
+            });
 
-          if (fileInputRef.current) {
-            fileInputRef.current.value = "";
+            toast.success("Marca registrada correctamente");
+            resetForm();
+            setSelectedSubCategory([]);
+
+            if (fileInputRef.current) {
+              fileInputRef.current.value = "";
+            }
+          } catch (error: any) {
+            console.error("Error al registrar la marca:", error.response?.data || error.message);
+            toast.error("Ocurrió un error al registrar la marca");
           }
         }}
       >
@@ -106,11 +136,12 @@ const RegisterBrand = () => {
                     onUploadSuccess={(url: string) => setFieldValue("image", url)}
                   />
                   {values.image && (
-                    <div className="mt-4">
+                    <div className="w-40 h-40 relative border rounded overflow-hidden mt-4">
                       <Image
                         src={values.image}
                         alt="Preview"
-                        className="w-40 h-40 object-cover border rounded"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                   )}
@@ -130,14 +161,14 @@ const RegisterBrand = () => {
                   <Select
                     isMulti
                     name="subCategoria"
-                    options={subCategoriaOptions}
+                    options={subCategoryOptions}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     value={selectedSubCategory}
                     onChange={(newValue: any) => {
-                      setSelectedSubCategory(newValue); 
+                      setSelectedSubCategory(newValue);
                       const values = newValue ? newValue.map((option: OptionType) => option.value) : [];
-                      setFieldValue("subCategoria", values); 
+                      setFieldValue("subCategoria", values);
                     }}
                   />
                   <ErrorMessage
