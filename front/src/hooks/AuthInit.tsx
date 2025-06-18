@@ -9,7 +9,7 @@ export const useAuthInit = () => {
   useEffect(() => {
     console.log("Ejecutando fetchUser")
     fetchUser(); 
-  }, []);
+  }, [fetchUser]);
 
   return null;
 };
