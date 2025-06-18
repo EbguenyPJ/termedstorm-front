@@ -2,7 +2,7 @@ import axios from "axios";
 import { ILogin, IRegister, IUser } from "@/interfaces";
 
 export const baseAxios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://nivo-app.onrender.com",
   withCredentials: true, // Importante: envía cookies HTTPOnly
 });
 
