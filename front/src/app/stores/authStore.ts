@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import { IUser, ILogin, IRegister } from "@/interfaces";
 import {
   getUserApi,
@@ -23,51 +22,44 @@ interface AuthState {
   registerEmployee: (data: IRegister) => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>() (
-  persist(
-    (set) => ({
-      user: null,
-      loading: false,
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
+  loading: false,
 
-      setUser: (user) => set({ user }),
+  setUser: (user) => set({ user }),
 
-      fetchUser: async () => {
-        try {
-          set({ loading: true });
-          const user = await getUserApi();
-          set({ user, loading: false });
-        } catch (err) {
-          console.error("Error al obtener usuario", err);
-          set({ user: null, loading: false });
-        }
-      },
-
-      login: async (type, credentials) => {
-        if (type === "employee") {
-          await loginApi(credentials);
-        } else {
-          await loginClientApi(credentials);
-        }
-
-        const user = await getUserApi();
-        set({ user });
-      },
-
-      logout: async () => {
-        await logoutApi();
-        set({ user: null });
-      },
-
-      registerClient: async (data) => {
-        await registerClientApi(data);
-      },
-
-      registerEmployee: async (data) => {
-        await registerApi(data);
-      },
-    }),
-    {
-      name: "auth-storage", // clave del localStorage
+  fetchUser: async () => {
+    try {
+      set({ loading: true });
+      const user = await getUserApi();
+      set({ user, loading: false });
+    } catch (err) {
+      console.error("Error al obtener usuario", err);
+      set({ user: null, loading: false });
     }
-  )
-);
+  },
+
+  login: async (type: UserType, credentials: ILogin) => {
+    if (type === "employee") {
+      await loginApi(credentials);
+    } else {
+      await loginClientApi(credentials);
+    }
+
+    const user = await getUserApi();
+    set({ user });
+  },
+
+  logout: async () => {
+    await logoutApi();
+    set({ user: null });
+  },
+
+  registerClient: async (data) => {
+    await registerClientApi(data);
+  },
+
+  registerEmployee: async (data) => {
+    await registerApi(data);
+  },
+}));

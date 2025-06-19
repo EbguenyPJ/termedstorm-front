@@ -16,6 +16,7 @@ export default function GoogleSuccessPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
+
       try {
         const user = await getUserApi();
         if (user) {

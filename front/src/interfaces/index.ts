@@ -1,3 +1,10 @@
+export interface IProduct {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+}
+
 interface ICard {
   name: string;
   image: string;
@@ -11,15 +18,25 @@ interface ICardProduct extends ICard {
 export type { ICard, ICardProduct };
 
 
-
+export interface IRole {
+  id: string;
+  name: string;
+}
 export interface IUser {
   id: string;
   email: string;
-  role?: string[];
+  type: "employee" | "client";
   first_name?: string;
   last_name?: string;
-  image?: string;
   membershipId?: string;
+  image?: string;
+  employee?: {
+    roles: { name: string }[]; // Ej: [{ name: "SUPERADMIN" }]
+  };
+  client?: {
+    is_premium: boolean;
+    membership_id: string | null;
+  };
 }
 
 export interface ILogin {
@@ -29,9 +46,10 @@ export interface ILogin {
 
 export interface IRegister {
   email: string;
+  password: string;
   first_name?: string;
   last_name?: string;
-  password: string;
+  role?: string[];
 }
 
 

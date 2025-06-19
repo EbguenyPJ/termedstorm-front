@@ -1,10 +1,42 @@
 import axios from "axios";
-import { ILogin, IRegister, IUser } from "@/interfaces";
+import { ILogin, IRegister, IUser, IRole } from "@/interfaces";
 
 export const baseAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "https://nivo-app.onrender.com",
   withCredentials: true, // Importante: envía cookies HTTPOnly
 });
+
+
+// AUTH/ME
+export const getUserApi = async (): Promise<IUser | null> => {
+  try {
+    const user = await baseAxios.get("/auth/me");
+    return user.data;
+  } catch (error) {
+    console.error("Error al obtener usuario", error);
+    return null;
+  }
+};
+
+// CERRAR SESION
+export const logoutApi = async () => {
+  try {
+    await baseAxios.post("/auth/logout");
+  } catch (error) {
+    console.error("Error al cerrar sesión", error);
+  }
+};
+
+// ROLES
+export const getRolesApi = async (): Promise<IRole[]> => {
+  try {
+    const res = await baseAxios.get("/roles");
+    return res.data; // [{ id: "1", name: "SUPERADMIN" }, ...]
+  } catch (error) {
+    console.error("Error al obtener los roles", error);
+    throw new Error("No se pudieron cargar los roles");
+  }
+};
 
 
 // CLIENT
@@ -38,21 +70,3 @@ export const registerApi = async (values: IRegister) => {
 // PUT /employees/:id/roles
 
 
-export const getUserApi = async (): Promise<IUser | null> => {
-  try {
-    const user = await baseAxios.get("/auth/me");
-    return user.data;
-  } catch (error) {
-    console.error("Error al obtener usuario", error);
-    return null;
-  }
-};
-
-export const logoutApi = async () => {
-  try {
-    await baseAxios.post("/auth/logout");
-  } catch (error) {
-    console.error("Error al cerrar sesión", error);
-  }
-};
-;

@@ -1,67 +1,75 @@
 "use client";
 
-//import { useState } from "react";
-//import { useRouter } from "next/navigation";
-//import { IProduct } from "@/interfaces/Product";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useDebounce } from "../hooks/useDebounce";
+import { IProduct } from "../interfaces/index";
 
-// interface SearchBarProps {
-//   products: IProduct[];
-// }
+const SearchBar = () => {
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState<IProduct[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const debouncedSearch = useDebounce(search, 400);
+  const router = useRouter();
 
-const SearchBar = (
-  //{ products }: SearchBarProps
-) => {
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
-  // const router = useRouter();
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (debouncedSearch.trim().length < 2) return setResults([]);
 
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""); // solo letras, números y espacios
-  //   setSearchTerm(value);
+      try {
+        const { data } = await axios.get(
+          `/products/search?query=${debouncedSearch}`
+        );
+        setResults(data);
+        setShowSuggestions(true);
+      } catch (err) {
+        console.error("Error buscando productos", err);
+        setResults([]);
+      }
+    };
 
-  //   const filtered = products.filter(product =>
-  //     product.name.toLowerCase().includes(value.toLowerCase())
-  //   );
-  //   setFilteredProducts(filtered);
-  // };
+    fetchResults();
+  }, [debouncedSearch]);
 
-  // const navigateToProduct = (id: string) => {
-  //   router.push(`/products/${id}`);
-  //   setSearchTerm("");
-  //   setFilteredProducts([]);
-  // };
+  const handleSelect = (id: string) => {
+    router.push(`/products/${id}`);
+    setSearch("");
+    setResults([]);
+    setShowSuggestions(false);
+  };
 
   return (
-    <div className="mx-auto w-fit">
+    <div className="relative w-full max-w-xs mx-auto">
       <input
         type="text"
-        placeholder="Search products..."
-        //value={searchTerm}
-        //onChange={handleSearch}
-        className="border border-gray-300 p-2 rounded-lg text-base-100  lg:w-xs"
+        placeholder="Buscar productos..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        onFocus={() => setShowSuggestions(true)}
+        className="w-full p-2 border bg-base-100 border-gray-300 rounded-lg"
       />
 
-      {
-      //searchTerm.trim() !== "" && 
-      (
-        <ul className="absolute z-30 bg-white text-base shadow-lg w-full mt-1 max-h-60 overflow-y-auto rounded-md">
-          {/* {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
-              <li
-                key={product.id}
-                onClick={() => navigateToProduct(String(product.id))}
-                className="px-3 py-1 hover:bg-gray-200 cursor-pointer"
-              >
-                {product.name}
-              </li>
-            ))
-          ) : (
-            <li className="px-3 py-2 text-gray-500">Product not found...</li>
-          )} */}
+      {showSuggestions && results.length > 0 && (
+        <ul className="absolute z-50 w-full bg-white border border-gray-300 rounded-md shadow mt-1 max-h-60 overflow-y-auto">
+          {results.map((product) => (
+            <li
+              key={product.id}
+              onClick={() => handleSelect(product.id)}
+              className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex gap-2 items-center"
+            >
+              <span>{product.name}</span>
+            </li>
+          ))}
         </ul>
+      )}
+
+      {showSuggestions && search && results.length === 0 && (
+        <div className="absolute w-full mt-1 bg-white border border-gray-300 text-center text-gray-500 p-2 rounded-md">
+          No se encontraron resultados
+        </div>
       )}
     </div>
   );
 };
-
 export default SearchBar;

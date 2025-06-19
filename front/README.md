@@ -1,30 +1,31 @@
 <!-- EL LOGIN DE EMPLOYEES: ENTRA SUPERADMIN, GERENTE, EMPLEADOS -->
 
-NO LLAMAR A CALLBACKS
 
-Para manejar y editar roles: SUPERADMIN Y GERENTE
-/employee/id/roles => id del empleado que se va a modificar.
-json {
-rolIds: [uuids] => strings, id a asignar => deberia haber un metodo
-}
+// type: EMPRESA: "employee: superadmin, admin, vendedor" | "client";
 
-GET /roles =>
-json {
-[{
-id: string,
-name: vendedor,
-descripcion: funciones, 
-},
-{}]
+// NOSOTROS => INGRESO INDEPENDIENTE PARA CREACION 
 
-}
+// Estamos creando una aplicacion para una UNICA empresa. 
+// La empresa NO se creara dentro de la aplicacion. Se creara desde afuera
 
 
 
-SUPERADMIN
+// EB => ENDPOINT GET ROLES: ID, NOMBRE DE ROL.
+// YO => INPUT SELECT-MULTIPLY
+// ENVIAR A BACK => roleIds = uuids[] (yup.min(1))
 
-(TODOS LOS EMPLOYEES POR EL MISMO LOGIN)
-TIPO DE USUARIO EMPLOYEES: ADMIN, MANAGER,  VENDEDORES, CAJERO 
+// Se debe buscar otra manera de implementar Google Maps
 
-(TODOS INGRESAN POR EL MISMO LOGIN)
-TIPO DE USUARIO CLIENTE: CLIENTE
+
+
+
+NACHO TODO:
+- API ROL ✔
+- FORMULARIO CREAR EMPLEADO ✔
+- MIDDLEWARE 
+- CREAR MICROFUNCIONES: 
+===> SEARCHBAR: *necesito endpoint PENTDIENTE
+===> BREADCRUMBLE
+===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
+===> PROFILE: ADMIN, VENDEDOR, CLIENT
+===> REPORT: ADMIN, VENDEDOR
