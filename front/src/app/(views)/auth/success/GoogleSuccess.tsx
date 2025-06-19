@@ -6,13 +6,12 @@ import { getUserApi } from "@/lib/authBase";
 import { useAuthStore } from "@/app/stores/authStore";
 import { routes } from "../../../routes/index";
 
-export default function GoogleSuccessPage() {
+export default function GoogleSuccess() {
   const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
   const params = useSearchParams();
 
   const type = params.get("type");
-
 
   useEffect(() => {
     const fetchUser = async () => {

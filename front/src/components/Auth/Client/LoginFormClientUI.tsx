@@ -47,8 +47,6 @@ const LoginFormClient = () => {
       <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
       <GoogleLoginButton role="client" label="Continuar con Google" />
 
-
-
       <div className="my-4 text-center text-sm text-gray-500">
         o ingresa con tu correo
       </div>
@@ -60,7 +58,12 @@ const LoginFormClient = () => {
         {({ isSubmitting }) => (
           <Form>
             {/* Email */}
-            <InputFormik name="email" label="Correo" type="email" placeholder="correo@correo.com"/>
+            <InputFormik
+              name="email"
+              label="Correo"
+              type="email"
+              placeholder="correo@correo.com"
+            />
 
             {/* PASSWORD */}
             <InputFormik
@@ -70,7 +73,7 @@ const LoginFormClient = () => {
               placeholder="contraseña"
             />
 
-            <div className="flex items-center justify-end mt-4">
+            <div className="flex items-end justify-end mt-4">
               <ButtonSecondary
                 textContent="Iniciar Sesión"
                 type="submit"

@@ -97,11 +97,13 @@ export const RegisterFormClient = () => {
             placeholder="Contraseña"
           />
 
-          <ButtonSecondary
-            textContent="Registrarse"
-            type="submit"
-            disabled={isSubmitting}
-          />
+          <div className="flex justify-end mt-4">
+              <ButtonSecondary
+                textContent="Registrarse"
+                type="submit"
+                disabled={isSubmitting}
+              />
+            </div>
         </Form>
       )}
     </Formik>
