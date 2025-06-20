@@ -1,5 +1,5 @@
 import React from "react";
-import LoginFormClient from "../../../components/Auth/Client/LoginFormClientUI";
+import { RegisterFormClient } from "../../../components/Auth/Client/RegisterFormClientUI";
 import Link from "next/link";
 import { routes } from "../../routes/index";
 
@@ -13,38 +13,30 @@ const LoginPageClient = () => {
           <div>
             <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
             <p className="text-lg">
-              Iniciá sesión para acceder a tu cuenta CLIENTE
+              ¡Registrate y accedé a todos los beneficios que ofrece Nivo!
             </p>
           </div>
         </div>
       </div>
-
       {/* Sección derecha: formulario */}
       <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
+        <div>
+          <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
+          <p className="text-lg">Crea tu cuenta CLIENTE</p>
+        </div>
         <div className="w-full max-w-md">
-          <LoginFormClient />
+          <RegisterFormClient />
         </div>
 
-        <div className="flex flex-col">
-          <p className="text-center mt-2">
-            ¿Sos empleado?{" "}
-            <Link
-              href={routes.login}
-              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
-            >
-              Clickea aquí
-            </Link>
-          </p>
-          <p className="text-center mt-2">
-            ¿Aún no tenes cuenta?{" "}
-            <Link
-              href={routes.registerclient}
-              className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
-            >
-              Clickea aquí
-            </Link>
-          </p>
-        </div>
+        <p className="text-center mt-2">
+          ¿Ya tenes cuenta?{" "}
+          <Link
+            href={routes.loginclient}
+            className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
+          >
+            Clickea aquí
+          </Link>
+        </p>
       </div>
     </div>
   );

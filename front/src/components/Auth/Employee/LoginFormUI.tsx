@@ -70,7 +70,7 @@ const LoginForm = () => {
               placeholder="contraseña"
             />
 
-            <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-end mt-4">
               <ButtonSecondary
                 textContent="Iniciar Sesión"
                 type="submit"

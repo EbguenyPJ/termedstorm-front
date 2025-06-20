@@ -1,6 +1,6 @@
 "use client";
 
-import { Cart } from "../Cart";
+//import { Cart } from "../Cart";
 import SearchBar from "../SearchBar";
 import { UserWidget } from "./UserWidget/UserWidget";
 import {Menu, X } from "lucide-react"
@@ -33,7 +33,7 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
 
                 <div className="flex flex-row-reverse w-2/3 justify-around md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">
                     <div className="my-auto">
-                    <Cart />
+                    {/* <Cart /> */}
                     </div>
 
                     <div className="flex my-auto md:ml-auto">
