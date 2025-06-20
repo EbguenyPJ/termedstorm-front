@@ -81,9 +81,9 @@ export default function LayoutManager({
           </div>
         </ExcludedWrapper>
 
-        <div className="min-h-[90vh] w-full flex justify-center items-center overflow-hidden">
-          {children}
-        </div>
+        <main className="min-h-[90vh] w-full flex justify-center items-center overflow-hidden">
+          <div className="div-container">{children}</div>
+        </main>
       </div>
     </>
   );

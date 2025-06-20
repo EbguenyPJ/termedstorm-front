@@ -29,33 +29,33 @@ const PriceUploadTable = () => {
       complete: (result) => {
         const data = result.data;
         if (data.some(d => !d.id_costo_producto || !d.s_nombre_producto || !d.n_costo_producto)) {
-          toast.error("❌ Archivo inválido o columnas incompletas");
+          toast.error("Archivo inválido o columnas incompletas");
           return;
         }
 
         setProducts(data);
-        toast.success("✅ Productos cargados");
+        toast.success("Productos cargados");
       },
-      error: () => toast.error("❌ Error al procesar el archivo"),
+      error: () => toast.error("Error al procesar el archivo"),
     });
   };
 
   const handleSave = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/bulk`, products);
-      toast.success("✅ Precios guardados en base de datos");
+      toast.success("Precios guardados en base de datos");
     } catch (error) {
       console.error(error);
-      toast.error("❌ Error al guardar en base");
+      toast.error("Error al guardar en base");
     }
   };
 
   return (
-    <div className="p-6 bg-white shadow rounded-md max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-purple-800 mb-4">📋 Tabulador de Precios</h2>
+    <div>
+      <h2 className="text-2xl font-bold text-seconady mb-4">Tabulador de Precios</h2>
 
       <div className="flex items-center justify-between mb-4">
-        <label className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded cursor-pointer">
+        <label className="bg-accent hover:bg-[#0d0d0d] text-white px-4 py-2 rounded cursor-pointer">
           Cargar CSV
           <input type="file" accept=".csv" className="hidden" onChange={handleUpload} />
         </label>
@@ -65,7 +65,7 @@ const PriceUploadTable = () => {
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300">
           <thead>
-            <tr className="bg-purple-800 text-white text-sm">
+            <tr className="bg-seconady text-white text-sm">
               <th className="py-2 px-4">ID</th>
               <th className="py-2 px-4">Imagen</th>
               <th className="py-2 px-4">Producto</th>
@@ -109,7 +109,7 @@ const PriceUploadTable = () => {
           className={`px-4 py-2 rounded text-white ${
             products.length === 0
               ? "bg-purple-300 cursor-not-allowed"
-              : "bg-purple-700 hover:bg-purple-800"
+              : "bg-purple-700 hover:bg-seconady"
           }`}
           onClick={handleSave}
         >

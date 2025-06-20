@@ -3,7 +3,7 @@ import { CreateEmployeeUI } from "./components/CreateEmployeeUI";
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div>
       <BreadcrumbClient />
       <div className="bg-white shadow-md rounded-xl w-full max-w-md p-8">
         <div className="mb-6 text-center">

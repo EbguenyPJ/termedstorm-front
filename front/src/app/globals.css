@@ -19,7 +19,7 @@
   .text-primary {
     color: var(--color-primary);
   }
-  
+
   .bg-primary {
     background-color: var(--color-primary);
   }
@@ -32,7 +32,7 @@
     border: 1px solid var(--color-primary-20);
   }
 
-  .border-primary-22{
+  .border-primary-22 {
     border: 2px solid var(--color-secondary);
   }
 
@@ -50,9 +50,9 @@
   .text-accent {
     color: var(--color-accent);
   }
-  
+
   .text-base-100 {
-    color: var(--color-base-1)
+    color: var(--color-base-1);
   }
 
   .text-base-250 {
@@ -89,6 +89,22 @@
 
   .bg-base-400-op50 {
     background-color: #0d0d0d80;
+  }
+  .div-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+    min-height: 80vh;
+
+    background-color: var(--color-base-1);
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    /* Solo si realmente lo necesitás */
+    /* display: flex; */
   }
 }
 

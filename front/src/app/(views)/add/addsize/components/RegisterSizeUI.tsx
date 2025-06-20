@@ -24,7 +24,7 @@ const sizeSchema = yup.object().shape({
 
 const RegisterSize = () => {
   return (
-    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[800px] min-h-[70vh] overflow-auto">
+    <>
       <h2 className="text-2xl font-bold mb-10 text-[#4e4090]">Registrar nuevo Talle</h2>
 
       <Formik
@@ -81,7 +81,7 @@ const RegisterSize = () => {
           </Form>
         )}
       </Formik>
-    </section>
+    </>
   );
 };
 

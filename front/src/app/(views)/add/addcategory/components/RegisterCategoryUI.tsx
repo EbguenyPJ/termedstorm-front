@@ -31,7 +31,7 @@ const RegisterCategory = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+    <section>
       <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
         Registrar nueva Categoria
       </h2>
