@@ -13,7 +13,6 @@ export default function GoogleSuccess() {
 
   const type = params.get("type");
 
-
   useEffect(() => {
     const fetchUser = async () => {
 

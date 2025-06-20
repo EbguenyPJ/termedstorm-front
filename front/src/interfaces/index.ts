@@ -13,6 +13,7 @@ interface ICard {
 interface ICardProduct extends ICard {
   sale_price: number;
   stock?: number;
+  id?: number;
 }
 
 export type { ICard, ICardProduct };

@@ -32,7 +32,7 @@ const CloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
       (error: any, result: any) => {
         if (!error && result.event === "success") {
           onUploadSuccess(result.info.secure_url);
-          toast.success("Imagen cargada correctamente ✅");
+          toast.success("Imagen cargada correctamente");
         }
       }
     );

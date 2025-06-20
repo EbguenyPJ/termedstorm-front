@@ -6,7 +6,6 @@ export const baseAxios = axios.create({
   withCredentials: true, // Importante: envía cookies HTTPOnly
 });
 
-
 // AUTH/ME
 export const getUserApi = async (): Promise<IUser | null> => {
   try {
@@ -38,7 +37,6 @@ export const getRolesApi = async (): Promise<IRole[]> => {
   }
 };
 
-
 // CLIENT
 export const loginClientApi = async (values: ILogin) => {
   const res = await baseAxios.post("/auth/client/login", values);
@@ -52,7 +50,6 @@ export const registerClientApi = async (values: IRegister) => {
 
 // GET /auth/client/google
 // GET /auth/client/google/callback
-
 
 // EMPLOYEE
 export const loginApi = async (values: ILogin) => {
@@ -68,5 +65,3 @@ export const registerApi = async (values: IRegister) => {
 // GET /auth/employee/google
 // GET /auth/employee/google/callback
 // PUT /employees/:id/roles
-
-
