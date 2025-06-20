@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { baseAxios } from '@/lib/authBase';
 
 export interface MembershipType {
     id: string;
@@ -15,7 +15,7 @@ export function useMembershipTypes() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        axios
+        baseAxios
         .get('/membership-types', { withCredentials: true })
         .then((res) => setTypes(res.data))
         .catch((err) => {

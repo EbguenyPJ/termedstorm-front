@@ -12,5 +12,5 @@ export async function createCheckoutSession(payload: CheckoutPayload) {
         withCredentials: true,
     });
 
-    return res.data.url; //? <= He de consultar si esto es así o cómo "chingados" => `{ url: string }`
+    return res.data.url;
 };

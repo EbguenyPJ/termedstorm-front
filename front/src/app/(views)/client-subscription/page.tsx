@@ -9,7 +9,7 @@ import { useState } from 'react';
 export default function PricingPage() {
     const { types, loading, error } = useMembershipTypes();
     const [isAnnual, setIsAnnual] = useState(false);
-    const user = useAuthStore((state) => state.user); // Creo que hay que ajustar según Zustand o algo
+    const user = useAuthStore((state) => state.user); // Creo que hay que ajustar según Zustand (Nacho) o algo, ya no pienso.
 
     const handleSubscribe = async (price_id: string) => {
         if (!user) return alert('Debes iniciar sesión primero.');
@@ -36,7 +36,7 @@ export default function PricingPage() {
         <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6 mx-auto text-center space-y-6">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Elegí el plan ideal para tu <span className="text-primary">empresa</span>
+            Elegí el plan ideal para <span className="text-primary">vos</span>
             </h2>
 
             <div className="flex items-center justify-center space-x-2">
@@ -62,7 +62,7 @@ export default function PricingPage() {
                 >
                 <h3 className="text-2xl font-semibold mb-1">{plan.name}</h3>
                 <p className="text-4xl font-bold mt-2">
-                    {/* NO OLVIDAR consultar precios temporales en realción a plan.name */}
+                    {/* NO OLVIDAR consultar precios temporales en relación a plan.name */}
                     {isAnnual ? '$990/año' : '$99/mes'}
                 </p>
                 <ul className="space-y-3 mt-4 text-left text-sm w-full">
