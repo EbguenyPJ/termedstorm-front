@@ -10,8 +10,9 @@ interface Props {
 }
 
 interface Variante {
+     id: string;
     color: string;
-    image: string; 
+    image: string;
     descripcion: string;
     variants2: {
         talle: string;
@@ -30,7 +31,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
 
                     {(form.values[name] as Variante[]).map((variante, index: number) => (
                         <div
-                            key={index}
+                            key={variante.id}
                             className="border border-[#d3d3d3] p-4 rounded-lg mb-4 bg-white flex flex-col gap-2"
                         >
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -67,6 +68,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                                     Imagen de la Variante:
                                 </label>
                                 <CloudinaryButton
+                                    key={`upload-button-${variante.id}-${variante.image}`}
                                     onUploadSuccess={(url: string) =>
                                         form.setFieldValue(`${name}[${index}].image`, url)
                                     }
@@ -108,7 +110,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                                                 const newShowVariant2 = [...showVariant2];
                                                 newShowVariant2[index] = true;
                                                 setShowVariant2(newShowVariant2);
-                                                form.setFieldValue(`${name}[${index}].variants2`, [{ talle: "", stock: "" }]); 
+                                                form.setFieldValue(`${name}[${index}].variants2`, [{ talle: "", stock: "" }]);
                                             } else {
                                                 alert("Completa el color, imagen y descripción de la variante para habilitar los talles y stock.");
                                             }
@@ -157,8 +159,8 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                     <button
                         type="button"
                         onClick={() => {
-                            push({ color: "", image: "", descripcion: "", variants2: [] });
-                            setShowVariant2([...showVariant2, false]); 
+                            push({ id: Date.now(), color: "", image: "", descripcion: "", variants2: [] });
+                            setShowVariant2([...showVariant2, false]);
                         }}
                         className="bg-[#4e4090] text-white px-4 py-2 rounded mt-2 hover:bg-[#3d3370]"
                     >

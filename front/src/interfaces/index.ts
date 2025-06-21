@@ -13,10 +13,26 @@ interface ICard {
 interface ICardProduct extends ICard {
   sale_price: number;
   stock?: number;
-  id?: number;
+  id?: string;
 }
 
-export type { ICard, ICardProduct };
+interface ApiProduct {
+  id: string;
+  name: string;
+  sale_price: number; 
+  image?: string | null;
+  variants?: { 
+    image: string; 
+    color: string;
+    descripcion: string;
+    variants2: {
+      talle: string;
+      stock: number | string;
+    }[];
+  }[];
+}
+
+export type { ICard, ICardProduct, ApiProduct };
 
 
 export interface IRole {

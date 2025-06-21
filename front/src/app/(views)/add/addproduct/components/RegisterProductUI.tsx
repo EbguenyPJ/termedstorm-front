@@ -2,12 +2,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import VariantProduct from "./VariantProduct";
 import { baseAxios } from "@/lib/authBase";
-import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
+import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 
 const productoSchema = yup.object().shape({
   nombre: yup
@@ -56,14 +55,6 @@ const productoSchema = yup.object().shape({
     .required("Selecciona una marca")
     .trim("No se permiten espacios en blanco")
     .min(1, "La marca no puede estar vacía"),
-
-  unidaddemedida: yup
-    .string()
-    .required("Selecciona una unidad")
-    .trim("No se permiten espacios en blanco")
-    .min(1, "La unidad no puede estar vacía"),
-
-  image: yup.string().required("La imagen es obligatoria"),
 });
 
 const RegisterProduct = () => {
@@ -128,7 +119,7 @@ const RegisterProduct = () => {
                 description: v.descripcion,
                 color: v.color,
                 image: v.image, 
-                variant_attributes: v.variants2.map((v2: any) => ({
+                variantSizes: v.variants2.map((v2: any) => ({
                   stock: parseInt(v2.stock),
                   size_id: v2.talle,
                 })),
@@ -187,36 +178,11 @@ const RegisterProduct = () => {
                 />
 
                 <InputFormik
-                  name="stock"
-                  label="Stock Inicial:"
+                  name="precioVenta"
+                  label="Precio de Venta:"
                   type="text"
-                  placeholder="Ingrese stock"
+                  placeholder="Ingrese precio de venta"
                 />
-
-                <div>
-                  <label className="block text-md font-semibold text-[#4e4090] mt-4">
-                    Imagen:
-                  </label>
-                  <CloudinaryButton
-                    onUploadSuccess={(url: string) =>
-                      setFieldValue("image", url)
-                    }
-                  />
-                  {/* {values.image && (
-                    <div className="mt-4">
-                      <Image
-                        src={values.image}
-                        alt="Preview"
-                        className="w-40 h-40 object-cover border rounded"
-                      />
-                    </div>
-                  )} */}
-                  <ErrorMessage
-                    name="image"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
-                </div>
               </div>
 
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
