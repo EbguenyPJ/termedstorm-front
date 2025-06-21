@@ -59,12 +59,13 @@ const ProfileClient = () => {
   if (!user) return <p>Cargando perfil...</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white rounded-md shadow">
-      <h2 className="text-2xl font-bold mb-4 text-purple-800">
-        Perfil de Usuario
+    <div>
+      <h2 className="text-2xl font-bold mb-4">
+        Bienvenido <span className="text-secondary">{user.name}</span>
       </h2>
 
       <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-3 text-primary">Datos Personales</h3>
         <p>
           <span className="font-semibold text-gray-700">Nombre:</span>{" "}
           {user.name}
@@ -80,18 +81,17 @@ const ProfileClient = () => {
 
       {user.role === "cliente" && (
         <>
-          <h3 className="text-xl font-semibold mb-3 text-purple-700">
-            🧾 Historial de Órdenes
+          <h3 className="text-xl font-semibold mb-3 text-primary">
+            Historial de Órdenes
           </h3>
 
           <div className="overflow-x-auto">
             <table className="min-w-full border border-gray-300">
               <thead>
-                <tr className="bg-purple-800 text-white text-sm">
+                <tr className="bg-secondary text-white text-sm">
                   <th className="py-2 px-4">#</th>
                   <th className="py-2 px-4">Fecha</th>
                   <th className="py-2 px-4">Método de pago</th>{" "}
-                  {/* 👈 nueva columna */}
                   <th className="py-2 px-4">Total</th>
                   <th className="py-2 px-4">Estado</th>
                 </tr>

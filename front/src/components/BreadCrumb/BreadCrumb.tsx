@@ -15,7 +15,7 @@ export const Breadcrumb = () => {
   const breadcrumbs = segments.map((seg, index) => {
     const href = "/" + segments.slice(0, index + 1).join("/");
     const isLast = index === segments.length - 1;
-    const isNonLink = seg === "add" && "settings-manager" && "shop" && "user";
+    const isNonLink = ["add", "settings-manager", "shop", "user"].includes(seg);
 
     return (
       <li key={`${index}-${href}`} className="flex items-center gap-1">
@@ -46,47 +46,3 @@ export const Breadcrumb = () => {
     </nav>
   );
 };
-
-// "use client";
-
-// import { usePathname } from "next/navigation";
-// import Link from "next/link";
-// import { displayNames } from "./Names"
-
-// export const Breadcrumb = () => {
-//   const pathname = usePathname();
-
-//   const segments = pathname
-//     .split("/")
-//     .filter(Boolean) // saca los vacíos
-//     .map((seg) => decodeURIComponent(seg)); // decodifica %20, etc.
-
-//   const breadcrumbs = segments.map((seg, index) => {
-//     const href = "/" + segments.slice(0, index + 1).join("/");
-
-//     return (
-//       <li key={href} className="inline-flex items-center gap-1">
-//         {index !== 0 && <span>/</span>}
-//         <Link
-//           href={href}
-//           className="text-secondary font-semibold hover:underline capitalize"
-//         >
-//           {displayNames[seg] ?? seg.replace(/-/g, " ")}
-//         </Link>
-//       </li>
-//     );
-//   });
-
-//   return (
-//     <nav className="text-sm text-gray-600 mb-4" aria-label="Breadcrumb">
-//       <ol className="flex flex-wrap items-center">
-//         <li className="inline-flex items-center gap-1">
-//           <Link href="/" className="text-primary mr-2 hover:underline">
-//             Inicio /
-//           </Link>
-//         </li>
-//         {breadcrumbs}
-//       </ol>
-//     </nav>
-//   );
-// };

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
 import axios from "axios";
-// import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 // import { baseAxios } from "@/lib/authBase";
 
 const mockData = [
@@ -30,7 +29,7 @@ const PriceTable = () => {
 
   console.log(setProducts);
   console.log(setLoading);
-  
+
   /*
   useEffect(() => {
     setLoading(true);
@@ -81,9 +80,9 @@ const PriceTable = () => {
   };
 
   return (
-    <div className="p-4 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-bold text-purple-900 mb-4">
-        📑 Tabulador <span className="text-purple-600">de precios</span>
+    <div className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+      <h2 className="text-xl font-bold mb-1">
+        Tabulador de <span className="text-primary">Precios</span>
       </h2>
 
       <div className="flex items-center justify-between mb-4">
@@ -92,16 +91,7 @@ const PriceTable = () => {
         </p>
 
         <div className="flex gap-2">
-          <label className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded cursor-pointer">
-            Rango
-            <input
-              type="file"
-              accept=".csv"
-              className="hidden"
-              onChange={handleUpload}
-            />
-          </label>
-          <label className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded cursor-pointer">
+          <label className="bg-accent hover:bg-[#0d0d0d] text-white px-4 py-2 rounded cursor-pointer">
             Cargar Precios
             <input
               type="file"
@@ -119,7 +109,7 @@ const PriceTable = () => {
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300">
             <thead>
-              <tr className="bg-purple-800 text-white text-sm">
+              <tr className="bg-primary text-white text-sm">
                 <th className="py-2 px-4">#</th>
                 <th className="py-2 px-4">Imagen</th>
                 <th className="py-2 px-4">Producto</th>

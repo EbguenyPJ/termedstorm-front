@@ -3,7 +3,7 @@ import ProfileClient from "./components/ProfileClientUI";
 
 export default function ProfilePage() {
   return (
-    <div className="p-4">
+    <div className="">
       <BreadcrumbClient />
       <ProfileClient />{" "}
     </div>

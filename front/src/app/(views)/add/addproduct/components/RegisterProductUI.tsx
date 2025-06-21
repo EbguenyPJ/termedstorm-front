@@ -86,7 +86,7 @@ const RegisterProduct = () => {
   }, []);
 
   return (
-    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+    <>
       <h2 className="text-2xl font-bold text-[#4e4090]">
         Registrar nuevo Producto
       </h2>
@@ -286,7 +286,7 @@ const RegisterProduct = () => {
           </Form>
         )}
       </Formik>
-    </section>
+    </>
   );
 };
 

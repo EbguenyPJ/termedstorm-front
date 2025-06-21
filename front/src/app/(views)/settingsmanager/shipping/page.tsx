@@ -4,7 +4,7 @@ import BreadcrumbClient from "../../../../components/UI/Breadcrumb";
 
 const ShippingStockPage = () => {
   return (
-    <div className="p-4">
+    <div>
       <BreadcrumbClient />
       <ShippingTable />
     </div>

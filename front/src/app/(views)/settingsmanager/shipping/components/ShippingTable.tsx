@@ -35,8 +35,8 @@ const ShippingTable = () => {
 
   return (
     <div className="p-6 bg-white rounded-md shadow max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold text-purple-800 mb-4">
-        📦 Embarques <span className="text-fuchsia-600">(Entradas)</span>
+      <h2 className="text-2xl font-bold mb-4">
+        Entradas
       </h2>
 
       <div className="flex items-center justify-between mb-4">
@@ -51,8 +51,8 @@ const ShippingTable = () => {
           }}
         />
 
-        <button className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded">
-          Cargar Embarque
+        <button className="bg-accent hover:bg-[#0d0d0d] text-white px-4 py-2 rounded">
+          Cargar Entrada
         </button>
       </div>
 
@@ -76,7 +76,7 @@ const ShippingTable = () => {
                   <td className="py-2 px-4">{new Date(ship.date).toLocaleDateString()}</td>
                   <td className="py-2 px-4">{ship.totalProducts}</td>
                   <td className="py-2 px-4">
-                    <button className="text-blue-600 hover:underline mr-2">Ver</button>
+                    <button className="text-black hover:underline mr-2">Ver</button>
                     <button className="text-red-600 hover:underline">Eliminar</button>
                   </td>
                 </tr>

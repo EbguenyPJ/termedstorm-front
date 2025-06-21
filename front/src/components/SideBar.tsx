@@ -9,7 +9,7 @@ import {
   Box,
   List,
   SquarePlus,
-  ChartColumnIncreasing,
+  // ChartColumnIncreasing,
   CircleHelp,
   Sliders,
   ChevronDown,
@@ -28,8 +28,8 @@ interface SideBarProps {
 const menuItems = [
   { href: `${routes.categories}`, icon: List, label: "Categorías" },
   { href: `${routes.products}`, icon: Box, label: "Productos" },
-  { href: `${routes.orders}`, icon: SquarePlus, label: "Ventas" },
-  { href: `${routes.reports}`, icon: ChartColumnIncreasing, label: "Reportes" },
+  { href: `${routes.sales}`, icon: SquarePlus, label: "Ventas" },
+  // { href: `${routes.reports}`, icon: ChartColumnIncreasing, label: "Reportes" },
   { href: `${routes.support}`, icon: CircleHelp, label: "Soporte / Ayuda" },
 ];
 
@@ -55,7 +55,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
           <button
             onClick={toggleCollapse}
-            className="rounded hover:bg-base3 transition"
+            className="rounded hover:bg-[#] p-1 transition cursor-pointer"
           >
             <PanelRight className={`text-base-100 ${isCollapsed ? "h-4 w-4" : "h-5 w-5"}`} />
           </button>
