@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../app/stores/authStore";
+import { useAuthStore } from "../../stores/authStore";
 
 export const RegisterForm = () => {
   const { registerEmployee } = useAuthStore();
@@ -40,7 +40,7 @@ export const RegisterForm = () => {
     try {
       await registerEmployee(values);
       toast.success("¡Registro exitoso!");
-      router.push(routes.login);
+      router.push(routes.public.login);
     } catch (error) {
       console.error(error);
       const errorMessage =

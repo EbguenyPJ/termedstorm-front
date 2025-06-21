@@ -1,4 +1,4 @@
-import { useCartStore } from "@/app/stores/cartStore";
+import { useCartStore } from "@/stores/cartStore";
 
 type AddToCartButtonProps = {
   product: {

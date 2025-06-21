@@ -31,7 +31,7 @@ const LoginPageClient = () => {
         <p className="text-center mt-2">
           ¿Ya tenes cuenta?{" "}
           <Link
-            href={routes.loginclient}
+            href={routes.public.loginClient}
             className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
           >
             Clickea aquí

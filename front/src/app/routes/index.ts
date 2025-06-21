@@ -1,32 +1,55 @@
 export const routes = {
   // Accesos públicos
-  login: "/",
-  loginclient: "/loginclient",
-  registerclient: "/registerclient",
+  public: {
+    login: "/",
+    loginClient: "/loginclient",
+    registerClient: "/registerclient",
+  },
 
+    client: {
+    subscription: "/user/client-subscription",
+  },
+  
   // Users
-  profile: "/user/profile",
-  sales: "/user/sales",
-  support: "/user/support",
-  clientsubsription: "/user/client-subscription",
-  companysubscription: "/user/company-subscription",
-
-  // Add
-  addBrand: "/add/addbrand",
-  addCategory: "/add/addcategory",
-  addProduct: "/add/addproduct",
-  addSize: "/add/addsize",
-  addSubCategory: "/add/addsubcategory",
-
-  // Settings manager
-  createemployee: "/settingsmanager/createemployee",
-  prices: "/settingsmanager/prices",
-  pricesUpload: "/settingsmanager/pricesupload",
-  shipping: "/settingsmanager/shipping",
-  shippingUpload: "/settingsmanager/shippingupload",
+  user: {
+    profile: "/user/profile",
+    sales: "/user/sales",
+    support: "/user/support",
+    companySubscription: "/user/companysubscription",
+  },
 
   // Shop
-  categories: "/shop/categories",
-  products: "/shop/products",
-  subcategories: "/shop/subcategories",
+  shop: {
+    categories: "/shop/categories",
+    products: "/shop/products",
+    subcategories: "/shop/subcategories",
+  },
+
+  // 🛠️ Manager (configuraciones y control total)
+  manager: {
+    // Add
+    add: {
+      brand: "/manager/add/addbrand",
+      category: "/manager/add/addcategory",
+      product: "/manager/add/addproduct",
+      size: "/manager/add/addsize",
+      subcategory: "/manager/add/addsubcategory",
+    },
+
+  // Settings manager
+  settings: {
+      createEmployee: "/manager/settings/createemployee",
+      prices: "/manager/settings/prices",
+      pricesUpload: "/manager/settings/pricesupload",
+      shipping: "/manager/settings/shipping",
+      shippingUpload: "/manager/settings/shippingupload",
+    },
+
+  // Cashier
+   cashier: {
+      newCash: "/manager/cashier/newcash",
+      newShift: "/manager/cashier/newshift",
+      overview: "/manager/cashier/overview",
+    },
+  },
 };

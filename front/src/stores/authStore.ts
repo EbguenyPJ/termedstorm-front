@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IUser, ILogin, IRegister } from "@/interfaces";
+import { ILogin, IRegister, IAuthMeUser } from "@/interfaces";
 import {
   getUserApi,
   logoutApi,
@@ -12,17 +12,23 @@ import {
 type UserType = "client" | "employee";
 
 interface AuthState {
-  user: IUser | null;
+  user: IAuthMeUser | null;
   loading: boolean;
-  setUser: (user: IUser | null) => void;
+  // setters
+  setUser: (user: IAuthMeUser | null) => void;
   fetchUser: () => Promise<void>;
   login: (type: UserType, credentials: ILogin) => Promise<void>;
   logout: () => Promise<void>;
   registerClient: (data: IRegister) => Promise<void>;
   registerEmployee: (data: IRegister) => Promise<void>;
+
+  // helpers
+  hasRole: (role: string) => boolean;
+  isClient: () => boolean;
+  isEmployee: () => boolean;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   loading: false,
 
@@ -32,6 +38,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       set({ loading: true });
       const user = await getUserApi();
+      console.log("Usuario recibido en fetchUser:", user);
       set({ user, loading: false });
     } catch (err) {
       console.error("Error al obtener usuario", err);
@@ -40,13 +47,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   login: async (type: UserType, credentials: ILogin) => {
-    if (type === "employee") {
-      await loginApi(credentials);
-    } else {
-      await loginClientApi(credentials);
-    }
+    if (type === "employee") await loginApi(credentials);
+    else await loginClientApi(credentials);
 
     const user = await getUserApi();
+    if (!user) throw new Error("No se pudo obtener el usuario luego del login");
     set({ user });
   },
 
@@ -62,4 +67,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   registerEmployee: async (data) => {
     await registerApi(data);
   },
+
+  // helpers:
+  hasRole: (role: string) => {
+    return get().user?.roles?.includes(role.toUpperCase()) ?? false;
+  },
+
+  isClient: () => get().user?.roles.length === 0,
+  isEmployee: () => (get().user?.roles?.length ?? 0) > 0,
 }));

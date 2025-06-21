@@ -9,8 +9,7 @@ import { routes } from "@/app/routes";
 import GoogleLoginButton from "../../UI/Buttons/GoogleButton";
 import { ButtonSecondary } from "../../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../../app/stores/authStore";
-import { loginApi } from "@/lib/authBase";
+import { useAuthStore } from "../../../stores/authStore";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -33,9 +32,7 @@ const LoginForm = () => {
     try {
       await login("employee", values);
       toast.success("Has ingresado exitosamente");
-      await loginApi(values);
-      toast.success("Has iniciado sesión exitosamente");
-      router.push(routes.categories);
+      router.push(routes.shop.categories);
     } catch (error: any) {
       const message = error.response?.data?.message || "Error desconocido";
       setErrors({ password: message });
@@ -60,7 +57,12 @@ const LoginForm = () => {
         {({ isSubmitting }) => (
           <Form>
             {/* Email */}
-            <InputFormik name="email" label="Correo" type="email" placeholder="correo@correo.com"/>
+            <InputFormik
+              name="email"
+              label="Correo"
+              type="email"
+              placeholder="correo@correo.com"
+            />
 
             {/* PASSWORD */}
             <InputFormik

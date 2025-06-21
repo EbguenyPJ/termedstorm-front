@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getUserApi } from "@/lib/authBase";
-import { useAuthStore } from "@/app/stores/authStore";
+import { useAuthStore } from "@/stores/authStore";
 import { routes } from "../../../routes/index";
 
 export default function GoogleSuccess() {
@@ -15,23 +15,27 @@ export default function GoogleSuccess() {
 
   useEffect(() => {
     const fetchUser = async () => {
-
       try {
         const user = await getUserApi();
         if (user) {
           setUser(user);
-          router.push(type === "employee" ? routes.categories : routes.profile);
-        } else {
-          router.push(routes.login);
+          if (type === "employee") {
+            router.push(routes.shop.categories);
+          } else if (type === "client") {
+            router.push(routes.user.profile);
+          } else {
+            console.warn("Tipo de usuario no reconocido:", type);
+            router.push(routes.public.login);
+          }
         }
       } catch (error) {
         console.error("Error en Google Auth callback", error);
-        router.push(routes.login);
+        router.push(routes.public.login);
       }
     };
 
     fetchUser();
-  }, [router, setUser]);
+  }, [router, setUser, type]);
 
   return <p className="text-center mt-10">Autenticando con Google...</p>;
 }

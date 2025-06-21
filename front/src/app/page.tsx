@@ -28,7 +28,7 @@ const LoginPage = () => {
         <p className="text-center mt-2">
           ¿Sos cliente?{" "}
           <Link
-            href={routes.loginclient}
+            href={routes.public.loginClient}
             className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
           >
             Clickea aquí

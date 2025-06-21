@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,9 +8,7 @@ import {
   PanelRight,
   Box,
   List,
-  SquarePlus,
-  // ChartColumnIncreasing,
-  CircleHelp,
+  ChartColumnIncreasing,
   Sliders,
   ChevronDown,
   ChevronRight,
@@ -19,35 +17,67 @@ import logo from "@/../public/logoNivo.jpeg";
 import { forwardRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { routes } from "@/app/routes";
+import { useAuthStore } from "@/stores/authStore";
+import {
+  isAdmin,
+  isSuperAdmin,
+  isSeller,
+  isClient,
+} from "@/app/helpers/authHelper";
 
 interface SideBarProps {
   isCollapsed: boolean;
   toggleCollapse: () => void;
 }
 
-const menuItems = [
-  { href: `${routes.categories}`, icon: List, label: "Categorías" },
-  { href: `${routes.products}`, icon: Box, label: "Productos" },
-  { href: `${routes.sales}`, icon: SquarePlus, label: "Ventas" },
-  // { href: `${routes.reports}`, icon: ChartColumnIncreasing, label: "Reportes" },
-  { href: `${routes.support}`, icon: CircleHelp, label: "Soporte / Ayuda" },
-];
-
 const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
   ({ isCollapsed, toggleCollapse }, ref) => {
     const pathname = usePathname();
-    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState<
+      "edit" | "settings" | "cashier" | null
+    >(null);
+
+    const user = useAuthStore((s) => s.user);
+
+    // Ocultamos Sidebar si es cliente o no hay sesión aún
+    if (!user || isClient(user)) return null;
+
+    const isAdminUser = isAdmin(user) || isSuperAdmin(user);
+    const isSellerUser = isSeller(user);
+
+    const isEditingActive =
+      pathname === routes.addCategory ||
+      pathname === routes.addSubCategory ||
+      pathname === routes.addProduct;
+
+    const menuItems = [];
+
+    if (isSellerUser || isAdminUser) {
+      menuItems.push(
+        { href: routes.categories, icon: List, label: "Categorías" },
+        { href: routes.products, icon: Box, label: "Productos" },
+        { href: routes.sales, icon: ChartColumnIncreasing, label: "Reportes" }
+      );
+    }
 
     return (
       <aside
         ref={ref}
-        className={`fixed top-0 left-0 z-40 h-screen bg-primary text-base-100 shadow-md flex flex-col transition-all duration-300 ${isCollapsed ? "w-10 sm:w-20" : "w-64"}`}
+        className={`fixed top-0 left-0 z-40 h-screen bg-primary text-base-100 shadow-md flex flex-col transition-all duration-300 ${
+          isCollapsed ? "w-10 sm:w-20" : "w-64"
+        }`}
         aria-label="Sidebar"
       >
         {/* HEADER */}
-        <div className={`flex items-center justify-between h-16 border-b border-base1${isCollapsed ? "gap-1 p-0.5" : "gap-2 p-2"}`}>
-          <div className={`flex items-center`}>
-            <Image src={logo} alt="logo" className={`${isCollapsed ? "h-6 w-6 rounded-md" : "h-8 w-8 rounded-lg mr-4"}`} />
+        <div
+          className={`flex items-center justify-between h-16 border-b border-base-100 px-2`}
+        >
+          <div className="flex items-center gap-2">
+            <Image
+              src={logo}
+              alt="logo"
+              className={`h-6 w-6 sm:h-8 sm:w-8 rounded-md sm:rounded-lg`}
+            />
             {!isCollapsed && (
               <span className="font-bold text-xl text-base-100">NIVO</span>
             )}
@@ -55,18 +85,26 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
           <button
             onClick={toggleCollapse}
-            className="rounded hover:bg-[#] p-1 transition cursor-pointer"
+            className="rounded hover:bg-[#4e4090] p-1 transition cursor-pointer"
           >
-            <PanelRight className={`text-base-100 ${isCollapsed ? "h-4 w-4" : "h-5 w-5"}`} />
+            <PanelRight
+              className={`text-base-100 ${isCollapsed ? "h-5 w-5" : "h-6 w-6"}`}
+            />
           </button>
         </div>
 
         {/* COMPANY INFO */}
-          <div className={`py-3 border-b border-base1 ${isCollapsed ? "mx-auto" : "px-4"}`}>
-            <div className={`bg-black rounded-lg ${isCollapsed ? "h-6 w-6 rounded-md" : "w-16 h-16 rounded-lg"}`}></div>
-        {!isCollapsed && (
+        <div className={`py-3 border-b  ${isCollapsed ? "mx-auto" : "px-4"}`}>
+          <div
+            className={`bg-black hover:bg-[#4e4090] rounded-lg ${
+              isCollapsed ? "h-6 w-6 rounded-md" : "w-16 h-16 rounded-lg"
+            }`}
+          ></div>
+          {!isCollapsed && (
             <div className="flex flex-col gap-2 text-sm">
-              <h2 className="font-semibold text-base-100 mt-2">NOMBRE-EMPRESA</h2>
+              <h2 className="font-semibold text-base-100 mt-2">
+                NOMBRE-EMPRESA
+              </h2>
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-base-100" />
                 <span className="text-base-100">Calle Falsa 1234</span>
@@ -76,70 +114,244 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                 <span className="text-base-100">+54 11 5470 1111</span>
               </div>
             </div>
-        )}
-          </div>
+          )}
+        </div>
 
         {/* MENU */}
-        <nav className={`flex-1 overflow-y-auto py-4 ${isCollapsed ? "gap-1 p-0.5" : "gap-2 p-2"}`}>
+        <nav
+          className={`flex-1 overflow-y-auto py-4 ${
+            isCollapsed ? "gap-1 p-0.5" : "gap-2 p-2"
+          }`}
+        >
           <ul className="space-y-2 font-medium">
-            <li>
-              <button
-                onClick={() => setIsSubmenuOpen(!isSubmenuOpen)}
-                className={`flex items-center p-2 w-full rounded-lg hover:bg-base3 transition group text-base-100 ${isCollapsed ? "justify-center" : ""}`}
-              >
-                <Sliders className={`text-base-100 group-hover:text-white ${isCollapsed ? "h-5 w-5" : "h-6 w-6"}`} />
-                {!isCollapsed && (
-                  <>
-                    <span className="ms-3 flex-1 text-left">Editar Listas</span>
-                    {isSubmenuOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                  </>
+            {/* EDITAR LISTAS */}
+            {isAdminUser && (
+              <li>
+                <button
+                  onClick={() =>
+                    setIsSubmenuOpen((prev) =>
+                      prev === "edit" ? null : "edit"
+                    )
+                  }
+                  className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
+          ${isCollapsed ? "justify-center" : ""}
+          ${isEditingActive ? "bg-[#4e4090]" : "hover:bg-[#4e4090]"}`}
+                >
+                  <Sliders
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <>
+                      <span className="ms-3 flex-1 text-left">
+                        Editar Listas
+                      </span>
+                      {isSubmenuOpen === "edit" ? (
+                        <ChevronDown className="w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5" />
+                      )}
+                    </>
+                  )}
+                </button>
+                {!isCollapsed && isSubmenuOpen === "edit" && (
+                  <ul className="ml-10 mt-2 space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href={routes.addCategory}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.addCategory ? "font-bold" : ""
+                        }`}
+                      >
+                        Categorías
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.addSubCategory}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.addSubCategory ? "font-bold" : ""
+                        }`}
+                      >
+                        Subcategorías
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.addProduct}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.addProduct ? "font-bold" : ""
+                        }`}
+                      >
+                        Productos
+                      </Link>
+                    </li>
+                  </ul>
                 )}
-              </button>
-              {!isCollapsed && isSubmenuOpen && (
-                <ul className="ml-10 mt-2 space-y-1 text-sm">
-                  <li>
-                    <Link
-                      href={routes.addCategory}
-                      className={`block px-2 py-1 rounded hover:bg-base3 ${
-                        pathname === "/dashboard/categories" ? "font-bold" : ""
-                      }`}
-                    >
-                      Categorías
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href={routes.addSubCategory}
-                      className={`block px-2 py-1 rounded hover:bg-base3 ${
-                        pathname === "/dashboard/subcategories" ? "font-bold bg-base3" : ""
-                      }`}
-                    >
-                      Subcategorías
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href={routes.products}
-                      className={`block px-2 py-1 rounded hover:bg-base3 ${
-                        pathname === "/dashboard/products" ? "font-bold bg-base3" : ""
-                      }`}
-                    >
-                      Productos
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li>
+              </li>
+            )}
 
+            {/* SETTINGS MANAGER */}
+            {isAdminUser && (
+              <li>
+                <button
+                  onClick={() =>
+                    setIsSubmenuOpen((prev) =>
+                      prev === "settings" ? null : "settings"
+                    )
+                  }
+                  className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
+          ${isCollapsed ? "justify-center" : ""}
+          ${
+            pathname.startsWith("/manager/settings")
+              ? "bg-[#4e4090]"
+              : "hover:bg-[#4e4090]"
+          }`}
+                >
+                  <Sliders
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <>
+                      <span className="ms-3 flex-1 text-left">
+                        Configuraciones
+                      </span>
+                      {isSubmenuOpen === "settings" ? (
+                        <ChevronDown className="w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5" />
+                      )}
+                    </>
+                  )}
+                </button>
+                {!isCollapsed && isSubmenuOpen === "settings" && (
+                  <ul className="ml-10 mt-2 space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href={routes.createemployee}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Crear empleado
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.prices}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Editar precios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.pricesUpload}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Subir lista de precios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.shipping}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Envíos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.shippingUpload}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Subir tarifas envío
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
+            {/* CASHIER */}
+            {isAdminUser && (
+              <li>
+                <button
+                  onClick={() =>
+                    setIsSubmenuOpen((prev) =>
+                      prev === "cashier" ? null : "cashier"
+                    )
+                  }
+                  className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
+          ${isCollapsed ? "justify-center" : ""}
+          ${
+            pathname.startsWith("/manager/cashier")
+              ? "bg-[#4e4090]"
+              : "hover:bg-[#4e4090]"
+          }`}
+                >
+                  <Sliders
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <>
+                      <span className="ms-3 flex-1 text-left">Caja</span>
+                      {isSubmenuOpen === "cashier" ? (
+                        <ChevronDown className="w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5" />
+                      )}
+                    </>
+                  )}
+                </button>
+                {!isCollapsed && isSubmenuOpen === "cashier" && (
+                  <ul className="ml-10 mt-2 space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href={routes.newcash}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Nueva caja
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.newshift}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Nuevo turno
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.overview}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Vista general
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
+            {/* MENÚ GENERAL */}
             {menuItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center rounded-lg hover:bg-base3 transition group text-base-100 ${
+                  className={`flex items-center rounded-lg hover:bg-[#4e4090] transition group text-base-100 ${
                     isCollapsed ? "justify-center p-0.5" : "p-2"
-                  }`}
+                  } ${pathname === item.href ? "bg-[#4e4090] font-bold" : ""}`}
                 >
-                  <item.icon className={`text-base-100 group-hover:text-white${isCollapsed ? "h-5 w-5" : "h-6 w-6"}`} />
+                  <item.icon
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
                   {!isCollapsed && (
                     <span className="ms-3 whitespace-nowrap overflow-hidden">
                       {item.label}

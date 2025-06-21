@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
 import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
-import { useAuthStore } from "@/app/stores/authStore";
+import { useAuthStore } from "@/stores/authStore";
 
 export const RegisterFormClient = () => {
   const { registerClient } = useAuthStore();
@@ -42,13 +42,16 @@ export const RegisterFormClient = () => {
     try {
       await registerClient(values);
       toast.success("¡Registro exitoso!");
-      router.push(routes.loginclient);
+      router.push(routes.public.loginClient);
     } catch (error: any) {
       console.error(error);
-      const errorMessage = error?.response?.data?.message || "Error al registrarse";
-      toast.error(typeof errorMessage === "string"
-    ? errorMessage
-    : "Ocurrió un error inesperado");
+      const errorMessage =
+        error?.response?.data?.message || "Error al registrarse";
+      toast.error(
+        typeof errorMessage === "string"
+          ? errorMessage
+          : "Ocurrió un error inesperado"
+      );
     }
   };
 
@@ -98,12 +101,12 @@ export const RegisterFormClient = () => {
           />
 
           <div className="flex justify-end mt-4">
-              <ButtonSecondary
-                textContent="Registrarse"
-                type="submit"
-                disabled={isSubmitting}
-              />
-            </div>
+            <ButtonSecondary
+              textContent="Registrarse"
+              type="submit"
+              disabled={isSubmitting}
+            />
+          </div>
         </Form>
       )}
     </Formik>
