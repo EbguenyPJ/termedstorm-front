@@ -32,7 +32,15 @@ interface ApiProduct {
   }[];
 }
 
-export type { ICard, ICardProduct, ApiProduct };
+interface IBrand {
+  id: string;
+  name: string;
+  image: string;
+  brandKey?: string;
+  subcategories?: string[];
+}
+
+export type { ICard, ICardProduct, ApiProduct, IBrand };
 
 
 export interface IRole {
