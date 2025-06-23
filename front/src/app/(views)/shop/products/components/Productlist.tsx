@@ -20,8 +20,9 @@ const ProductList = () => {
                     if (product.image && product.image !== "") {
                         imageUrl = product.image;
                     }
-                    else if (product.variants && product.variants.length > 0 && product.variants[0].image && product.variants[0].image !== "") {
-                        imageUrl = product.variants[0].image;
+                    else if (product.variants && product.variants.length > 0 && product.variants[0].image && 
+                        product.variants[0].image.length > 0) {
+                        imageUrl = product.variants[0].image[0];
                     }
                     else {
                         imageUrl = '/placeholder-image.jpg'; // buscar foto/

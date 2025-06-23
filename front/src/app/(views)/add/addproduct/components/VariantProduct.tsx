@@ -2,17 +2,17 @@
 import React, { useState } from "react";
 import { FieldArray, Field, ErrorMessage } from "formik";
 import VariantProduct2 from "./VariantProduct2";
-import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import Image from "next/image";
+import MultipleImagesCloudinaryButton from "@/components/UI/Buttons/MultipleImagesCloudinaryButton";
 
 interface Props {
     name: string;
 }
 
 interface Variante {
-     id: string;
+    id: string;
     color: string;
-    image: string;
+    images: string[];
     descripcion: string;
     variants2: {
         talle: string;
@@ -67,22 +67,49 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                                 <label className="block text-md font-semibold text-[#4e4090]">
                                     Imagen de la Variante:
                                 </label>
-                                <CloudinaryButton
-                                    key={`upload-button-${variante.id}-${variante.image}`}
-                                    onUploadSuccess={(url: string) =>
-                                        form.setFieldValue(`${name}[${index}].image`, url)
-                                    }
+                                <MultipleImagesCloudinaryButton
+                                    onUploadSuccess={(urls: string[]) => {
+                                        const currentImages = form.values[name][index].images || [];
+                                        form.setFieldValue(
+                                            `${name}[${index}].images`,
+                                            [...currentImages, ...urls]
+                                        );
+                                    }}
+                                    buttonText="Subir imágenes" 
                                 />
-                                {variante.image && (
-                                    <div className="w-20 h-20 relative border rounded overflow-hidden mt-2">
-                                        <Image
-                                            src={variante.image}
-                                            alt="Preview"
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                )}
+
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {variante.images.length > 0 &&
+                                        variante.images.map((imgUrl: string, imgIndex: number) => (
+                                            <div
+                                                key={`image-${variante.id}-${imgIndex}`}
+                                                className="w-20 h-20 relative border rounded overflow-hidden"
+                                            >
+                                                <Image
+                                                    src={imgUrl}
+                                                    alt={`Preview ${imgIndex + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        const updatedImages = variante.images.filter(
+                                                            (_, i) => i !== imgIndex
+                                                        );
+                                                        form.setFieldValue(
+                                                            `${name}[${index}].images`,
+                                                            updatedImages
+                                                        );
+                                                    }}
+                                                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                                    aria-label="Eliminar imagen"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
+                                        ))}
+                                </div>
                                 <ErrorMessage
                                     name={`${name}[${index}].image`}
                                     component="div"
@@ -99,14 +126,13 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                                     Eliminar variante
                                 </button>
                             </div>
-                            {/* Botón Aceptar para la segunda variante */}
                             {!showVariant2[index] && (
                                 <div className="flex justify-end mt-4">
                                     <button
                                         type="button"
                                         onClick={() => {
                                             const currentVariant = (form.values[name] as Variante[])[index];
-                                            if (currentVariant.color && currentVariant.image && currentVariant.descripcion) {
+                                            if (currentVariant.color && currentVariant.images.length > 0 && currentVariant.descripcion) {
                                                 const newShowVariant2 = [...showVariant2];
                                                 newShowVariant2[index] = true;
                                                 setShowVariant2(newShowVariant2);
@@ -122,7 +148,6 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                                 </div>
                             )}
 
-                            {/* Sección de la segunda variante (stock y talles), solo si ha sido aceptada */}
                             {showVariant2[index] && (
                                 <FieldArray name={`${name}[${index}].variants2`}>
                                     {({ push: push2, remove: remove2, form: form2 }) => (
@@ -159,7 +184,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                     <button
                         type="button"
                         onClick={() => {
-                            push({ id: Date.now(), color: "", image: "", descripcion: "", variants2: [] });
+                            push({ id: Date.now(), color: "", images: [], descripcion: "", variants2: [] });
                             setShowVariant2([...showVariant2, false]);
                         }}
                         className="bg-[#4e4090] text-white px-4 py-2 rounded mt-2 hover:bg-[#3d3370]"
