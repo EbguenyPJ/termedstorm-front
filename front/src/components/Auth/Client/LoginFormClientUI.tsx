@@ -32,7 +32,7 @@ const LoginFormClient = () => {
     try {
       await login("client", values);
       toast.success("Has ingresado exitosamente");
-      router.push(routes.client.profileClient);
+      router.push(routes.user.profile);
     } catch (error: any) {
       const message = error.message || "Error desconocido";
       setErrors({ password: message });
