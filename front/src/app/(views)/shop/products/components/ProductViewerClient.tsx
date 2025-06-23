@@ -8,7 +8,7 @@ interface VariantSize {
     stock: number;
 }
 
-interface Variant {
+export interface Variant {
     image: string[];
     color_id: string;
     description: string;
@@ -27,15 +27,11 @@ interface Props {
 }
 
 const ProductViewerClient: React.FC<Props> = ({ product, variants, getColorLabel, getSizeLabel }) => {
-    if (!variants || variants.length === 0) {
-        return <p className="text-center text-red-500 font-semibold">No hay variantes disponibles.</p>;
-    }
+  const initialImage = variants?.[0]?.image?.[0] || "/placeholder-image.jpg";
+  const [selectedImage, setSelectedImage] = useState<string>(initialImage);
+  const [activeColor, setActiveColor] = useState<string>(variants?.[0]?.color_id || "");
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
 
-    const initialImage = variants[0]?.image?.[0] || "/placeholder-image.jpg";
-
-    const [selectedImage, setSelectedImage] = useState<string>(initialImage);
-    const [activeColor, setActiveColor] = useState<string>(variants[0]?.color_id || "");
-    const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
 
     useEffect(() => {
         if (variants.length > 0) {
@@ -43,6 +39,10 @@ const ProductViewerClient: React.FC<Props> = ({ product, variants, getColorLabel
             setActiveColor(variants[0]?.color_id || "");
         }
     }, [variants]);
+
+      if (!variants || variants.length === 0) {
+    return <p className="text-center text-red-500 font-semibold">No hay variantes disponibles.</p>;
+  }
 
     const currentVariant = variants.find(v => v.color_id === activeColor);
 

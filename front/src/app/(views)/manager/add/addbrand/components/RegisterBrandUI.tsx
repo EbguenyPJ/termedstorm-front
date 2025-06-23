@@ -9,7 +9,7 @@ import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image";
-import { baseAxios } from "@/lib/authBase";
+import api from "@/lib/axiosInstance";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -51,7 +51,7 @@ const RegisterBrand = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await baseAxios.get("/sub-categories");
+        const response = await api.get("/sub-categories");
 
         const formattedOptions = response.data.map((sub: any) => ({
           value: sub.id,
@@ -88,7 +88,7 @@ const RegisterBrand = () => {
               console.log("Marca a registrar:", values);
 
               // Llamada al backend
-              await baseAxios.post("/brands", {
+              await api.post("/brands", {
                 name: values.nombreMarca,
                 key: values.nombre,
                 image: values.image,

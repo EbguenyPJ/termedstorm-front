@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
+import ClientSubscription from "@/app/(views)/user/client-subscription/components/ClientSubscription";
 
 const ProfileClient = () => {
 const user = useAuthStore((state) => state.user);
@@ -49,6 +50,7 @@ const setInitialized = useAuthStore.getState().setInitialized;
           {isClient() ? "Cliente" : user.roles.join(", ")}
         </p>
       </div>
+      <ClientSubscription />
     </div>
   );
 };

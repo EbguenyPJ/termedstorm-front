@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/axiosInstance";
 import { ApiProduct, ICardProduct } from "@/interfaces";
 import CardProduct from "@/components/UI/Cards/CardProduct";
 
@@ -9,8 +9,8 @@ const ProductList = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios
-            .get(`${process.env.NEXT_PUBLIC_API_URL}/products`)
+        api
+            .get(`/products`)
             .then((res) => {
                 const fetchedProducts: ApiProduct[] = res.data; 
 

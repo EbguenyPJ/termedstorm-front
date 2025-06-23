@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
-import { baseAxios } from "@/lib/authBase";
+import api from "@/lib/axiosInstance";
 
 const colorSchema = yup.object().shape({
   color: yup
@@ -27,7 +27,7 @@ const RegisterColor = () => {
           try {
             console.log("Color a registrar:", values);
 
-            await baseAxios.post("/colors", values);
+            await api.post("/colors", values);
 
             toast.success("Color registrado correctamente");
             resetForm();
