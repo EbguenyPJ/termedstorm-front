@@ -35,22 +35,6 @@ const ProductDetailPage = async ({ params }: Props) => {
     console.log("TALLES >>>", sizes);  
     console.log("COLORES >>>", colors);  
 
-    function getSizeLabel(id: string): string {
-        const size = sizes.find((s: any) => s.id === id);
-        if (!size) return id;
-        return [
-            size.size_us ? `US: ${size.size_us}` : null,
-            size.size_eur ? `EUR: ${size.size_eur}` : null,
-            size.size_cm ? `CM: ${size.size_cm}` : null,
-        ]
-            .filter(Boolean)
-            .join(" - ");
-    }
-
-    function getColorLabel(id: string): string {
-        const color = colors.find((c: any) => c.id === id);
-        return color ? color.name : id;
-    }
 
     async function getProductById(id: string) {
         try {
