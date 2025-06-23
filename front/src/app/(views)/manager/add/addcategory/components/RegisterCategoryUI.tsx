@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image"
-import { baseAxios } from "@/lib/authBase";
+import api from '@/lib/axiosInstance'
 
 const categorySchema = yup.object().shape({
   nombreCategoria: yup
@@ -48,7 +48,7 @@ const RegisterCategory = () => {
             console.log("Categoría a registrar:", values);
 
             // Llamada al backend
-            await baseAxios.post("/categories", {
+            await api.post("/categories", {
               name: values.nombreCategoria,
               key: values.nombre,
               image: values.image,

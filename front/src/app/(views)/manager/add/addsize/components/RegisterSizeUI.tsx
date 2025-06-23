@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import toast from "react-hot-toast";
-import { baseAxios } from "@/lib/authBase";
+import api from '@/lib/axiosInstance'
 
 const sizeSchema = yup.object().shape({
   size_us: yup
@@ -36,7 +36,7 @@ const RegisterSize = () => {
         validationSchema={sizeSchema}
         onSubmit={async (values, { resetForm }) => {
           try {
-            await baseAxios.post("/sizes", {
+            await api.post("/sizes", {
               size_us: Number(values.size_us),
               size_eur: Number(values.size_eur),
               size_cm: Number(values.size_cm),

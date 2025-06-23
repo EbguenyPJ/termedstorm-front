@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image";
-import { baseAxios } from "@/lib/authBase";
+import api from '@/lib/axiosInstance'
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -50,7 +50,7 @@ const RegisterSubCategory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await baseAxios.get("/categories");
+        const response = await api.get("/categories");
 
         const formattedOptions = response.data.map((cat: any) => ({
           value: cat.id, 
@@ -86,7 +86,7 @@ const RegisterSubCategory = () => {
             console.log("Subcategoría a registrar:", values);
 
             //Llamada al backend
-            await baseAxios.post("/sub-categories", {
+            await api.post("/sub-categories", {
               name: values.nombreSubCategoria,
               key: values.nombre,
               image: values.image,

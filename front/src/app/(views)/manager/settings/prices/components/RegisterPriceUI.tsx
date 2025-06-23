@@ -5,7 +5,7 @@ import Papa from "papaparse";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Image from "next/image";
-// import { baseAxios } from "@/lib/authBase";
+// import api from '@/lib/axiosInstance'
 
 const mockData = [
   {
@@ -34,7 +34,7 @@ const PriceTable = () => {
   /*
   useEffect(() => {
     setLoading(true);
-    baseAxios
+    api
       .get("/products")
       .then((res) => {
         setProducts(res.data);

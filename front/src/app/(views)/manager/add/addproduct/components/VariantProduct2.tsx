@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
-import { baseAxios } from "@/lib/authBase";
+import api from '@/lib/axiosInstance'
 
 interface Props {
   name: string;
@@ -21,7 +21,7 @@ const VariantProduct2: React.FC<Props> = ({ name, index }) => {
   useEffect(() => {
     const fetchSizes = async () => {
       try {
-        const res = await baseAxios.get("/sizes");
+        const res = await api.get("/sizes");
         setSizes(res.data);
       } catch (error) {
         console.error("Error al obtener talles:", error);
