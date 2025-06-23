@@ -2,7 +2,7 @@
 
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useCartStore } from "@/app/stores/cartStore";
+import { useCartStore } from "@/stores/cartStore";
 import axios from "axios";
 
 // import { useRouter } from "next/navigation";
@@ -19,8 +19,7 @@ export const CartDropdown = () => {
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
-
-  // BOTON PARA REALIZAR LA COMPRA DEL PRODUCTO CON STRIPE 
+  // BOTON PARA REALIZAR LA COMPRA DEL PRODUCTO CON STRIPE
   const handleCheckout = async () => {
     try {
       const { data } = await axios.post("/api/checkout", { items });
@@ -32,8 +31,6 @@ export const CartDropdown = () => {
       console.error("Error al redirigir a Stripe:", err);
     }
   };
-
-  
 
   return (
     <div className="relative flex items-center">

@@ -1,11 +1,11 @@
 import BreadcrumbClient from "../../../../components/UI/Breadcrumb";
-import ProfileClient from "./components/ProfileClientUI";
+import Profile from "./components/ProfileUI";
 
 export default function ProfilePage() {
   return (
     <div className="">
       <BreadcrumbClient />
-      <ProfileClient />{" "}
+      <Profile />{" "}
     </div>
   );
 }

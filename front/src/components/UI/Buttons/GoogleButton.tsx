@@ -10,9 +10,11 @@ interface Props {
 
 export default function GoogleLoginButton({ role, label }: Props) {
   const router = useRouter();
-  
+
   const handleGoogleLogin = () => {
-    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/${role}/google`); 
+    router.push(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/${role}/google?type=${role}`
+    );
   };
 
   return (

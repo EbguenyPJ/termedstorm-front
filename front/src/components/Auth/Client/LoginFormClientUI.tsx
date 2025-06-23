@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "../../../app/stores/authStore";
+import { useAuthStore } from "../../../stores/authStore";
 import { ILogin } from "@/interfaces";
 import { Formik, Form, FormikHelpers } from "formik";
 import InputFormik from "../../UI/Inputs/InputFormik";
@@ -32,7 +32,7 @@ const LoginFormClient = () => {
     try {
       await login("client", values);
       toast.success("Has ingresado exitosamente");
-      router.push(routes.categories);
+      router.push(routes.client.profileClient);
     } catch (error: any) {
       const message = error.message || "Error desconocido";
       setErrors({ password: message });

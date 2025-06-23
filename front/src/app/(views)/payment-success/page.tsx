@@ -29,7 +29,7 @@ export default function PaymentSuccessPage() {
                 <h1 className="text-3xl font-bold text-gray-800">¡Pago exitoso!</h1>
                 <p className="text-gray-600">Tu suscripción ha sido activada correctamente. 🎉</p>
                 <button
-                onClick={() => router.push(routes.profile)}
+                onClick={() => router.push(routes.client.profileClient)}
                 className="mt-4 bg-primary text-white px-6 py-2 rounded-2xl hover:bg-primary/90 transition-all"
                 >
                     Ir al Dashboard

@@ -45,7 +45,7 @@ export type { ICard, ICardProduct, ApiProduct, IBrand };
 
 export interface IRole {
   id: string;
-  name: string;
+  name: "SUPERADMIN" | "ADMIN" | "SELLER";
 }
 
 export interface IUser {
@@ -54,16 +54,17 @@ export interface IUser {
   type: "employee" | "client";
   first_name?: string;
   last_name?: string;
-  membershipId?: string;
   image?: string;
+
   employee?: {
-    roles: { name: string }[]; // Ej: [{ name: "SUPERADMIN" }]
+    roles: string[]; // Ej: [{ name: "SUPERADMIN" }]
   };
   client?: {
     is_premium: boolean;
     membership_id: string | null;
   };
 }
+
 
 export interface IAuthMeUser {
   userId: string;
@@ -80,8 +81,8 @@ export interface ILogin {
 export interface IRegister {
   email: string;
   password: string;
-  first_name?: string;
-  last_name?: string;
+  first_name: string;
+  last_name: string;
   role?: string[];
 }
 

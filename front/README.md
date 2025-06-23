@@ -1,25 +1,25 @@
-<!-- EL LOGIN DE EMPLOYEES: ENTRA SUPERADMIN, GERENTE, EMPLEADOS -->
+
+1. client: Unicamente puede ingresar al registro de cliente, login (normal y con google), su dashboard donde habra una opcion para que adquiera una membersia del POS y no podra navegar en todo el resto de la aplicacion
+
+2. employees
+a. sellers: NO se podran registrar por su cuenta, sino que el admin les debe crear la cuenta tipo empleado vendedor.
+Pueden navegar en la aplicacion para vender, ver sus ordenes/ventas.
+No podran configurar ni editar nada, por ende el modulo de add, cashier y settingsmanager no lo podran visualizar.
+si podran visualizar el modulo de shop y dentro de user podran ver profile (generico con sus datos), sales/reports/dashboard(sus ordenes) y support (generico para todos)
+
+b. Admin/manager: podra vender y ademas configurar todo en la aplicacion.
+- Seria como una cuenta empresarial donde nosotros fuera de esta aplicacion los crearemos, por ende tampoco se podran registrar por su cuenta.
+- Podran navegar en todos los modulos.
+- Logicamente como cualquier otro usuario si esta logueado no puede ir a ningun login ni register.
+
+la ruta "/reguster" NO existe. Me olvide de preguntarte si en base a como viste como estan ordenadas mis carpetas de front seria optimo hacer un reordenamiento. Y si ademas queres que te pase el guardian de rutas del back, entiendo que podria facilitar.
+const publicRoutes = ["/loginclient", "/registerclient", "/login", "/register"];
+const clientRoutes = ["/views/user/client-subscription"];
+const sellerRoutes = ["/views/shop", "/views/user/profile", "/views/user/sales", "/views/user/support"];
+const adminRoutes = ["/views/add", "/views/settingsmanager", "/views/cashier", "views/shop"];
 
 
-// type: EMPRESA: "employee: superadmin, admin, vendedor" | "client";
-
-// NOSOTROS => INGRESO INDEPENDIENTE PARA CREACION 
-
-// Estamos creando una aplicacion para una UNICA empresa. 
-// La empresa NO se creara dentro de la aplicacion. Se creara desde afuera
-
-
-
-// EB => ENDPOINT GET ROLES: ID, NOMBRE DE ROL.
-// YO => INPUT SELECT-MULTIPLY
-// ENVIAR A BACK => roleIds = uuids[] (yup.min(1))
-
-// Se debe buscar otra manera de implementar Google Maps
-
-
-
-
-NACHO TODO:
+NACHO checklist:
 - API ROL ✔
 - FORMULARIO CREAR EMPLEADO ✔
 - MIDDLEWARE 

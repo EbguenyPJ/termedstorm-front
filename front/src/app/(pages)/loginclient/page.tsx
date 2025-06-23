@@ -29,7 +29,7 @@ const LoginPageClient = () => {
           <p className="text-center mt-2">
             ¿Sos empleado?{" "}
             <Link
-              href={routes.login}
+              href={routes.public.login}
               className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
             >
               Clickea aquí
@@ -38,7 +38,7 @@ const LoginPageClient = () => {
           <p className="text-center mt-2">
             ¿Aún no tenes cuenta?{" "}
             <Link
-              href={routes.registerclient}
+              href={routes.public.registerClient}
               className="text-primary font-semibold inline-flex space-x-1 items-center hover:text-[#0d0d0d]"
             >
               Clickea aquí

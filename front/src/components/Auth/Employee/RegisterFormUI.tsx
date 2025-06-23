@@ -4,13 +4,10 @@ import { IRegister } from "@/interfaces";
 import { Formik, Form } from "formik";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
-import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../../app/stores/authStore";
+import { useAuthStore } from "../../../stores/authStore";
 
 export const RegisterForm = () => {
-  const router = useRouter();
   const { registerEmployee } = useAuthStore();
 
   const validationSchema = yup.object({
@@ -40,7 +37,6 @@ export const RegisterForm = () => {
     try {
       await registerEmployee(values);
       toast.success("Se ha creado un nuevo empleado");
-      router.push(routes.login);
     } catch (error) {
       console.error(error);
       const errorMessage =
