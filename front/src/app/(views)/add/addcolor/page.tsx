@@ -5,7 +5,7 @@ const addColorPage = () => {
   return (
     <div className="p-4">
       <BreadcrumbClient />
-      <RegisterColor />;
+      <RegisterColor />
     </div>
   )
 };

@@ -22,7 +22,7 @@ interface ApiProduct {
   sale_price: number; 
   image?: string | null;
   variants?: { 
-    image: string; 
+    image: string[];
     color: string;
     descripcion: string;
     variants2: {
@@ -30,7 +30,7 @@ interface ApiProduct {
       stock: number | string;
     }[];
   }[];
-}
+} 
 
 interface IBrand {
   id: string;
