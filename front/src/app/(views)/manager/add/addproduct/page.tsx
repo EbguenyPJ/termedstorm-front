@@ -1,4 +1,4 @@
-import RegisterProductUI from "@/app/(views)/add/addproduct/components/RegisterProductUI";
+import RegisterProductUI from "@/app/(views)/manager/add/addproduct/components/RegisterProductUI";
 import BreadcrumbClient from "@/components/UI/Breadcrumb";
 
 const addProductPage = () => {

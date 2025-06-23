@@ -1,5 +1,5 @@
 import React from "react";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import Image from "next/image";
 import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
 

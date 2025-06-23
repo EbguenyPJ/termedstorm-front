@@ -5,11 +5,12 @@ export const routes = {
     loginClient: "/loginclient",
     registerClient: "/registerclient",
   },
-
-    client: {
-    subscription: "/user/client-subscription",
-  },
   
+  client: {
+    subscription: "/user/client-subscription",
+    profileClient: "/profileclient",
+  },
+
   // Users
   user: {
     profile: "/user/profile",

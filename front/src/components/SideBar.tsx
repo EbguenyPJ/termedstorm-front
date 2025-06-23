@@ -10,6 +10,8 @@ import {
   List,
   ChartColumnIncreasing,
   Sliders,
+  Wallet,
+  Settings,
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
@@ -38,6 +40,10 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
     >(null);
 
     const user = useAuthStore((s) => s.user);
+    console.log("USER EN SIDEBAR:", user);
+
+    const isInitialized = useAuthStore((s) => s.isInitialized);
+    if (!isInitialized) return null;
 
     // Ocultamos Sidebar si es cliente o no hay sesión aún
     if (!user || isClient(user)) return null;
@@ -46,17 +52,17 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
     const isSellerUser = isSeller(user);
 
     const isEditingActive =
-      pathname === routes.addCategory ||
-      pathname === routes.addSubCategory ||
-      pathname === routes.addProduct;
+      pathname === routes.manager.add.category ||
+      pathname === routes.manager.add.subcategory ||
+      pathname === routes.manager.add.product;
 
     const menuItems = [];
 
     if (isSellerUser || isAdminUser) {
       menuItems.push(
-        { href: routes.categories, icon: List, label: "Categorías" },
-        { href: routes.products, icon: Box, label: "Productos" },
-        { href: routes.sales, icon: ChartColumnIncreasing, label: "Reportes" }
+        { href: routes.shop.categories, icon: List, label: "Categorías" },
+        { href: routes.shop.products, icon: Box, label: "Productos" },
+        { href: routes.user.sales, icon: ChartColumnIncreasing, label: "Reportes" }
       );
     }
 
@@ -159,9 +165,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
                     <li>
                       <Link
-                        href={routes.addCategory}
+                        href={routes.manager.add.category}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.addCategory ? "font-bold" : ""
+                          pathname === routes.manager.add.category ? "font-bold" : ""
                         }`}
                       >
                         Categorías
@@ -169,9 +175,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.addSubCategory}
+                        href={routes.manager.add.subcategory}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.addSubCategory ? "font-bold" : ""
+                          pathname === routes.manager.add.subcategory ? "font-bold" : ""
                         }`}
                       >
                         Subcategorías
@@ -179,9 +185,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.addProduct}
+                        href={routes.manager.add.product}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.addProduct ? "font-bold" : ""
+                          pathname === routes.manager.add.product ? "font-bold" : ""
                         }`}
                       >
                         Productos
@@ -209,7 +215,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               : "hover:bg-[#4e4090]"
           }`}
                 >
-                  <Sliders
+                  <Settings
                     className={`text-base-100 group-hover:text-white ${
                       isCollapsed ? "h-5 w-5" : "h-6 w-6"
                     }`}
@@ -231,7 +237,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
                     <li>
                       <Link
-                        href={routes.createemployee}
+                        href={routes.manager.settings.createEmployee}
                         className="block px-2 py-1 text-base-200"
                       >
                         Crear empleado
@@ -239,7 +245,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.prices}
+                        href={routes.manager.settings.prices}
                         className="block px-2 py-1 text-base-200"
                       >
                         Editar precios
@@ -247,7 +253,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.pricesUpload}
+                        href={routes.manager.settings.pricesUpload}
                         className="block px-2 py-1 text-base-200"
                       >
                         Subir lista de precios
@@ -255,7 +261,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.shipping}
+                        href={routes.manager.settings.shipping}
                         className="block px-2 py-1 text-base-200"
                       >
                         Envíos
@@ -263,7 +269,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.shippingUpload}
+                        href={routes.manager.settings.shippingUpload}
                         className="block px-2 py-1 text-base-200"
                       >
                         Subir tarifas envío
@@ -291,7 +297,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               : "hover:bg-[#4e4090]"
           }`}
                 >
-                  <Sliders
+                  <Wallet
                     className={`text-base-100 group-hover:text-white ${
                       isCollapsed ? "h-5 w-5" : "h-6 w-6"
                     }`}
@@ -311,7 +317,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
                     <li>
                       <Link
-                        href={routes.newcash}
+                        href={routes.manager.cashier.newCash}
                         className="block px-2 py-1 text-base-200"
                       >
                         Nueva caja
@@ -319,7 +325,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.newshift}
+                        href={routes.manager.cashier.newShift}
                         className="block px-2 py-1 text-base-200"
                       >
                         Nuevo turno
@@ -327,7 +333,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.overview}
+                        href={routes.manager.cashier.overview}
                         className="block px-2 py-1 text-base-200"
                       >
                         Vista general

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Image from "next/image";
 
 interface ProductCSV {
   id_costo_producto: string;
@@ -79,7 +80,7 @@ const PriceUploadTable = () => {
                 <tr key={i} className="text-center border-b text-sm">
                   <td className="py-2 px-4">{p.id_costo_producto}</td>
                   <td className="py-2 px-4">
-                    <img src={p.image} alt={p.s_nombre_producto} className="w-12 h-12 object-cover rounded" />
+                    <Image src={p.image} alt={p.s_nombre_producto} className="w-12 h-12 object-cover rounded" />
                   </td>
                   <td className="py-2 px-4">{p.s_nombre_producto}</td>
                   <td className="py-2 px-4">${Number(p.n_costo_producto).toFixed(2)}</td>

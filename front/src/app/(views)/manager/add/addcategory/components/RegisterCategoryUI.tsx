@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../../components/UI/Buttons/Buttons";
+import { ButtonAccent } from "../../../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";

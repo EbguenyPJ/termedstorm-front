@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import { ButtonAccent } from "../../../../../components/UI/Buttons/Buttons";
+import { ButtonAccent } from "../../../../../../components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import VariantProduct from "./VariantProduct";

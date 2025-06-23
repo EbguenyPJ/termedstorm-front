@@ -4,23 +4,23 @@ import { IRegister } from "@/interfaces";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
-import { ButtonSecondary } from "../../../../../components/UI/Buttons/Buttons";
+import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../../../../stores/authStore";
-import dynamic from "next/dynamic";
-import React, { useState, useEffect } from "react";
-import { getRolesApi } from "@/lib/authBase";
+import { useAuthStore } from "@/stores/authStore";
+// import dynamic from "next/dynamic";
+// import React, { useState, useEffect } from "react";
+// import { getRolesApi } from "@/lib/authBase";
 
-const Select = dynamic(() => import("react-select"), { ssr: false });
+// const Select = dynamic(() => import("react-select"), { ssr: false });
 
-type OptionType = {
-  value: string;
-  label: string;
-};
+// type OptionType = {
+//   value: string;
+//   label: string;
+// };
 
 export const CreateEmployeeUI = () => {
-  const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
-  const [selectedRole, setSelectedRole] = useState<OptionType[]>([]);
+  // const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
+  // const [selectedRole, setSelectedRole] = useState<OptionType[]>([]);
   const { registerEmployee } = useAuthStore();
 
   const validationSchema = yup.object({
@@ -63,23 +63,23 @@ export const CreateEmployeeUI = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const roles = await getRolesApi(); // ej: [{ name: "SUPERADMIN" }]
-        const formattedRoles = roles.map((role: any) => ({
-          value: role.name,
-          label: role.name,
-        }));
-        setRoleOptions(formattedRoles);
-      } catch (err) {
-        console.error("Error al obtener roles", err);
-        toast.error("No se pudieron cargar los roles");
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRoles = async () => {
+  //     try {
+  //      // const roles = await getRolesApi(); // ej: [{ name: "SUPERADMIN" }]
+  //       const formattedRoles = roles.map((role: any) => ({
+  //         value: role.name,
+  //         label: role.name,
+  //       }));
+  //       setRoleOptions(formattedRoles);
+  //     } catch (err) {
+  //       console.error("Error al obtener roles", err);
+  //       toast.error("No se pudieron cargar los roles");
+  //     }
+  //   };
 
-    fetchRoles();
-  }, []);
+  //   fetchRoles();
+  // }, []);
 
   return (
     <Formik
@@ -93,12 +93,12 @@ export const CreateEmployeeUI = () => {
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
     >
-      {({ setFieldValue, isSubmitting }) => (
+      {({ isSubmitting }) => ( //setFieldValue,
         <Form>
           <div className="mb-4">
             <label className="block text-md font-semibold text-[#4e4090]">
               Categoría
-              <Select
+              {/* <Select
                 isMulti
                 name="role"
                 options={roleOptions}
@@ -112,7 +112,7 @@ export const CreateEmployeeUI = () => {
                     : [];
                   setFieldValue("role", values);
                 }}
-              />
+              /> */}
               <ErrorMessage
                 name="role"
                 component="div"

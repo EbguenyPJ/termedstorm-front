@@ -4,20 +4,21 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Image from "next/image";
 // import { baseAxios } from "@/lib/authBase";
 
 const mockData = [
   {
     id: 1,
     name: "Zapatilla Nike Air",
-    image: "/images/zapatilla.jpg",
+    image: "",
     price: 15999,
     stock: 12,
   },
   {
     id: 2,
     name: "Remera Adidas",
-    image: "/images/remera.jpg",
+    image: "",
     price: 8999,
     stock: 5,
   },
@@ -122,7 +123,7 @@ const PriceTable = () => {
                 <tr key={prod.id} className="text-center text-sm border-b">
                   <td className="py-2 px-4">{prod.id}</td>
                   <td className="py-2 px-4">
-                    <img
+                    <Image
                       src={prod.image}
                       alt={prod.name}
                       className="w-12 h-12 object-cover rounded"

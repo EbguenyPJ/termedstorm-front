@@ -1,25 +1,34 @@
-"use client";
-
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useAuthStore } from "../stores/authStore";
 import { usePathname } from "next/navigation";
 
 const PUBLIC_PATHS = ["/login", "/registerclient", "/loginclient"];
 
 export const useAuthInit = () => {
-  const fetchUser = useAuthStore((s) => s.fetchUser);
+  const hasRun = useRef(false);
+
   const user = useAuthStore((s) => s.user);
   const loading = useAuthStore((s) => s.loading);
+  const fetchUser = useAuthStore((s) => s.fetchUser);
+  const setInitialized = useAuthStore((s) => s.setInitialized);
+  const isInitialized = useAuthStore((s) => s.isInitialized);
+
   const pathname = usePathname();
 
   useEffect(() => {
-    const isPublic = PUBLIC_PATHS.some((r) => pathname.startsWith(r));
-    const hasToken = document.cookie.includes("access_token=");
+    if (hasRun.current || isInitialized || loading) return;
+    hasRun.current = true;
 
-    if (!user && !loading && hasToken && !isPublic) {
-      fetchUser();
+    const isPublic = PUBLIC_PATHS.some((r) => pathname.startsWith(r));
+
+    if (!isPublic && !user) {
+      fetchUser().finally(() => {
+        setInitialized(true);
+      });
+    } else {
+      setInitialized(true);
     }
-  }, [fetchUser, pathname, user, loading]);
+  }, [pathname, user, loading, isInitialized, fetchUser, setInitialized]);
 
   return null;
 };

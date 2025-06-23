@@ -7,20 +7,18 @@ import { routes } from "@/app/routes";
 import { ChevronDown, LogOut, User, LifeBuoy } from "lucide-react";
 
 export const UserWidget = () => {
+  const user = useAuthStore((state) => state.user);
   const { logout } = useAuthStore();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
-  const user = {
-    name: "Ignacio",
-    role: "Vendedor",
-  };
 
   const handleLogout = async () => {
     await logout();
     router.push(routes.public.login);
   };
 
+  if (!user) return null;
+ 
   return (
     <div className="relative">
       <button
@@ -29,7 +27,7 @@ export const UserWidget = () => {
       >
         <div className="flex flex-col items-start gap-1 leading-tight">
           <span className="font-semibold">{user.name}</span>
-          <span className="text-gray-300">{user.role}</span>
+          <span className="text-gray-300">{user.roles}</span>
         </div>
         <div className="p-1 rounded-lg hover:bg-[#6e5cc4]">
           <ChevronDown size={20} className="cursor-pointer" />
