@@ -27,15 +27,14 @@ export function SubscriptionPlans({ plans, title, error, loading }: Props) {
 
     const handleSubscribe = async (price_id: string) => {
         if (!user) return alert("Debes iniciar sesión.");
-        if (!user.first_name || !user.last_name) {
+        if (!user.name) {
             return alert("Completá tu nombre y apellido antes de continuar.");
         }
 
         try {
             const url = await createCheckoutSession({
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                name: user.name,
                 price_id,
             });
             window.location.href = url;

@@ -8,7 +8,7 @@ export const routes = {
   profile: "/user/profile",
   sales: "/user/sales",
   support: "/user/support",
-  clientsubsription: "/user/client-subscription",
+  clientsubsription: "/client-subscription",
   companysubscription: "/user/company-subscription",
 
   // Add

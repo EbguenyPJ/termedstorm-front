@@ -26,13 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <body
+      <div
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
           <ClientWrapper/>
           <LayoutManager>{children}</LayoutManager>
           <Toaster />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" />
-      </body>
+      </div>
   );
 }

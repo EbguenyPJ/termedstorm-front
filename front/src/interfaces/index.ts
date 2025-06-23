@@ -65,6 +65,13 @@ export interface IUser {
   };
 }
 
+export interface IAuthMeUser {
+  userId: string;
+  email: string;
+  name: string;
+  roles: string[]; 
+}
+
 export interface ILogin {
   email: string;
   password: string;
