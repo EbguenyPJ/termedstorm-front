@@ -1,28 +1,26 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import { baseAxios } from '@/lib/authBase';
-
-export interface MembershipType {
-    id: string;
-    name: string;
-    stripe_price_id: string;
-}
+import api from '@/lib/axiosInstance';
+import IMembershipType from '@/interfaces/membershipType';
 
 export function useMembershipTypes() {
-    const [types, setTypes] = useState<MembershipType[]>([]);
+    const [types, setTypes] = useState<IMembershipType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        baseAxios
-        .get('/membership-types', { withCredentials: true })
-        .then((res) => setTypes(res.data))
-        .catch((err) => {
-            console.error(err);
-            setError('No se pudieron cargar los tipos de membresía');
-        })
-        .finally(() => setLoading(false));
+        const fetchMembershipTypes = async () => {
+            try {
+                const response = await api.get('/membership-types');
+                setTypes(response.data);
+            } catch (err) {
+                console.error('Error al obtener tipos de membresía:', err);
+                setError('No se pudieron cargar los tipos de membresía.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMembershipTypes();
     }, []);
 
     return { types, loading, error };
