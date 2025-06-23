@@ -63,24 +63,6 @@ export const CreateEmployeeUI = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchRoles = async () => {
-  //     try {
-  //      // const roles = await getRolesApi(); // ej: [{ name: "SUPERADMIN" }]
-  //       const formattedRoles = roles.map((role: any) => ({
-  //         value: role.name,
-  //         label: role.name,
-  //       }));
-  //       setRoleOptions(formattedRoles);
-  //     } catch (err) {
-  //       console.error("Error al obtener roles", err);
-  //       toast.error("No se pudieron cargar los roles");
-  //     }
-  //   };
-
-  //   fetchRoles();
-  // }, []);
-
   return (
     <Formik
       initialValues={{
@@ -97,7 +79,7 @@ export const CreateEmployeeUI = () => {
         <Form>
           <div className="mb-4">
             <label className="block text-md font-semibold text-[#4e4090]">
-              Categoría
+              Rol
               {/* <Select
                 isMulti
                 name="role"
