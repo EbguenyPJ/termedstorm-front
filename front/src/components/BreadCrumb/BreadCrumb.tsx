@@ -15,7 +15,7 @@ export const Breadcrumb = () => {
   const breadcrumbs = segments.map((seg, index) => {
     const href = "/" + segments.slice(0, index + 1).join("/");
     const isLast = index === segments.length - 1;
-    const isNonLink = ["add", "settings-manager", "shop", "user"].includes(seg);
+    const isNonLink = ["add", "settings-manager", "shop", "user", "manager"].includes(seg);
 
     return (
       <li key={`${index}-${href}`} className="flex items-center gap-1">
