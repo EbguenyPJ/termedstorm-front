@@ -14,7 +14,7 @@ const eslintConfig = [
   {
     rules: {
       // convierte el uso de "any" en warning en lugar de error
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
       // (opcional) puedes desactivar la versión base de ESLint si choca:
       "no-explicit-any": "off",
     },

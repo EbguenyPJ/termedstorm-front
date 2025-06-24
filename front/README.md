@@ -29,3 +29,9 @@ NACHO checklist:
 ===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
 ===> PROFILE: ADMIN, VENDEDOR, CLIENT
 ===> REPORT: ADMIN, VENDEDOR
+
+
+
+* En realidad deberia hablar con back para que me pase este endpoint:
+esta en shop\categories\[...slug]\components\DetailProduct.tsx
+async function getProductBySlug(slug: string) // getProductById(id: string)

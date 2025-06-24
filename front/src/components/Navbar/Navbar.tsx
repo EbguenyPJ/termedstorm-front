@@ -15,7 +15,7 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
   return (
     <>
       <div className="fixed top-2 right-2 z-50 md:hidden">
-        <button onClick={toggleMenu} className="bg-primary p-2 rounded-lg">
+        <button onClick={toggleMenu} className="bg-primary p-2 rounded-lg cursor-pointer hover:bg-secondary transition-colors">
           {isOpen ? (
             <X className="w-8 text-base-100" />
           ) : (

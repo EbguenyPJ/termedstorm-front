@@ -5,11 +5,12 @@ export const routes = {
     loginClient: "/loginclient",
     registerClient: "/registerclient",
   },
-
-    client: {
-    subscription: "/user/client-subscription",
-  },
   
+  client: {
+    subscription: "/user/client-subscription",
+    profileClient: "/profileclient",
+  },
+
   // Users
   user: {
     profile: "/user/profile",
@@ -46,7 +47,7 @@ export const routes = {
     },
 
   // Cashier
-   cashier: {
+  cashier: {
       newCash: "/manager/cashier/newcash",
       newShift: "/manager/cashier/newshift",
       overview: "/manager/cashier/overview",

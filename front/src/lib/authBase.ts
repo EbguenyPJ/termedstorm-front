@@ -1,15 +1,10 @@
-import axios from "axios";
 import { ILogin, IRegister, IAuthMeUser } from "@/interfaces";
-
-export const baseAxios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://nivo-app.onrender.com",
-  withCredentials: true, // Importante: envía cookies HTTPOnly
-});
+import api from "@/lib/axiosInstance";
 
 // AUTH/ME
 export const getUserApi = async (): Promise<IAuthMeUser | null> => {
   try {
-    const user = await baseAxios.get("/auth/me");
+    const user = await api.get("/auth/me");
     console.log(user.data);
     return user.data;
   } catch (error) {
@@ -18,10 +13,11 @@ export const getUserApi = async (): Promise<IAuthMeUser | null> => {
   }
 };
 
-// CERRAR SESION
+// CERRAR SESIÓN
 export const logoutApi = async () => {
+  console.log(api.defaults.baseURL);
   try {
-    await baseAxios.post("/auth/logout");
+    await api.post("/auth/logout");
   } catch (error) {
     console.error("Error al cerrar sesión", error);
   }
@@ -40,29 +36,26 @@ export const logoutApi = async () => {
 
 // CLIENT
 export const loginClientApi = async (values: ILogin) => {
-  const res = await baseAxios.post("/auth/client/login", values);
-  return res.data; // user, token, lo que tu backend retorne
+  console.log(api.defaults.baseURL);
+  const res = await api.post("/auth/client/login", values);
+  return res.data; // user, token, etc.
 };
 
 export const registerClientApi = async (values: IRegister) => {
-  const res = await baseAxios.post("/auth/client/register", values);
+  console.log(api.defaults.baseURL);
+  const res = await api.post("/auth/client/register", values);
   return res.data;
 };
-
-// GET /auth/client/google
-// GET /auth/client/google/callback
 
 // EMPLOYEE
 export const loginApi = async (values: ILogin) => {
-  const res = await baseAxios.post("/auth/employee/login", values);
-  return res.data; // user, token, lo que tu backend retorne
-};
-
-export const registerApi = async (values: IRegister) => {
-  const res = await baseAxios.post("/auth/employee/register", values);
+  console.log(api.defaults.baseURL);
+  const res = await api.post("/auth/employee/login", values);
   return res.data;
 };
 
-// GET /auth/employee/google
-// GET /auth/employee/google/callback
-// PUT /employees/:id/roles
+export const registerApi = async (values: IRegister) => {
+  console.log(api.defaults.baseURL);
+  const res = await api.post("/auth/employee/register", values);
+  return res.data;
+};

@@ -1,4 +1,5 @@
 export const displayNames: Record<string, string> = {
+  manager: "Administrador",
   add: "Agregar",
   shop: "Tienda",
   user: "Usuario",

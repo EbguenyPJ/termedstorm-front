@@ -14,6 +14,8 @@ type UserType = "client" | "employee";
 interface AuthState {
   user: IAuthMeUser | null;
   loading: boolean;
+  isInitialized: boolean;
+  setInitialized: (value: boolean) => void;
   // setters
   setUser: (user: IAuthMeUser | null) => void;
   fetchUser: () => Promise<void>;
@@ -31,7 +33,9 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   loading: false,
+  isInitialized: false,
 
+  setInitialized: (value) => set({ isInitialized: value }),
   setUser: (user) => set({ user }),
 
   fetchUser: async () => {

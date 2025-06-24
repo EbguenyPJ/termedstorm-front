@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function PricingPage() {
   const { types, loading, error } = useMembershipTypes();
   const [isAnnual, setIsAnnual] = useState(false);
-  const user = useAuthStore((state) => state.user); // Creo que hay que ajustar según Zustand (Nacho) o algo, ya no pienso.
+  const user = useAuthStore((state) => state.user);
 
   const handleSubscribe = async (price_id: string) => {
     if (!user) return alert("Debes iniciar sesión primero.");
@@ -17,8 +17,7 @@ export default function PricingPage() {
     try {
       const url = await createCheckoutSession({
         email: user.email,
-        first_name: user.first_name!,
-        last_name: user.last_name!,
+        name: user.name,
         price_id,
       });
 
@@ -84,4 +83,4 @@ export default function PricingPage() {
       </div>
     </section>
   );
-}
+};

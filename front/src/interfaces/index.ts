@@ -8,16 +8,41 @@ export interface IProduct {
 interface ICard {
   name: string;
   image: string;
+  slug: string; //CORROBORAR QUE BACK LO TRAIGA
 }
 
 interface ICardProduct extends ICard {
   sale_price: number;
   stock?: number;
-  id?: number;
+  id?: string;
 }
 
-export type { ICard, ICardProduct };
+interface ApiProduct {
+  slug: string; //CORROBORAR QUE BACK LO TRAIGA
+  id: string;
+  name: string;
+  sale_price: number;
+  image?: string | null;
+  variants?: {
+    image: string[];
+    color: string;
+    descripcion: string;
+    variants2: {
+      talle: string;
+      stock: number | string;
+    }[];
+  }[];
+}
 
+interface IBrand {
+  id: string;
+  name: string;
+  image: string;
+  brandKey?: string;
+  subcategories?: string[];
+}
+
+export type { ICard, ICardProduct, ApiProduct, IBrand };
 
 export interface IRole {
   id: string;
@@ -41,12 +66,11 @@ export interface IUser {
   };
 }
 
-
 export interface IAuthMeUser {
   userId: string;
   email: string;
   name: string;
-  roles: string[]; 
+  roles: string[];
 }
 
 export interface ILogin {
@@ -61,8 +85,6 @@ export interface IRegister {
   last_name: string;
   role?: string[];
 }
-
-
 
 type RecordSearchParams = { [key: string]: string | string[] | undefined };
 export type Params = Promise<{ slug: string }>;
