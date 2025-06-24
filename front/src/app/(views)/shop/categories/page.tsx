@@ -1,5 +1,5 @@
 import React from "react";
-import CategoryList from "./components/CategoryList";
+import CategoryList from "./[...slug]/components/DetailProduct";
 import BreadcrumbClient from "@/components/UI/Breadcrumb";
 
 export default function CategoriesPage() {

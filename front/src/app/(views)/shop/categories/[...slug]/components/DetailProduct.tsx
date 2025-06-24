@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ICard } from "@/interfaces";
-import CardCategory from "../../../../../components/UI/Cards/CardCategory";
+import CardCategory from "../../../../../../components/UI/Cards/CardCategory";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState<ICard[]>([]);

@@ -1,34 +1,6 @@
 import React from "react";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
-
-// async function getProductById(id: number) {
-//   const mockProducts = [
-//     {
-//       id: 1,
-//       name: "Zapatilla Pro",
-//       image: "/zapatilla.jpg",
-//       description: "Zapatillas deportivas de alta gama para running",
-//       sale_price: 12000,
-//       colors: ["Rojo", "Negro"],
-//       sizes: ["38", "40", "42"],
-//       stock: 10,
-//     },
-//     {
-//       id: 2,
-//       name: "Campera Eco",
-//       image: "/campera.jpg",
-//       description: "Campera térmica impermeable ideal para el invierno",
-//       sale_price: 18000,
-//       colors: ["Azul", "Gris"],
-//       sizes: ["S", "M", "L"],
-//       stock: 5,
-//     },
-//   ];
-
-//   return mockProducts.find((p) => p.id === id) || null;
-// }
 
 interface Props {
     params: { slug: string[] };
