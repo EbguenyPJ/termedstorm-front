@@ -5,19 +5,20 @@ export interface IProduct {
   price: number;
 }
 
-interface ICard {
+export interface ICard {
+  id?: string;
   name: string;
   image: string;
   slug: string; //CORROBORAR QUE BACK LO TRAIGA
 }
 
-interface ICardProduct extends ICard {
+export interface ICardProduct extends ICard {
   sale_price: number;
   stock?: number;
   id?: string;
 }
 
-interface ApiProduct {
+export interface ApiProduct {
   slug: string; //CORROBORAR QUE BACK LO TRAIGA
   id: string;
   name: string;
@@ -42,7 +43,7 @@ interface IBrand {
   subcategories?: string[];
 }
 
-export type { ICard, ICardProduct, ApiProduct, IBrand };
+export type { IBrand };
 
 export interface IRole {
   id: string;

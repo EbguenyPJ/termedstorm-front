@@ -48,7 +48,7 @@ async function getProductBySlug(slug: string) {
 }
 
 const ProductDetailPage = async ({ params }: Props) => {
-   const { slug } = params;
+  const { slug } = params;
 
   const [sizes, colors, product] = await Promise.all([
     getSizes(),

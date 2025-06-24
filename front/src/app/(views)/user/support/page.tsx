@@ -19,7 +19,7 @@ const SupportPage = () => {
         <button
           onClick={() => setActiveTab("employees")}
           className={`px-4 py-2 rounded-md font-semibold border ${
-            activeTab === "employees" ? "bg-blue-600 text-white" : "bg-white text-blue-600 border-blue-600"
+            activeTab === "employees" ? "bg-primary text-white" : "bg-white text-primary border-primary"
           }`}
         >
           Empleados
@@ -27,7 +27,7 @@ const SupportPage = () => {
         <button
           onClick={() => setActiveTab("clients")}
           className={`px-4 py-2 rounded-md font-semibold border ${
-            activeTab === "clients" ? "bg-blue-600 text-white" : "bg-white text-blue-600 border-blue-600"
+            activeTab === "clients" ? "bg-primary text-white" : "bg-white text-primary border-primary"
           }`}
         >
           Clientes
@@ -109,7 +109,7 @@ const SupportPage = () => {
               </button>
               {openFaq === "cli2" && (
                 <div className="px-4 pb-3 text-gray-700">
-                  Enviá tu número de orden y el motivo del reclamo a <a href="mailto:clientes@miempresa.com" className="text-blue-600 underline">clientes@miempresa.com</a>.
+                  Enviá tu número de orden y el motivo del reclamo a <a href="mailto:clientes@miempresa.com" className="text-blue-600 underline">clientes@nivo.com</a>.
                 </div>
               )}
             </li>

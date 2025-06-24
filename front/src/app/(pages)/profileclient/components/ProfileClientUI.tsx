@@ -56,11 +56,3 @@ const setInitialized = useAuthStore.getState().setInitialized;
 };
 
 export default ProfileClient;
-
-
-
-
-  
-
-
-

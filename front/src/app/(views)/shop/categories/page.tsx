@@ -12,16 +12,17 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState<ICard[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Al cargar la página, pedimos las categorías
   useEffect(() => {
     api
-      .get("/categories")
-      .then((res) => setCategories(res.data))
+      .get(`/categories`)
+      .then((res) => {
+        setCategories(res.data);
+        console.log("categories", res.data);
+      })
       .catch((err) => console.error("Error al obtener categorías:", err))
       .finally(() => setLoading(false));
   }, []);
 
-  // Si está cargando, mostramos mensaje
   if (loading) {
     return <p className="text-center mt-10">Cargando categorías...</p>;
   }
