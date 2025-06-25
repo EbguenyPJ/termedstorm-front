@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
 import { IProduct } from "../interfaces/index";
+import { Search } from "lucide-react";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -39,37 +40,60 @@ const SearchBar = () => {
     setShowSuggestions(false);
   };
 
+  const highlightMatch = (text: string, query: string) => {
+    const regex = new RegExp(`(${query})`, "gi");
+    return {
+      __html: text.replace(
+        regex,
+        `<strong class="text-indigo-600">$1</strong>`
+      ),
+    };
+  };
+
   return (
     <div className="relative w-full max-w-xs mx-auto">
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        onFocus={() => setShowSuggestions(true)}
-        className="w-full p-2 border bg-base-100 border-gray-300 rounded-lg"
-      />
+      <div className="relative flex items-center">
+        <Search className="absolute left-3 text-gray-400 w-5 h-5" />
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          aria-autocomplete="list"
+          aria-controls="search-suggestions"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none rounded-lg bg-white placeholder-gray-400 text-sm transition duration-200"
+        />
+      </div>
 
       {showSuggestions && results.length > 0 && (
-        <ul className="absolute z-50 w-full bg-white border border-gray-300 rounded-md shadow mt-1 max-h-60 overflow-y-auto">
-          {results.map((product) => (
+        <ul
+          id="search-suggestions"
+          role="listbox"
+          aria-expanded={showSuggestions}
+          className="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-2 max-h-60 overflow-y-auto"
+        >
+          {results.slice(0, 10).map((product) => (
             <li
               key={product.id}
+              role="option"
+              aria-selected={false}
               onClick={() => handleSelect(product.id)}
-              className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex gap-2 items-center"
-            >
-              <span>{product.name}</span>
-            </li>
+              className="px-4 py-2 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer transition flex items-center gap-2 text-sm"
+              dangerouslySetInnerHTML={highlightMatch(product.name, search)}
+            />
           ))}
         </ul>
       )}
 
       {showSuggestions && search && results.length === 0 && (
-        <div className="absolute w-full mt-1 bg-white border border-gray-300 text-center text-gray-500 p-2 rounded-md">
+        <div className="absolute z-50 w-full mt-2 bg-white border border-gray-200 text-gray-500 text-sm text-center p-2 rounded-md shadow-sm">
           No se encontraron resultados
         </div>
       )}
     </div>
   );
 };
+
 export default SearchBar;

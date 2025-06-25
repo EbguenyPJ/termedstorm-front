@@ -1,4 +1,5 @@
 export const displayNames: Record<string, string> = {
+  manager: "Administrador",
   add: "Agregar",
   shop: "Tienda",
   user: "Usuario",
@@ -19,6 +20,9 @@ export const displayNames: Record<string, string> = {
   addsubcategory: "Agregar subcategoría",
   addbrand: "Agregar marca",
   addsize: "Agregar talle",
+  addcolor: "Agregar color",
+  pricesupload: "Cargar precios",
+  shipping: "Envíos",
   editlists: "Editar listas",
   cashcount: "Arqueo de caja",
   cashregister: "Corte de caja",

@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import api from "@/lib/axiosInstance";
 import React, { useState } from "react";
 // import axios from "@/lib/axiosInstance";
 
@@ -19,7 +19,7 @@ const ShippingUpload = () => {
     setSuccess("");
 
     try {
-      await axios.post("/shippings", {
+      await api.post("/shippings", {
         name,
         date,
         totalProducts,

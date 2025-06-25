@@ -14,7 +14,6 @@ export const getUserApi = async (): Promise<IAuthMeUser | null> => {
 
 // CERRAR SESIÓN
 export const logoutApi = async () => {
-  console.log(api.defaults.baseURL);
   try {
     await api.post("/auth/logout");
   } catch (error) {
@@ -36,24 +35,21 @@ export const logoutApi = async () => {
 // CLIENT
 export const loginClientApi = async (values: ILogin) => {
   const res = await api.post("/auth/client/login", values);
-  return res.data; // user, token, etc.
+  return res.data;
 };
 
 export const registerClientApi = async (values: IRegister) => {
-  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/client/register", values);
   return res.data;
 };
 
 // EMPLOYEE
 export const loginApi = async (values: ILogin) => {
-  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/employee/login", values);
   return res.data;
 };
 
 export const registerApi = async (values: IRegister) => {
-  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/employee/register", values);
   return res.data;
 };

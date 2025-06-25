@@ -36,20 +36,24 @@ export async function middleware(req: NextRequest) {
 
   // CASO 2.1: El token es inválido (user es null)
 if (!user) {
-    console.error("🔐 Token inválido o expirado. Redirigiendo a login.");
-const response = isPublic
+    const response = isPublic
       ? NextResponse.next() // Si ya está en pública, solo limpia la cookie
       : NextResponse.redirect(new URL(routes.public.login, req.url)); // Si no, redirige al login y limpia cookie
     response.cookies.set("access_token", "", { maxAge: -1 }); // Siempre limpia la cookie si es inválido
     return response;
   }
   
+
+    const isClient = user.roles?.includes("CLIENT");
+
     if (isPublic) {
-if (pathname === routes.public.login || pathname === routes.public.loginClient) {
-    const fallback =
-    user.roles?.length === 0
-      ? routes.client.profileClient
-      : routes.user.profile;
+     if (
+      pathname === routes.public.login ||
+      pathname === routes.public.loginClient
+    ) {
+    const fallback = isClient
+    ? routes.client.profileClient // o subscription, según el caso
+    : routes.user.profile;
 
   return NextResponse.redirect(new URL(fallback, req.url));
 }

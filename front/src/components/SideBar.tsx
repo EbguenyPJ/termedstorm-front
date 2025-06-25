@@ -6,8 +6,7 @@ import {
   Phone,
   MapPin,
   PanelRight,
-  Box,
-  List,
+  Store,
   ChartColumnIncreasing,
   Sliders,
   Wallet,
@@ -40,7 +39,6 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
     >(null);
 
     const user = useAuthStore((s) => s.user);
-    console.log("USER EN SIDEBAR:", user);
 
     const isInitialized = useAuthStore((s) => s.isInitialized);
     if (!isInitialized) return null;
@@ -60,9 +58,12 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
     if (isSellerUser || isAdminUser) {
       menuItems.push(
-        { href: routes.shop.categories, icon: List, label: "Categorías" },
-        { href: routes.shop.products, icon: Box, label: "Productos" },
-        { href: routes.user.sales, icon: ChartColumnIncreasing, label: "Reportes" }
+        { href: routes.shop.categories, icon: Store, label: "Tienda" },
+        {
+          href: routes.user.sales,
+          icon: ChartColumnIncreasing,
+          label: "Reportes",
+        }
       );
     }
 
@@ -167,7 +168,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                       <Link
                         href={routes.manager.add.category}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.category ? "font-bold" : ""
+                          pathname === routes.manager.add.category
+                            ? "font-bold"
+                            : ""
                         }`}
                       >
                         Categorías
@@ -177,7 +180,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                       <Link
                         href={routes.manager.add.subcategory}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.subcategory ? "font-bold" : ""
+                          pathname === routes.manager.add.subcategory
+                            ? "font-bold"
+                            : ""
                         }`}
                       >
                         Subcategorías
@@ -187,10 +192,48 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                       <Link
                         href={routes.manager.add.product}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.product ? "font-bold" : ""
+                          pathname === routes.manager.add.product
+                            ? "font-bold"
+                            : ""
                         }`}
                       >
                         Productos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.add.brand}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.manager.add.brand
+                            ? "font-bold"
+                            : ""
+                        }`}
+                      >
+                        Agregar Marcas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.add.color}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.manager.add.color
+                            ? "font-bold"
+                            : ""
+                        }`}
+                      >
+                        Agregar color
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.add.size}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.manager.add.size
+                            ? "font-bold"
+                            : ""
+                        }`}
+                      >
+                        Agregar Medidas
                       </Link>
                     </li>
                   </ul>
@@ -272,7 +315,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         href={routes.manager.settings.shippingUpload}
                         className="block px-2 py-1 text-base-200"
                       >
-                        Subir tarifas envío
+                        Cargar tarifas
                       </Link>
                     </li>
                   </ul>

@@ -2,18 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
+import ClientSubscription from "@/app/(views)/user/client-subscription/components/ClientSubscription";
 
 const ProfileClient = () => {
-const user = useAuthStore((state) => state.user);
-const isClient = useAuthStore((state) => state.isClient);
-const isInitialized = useAuthStore((state) => state.isInitialized);
-const fetchUser = useAuthStore.getState().fetchUser;
-const setInitialized = useAuthStore.getState().setInitialized;
-
+  const user = useAuthStore((state) => state.user);
+  const isClient = useAuthStore((state) => state.isClient);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const fetchUser = useAuthStore.getState().fetchUser;
+  const setInitialized = useAuthStore.getState().setInitialized;
 
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
+  useEffect(() => {
     const init = async () => {
       if (!isInitialized) {
         await fetchUser();
@@ -25,8 +25,10 @@ const setInitialized = useAuthStore.getState().setInitialized;
   }, [isInitialized]);
 
   if (loading) return <p className="p-4">Cargando perfil...</p>;
-  if (!user) return <p className="p-4 text-red-500">No se pudo cargar el usuario.</p>;
-  if (!isClient()) return <p className="p-4 text-red-500">Acceso no autorizado.</p>;
+  if (!user)
+    return <p className="p-4 text-red-500">No se pudo cargar el usuario.</p>;
+  if (!isClient())
+    return <p className="p-4 text-red-500">Acceso no autorizado.</p>;
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -39,26 +41,22 @@ const setInitialized = useAuthStore.getState().setInitialized;
           Datos Personales
         </h3>
         <p>
-          <span className="font-semibold text-gray-700">Nombre:</span> {user.name}
+          <span className="font-semibold text-gray-700">Nombre:</span>{" "}
+          {user.name}
         </p>
         <p>
-          <span className="font-semibold text-gray-700">Email:</span> {user.email}
+          <span className="font-semibold text-gray-700">Email:</span>{" "}
+          {user.email}
         </p>
         <p>
           <span className="font-semibold text-gray-700">Rol:</span>{" "}
           {isClient() ? "Cliente" : user.roles.join(", ")}
         </p>
       </div>
+
+      <ClientSubscription />
     </div>
   );
 };
 
 export default ProfileClient;
-
-
-
-
-  
-
-
-

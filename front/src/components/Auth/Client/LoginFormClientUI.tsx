@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/routes";
 import GoogleLoginButton from "../../UI/Buttons/GoogleButton";
-import { ButtonSecondary } from "../../UI/Buttons/Buttons";
+import { ButtonPrimary } from "../../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 
 const LoginFormClient = () => {
@@ -32,7 +32,7 @@ const LoginFormClient = () => {
     try {
       await login("client", values);
       toast.success("Has ingresado exitosamente");
-      router.push(routes.client.profileClient);
+      router.push(routes.user.profile);
     } catch (error: any) {
       const message = error.message || "Error desconocido";
       setErrors({ password: message });
@@ -74,7 +74,7 @@ const LoginFormClient = () => {
             />
 
             <div className="flex items-end justify-end mt-4">
-              <ButtonSecondary
+              <ButtonPrimary
                 textContent="Iniciar Sesión"
                 type="submit"
                 disabled={isSubmitting}
