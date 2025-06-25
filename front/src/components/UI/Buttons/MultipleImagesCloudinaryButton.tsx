@@ -3,15 +3,16 @@ import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 
 interface CloudinaryUploadButtonProps {
-  onUploadSuccess: (url: string) => void;
+  onUploadSuccess: (urls: string[]) => void;
   buttonText?: string;
 }
 
-const CloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
+const MultipleImagesCloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
   onUploadSuccess,
   buttonText = "Subir imagen",
 }) => {
   const widgetRef = useRef<any>(null);
+  const uploadedUrlsRef = useRef<string[]>([]); 
 
   useEffect(() => {
     const createWidget = () => {
@@ -20,15 +21,23 @@ const CloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
           sources: ["local", "url", "camera"],
-          multiple: false,
-          cropping: true,
+          multiple: true,
+          cropping: false,
           maxFileSize: 2000000,
           resourceType: "image",
         },
         (error: any, result: any) => {
           if (!error && result.event === "success") {
-            onUploadSuccess(result.info.secure_url);
-            toast.success("Imagen cargada correctamente");
+            uploadedUrlsRef.current.push(result.info.secure_url); 
+            toast.success(`Imagen "${result.info.original_filename}" cargada correctamente`);
+          } else if (result.event === "close") { 
+            if (uploadedUrlsRef.current.length > 0) {
+              onUploadSuccess(uploadedUrlsRef.current);
+              uploadedUrlsRef.current = []; 
+            }
+          } else if (error) {
+            console.error("Cloudinary upload error:", error);
+            toast.error("Error al cargar la imagen.");
           }
         }
       );
@@ -51,10 +60,11 @@ const CloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
         widgetRef.current = null;
       }
     };
-  }, [onUploadSuccess]);
+  }, [onUploadSuccess]); 
 
   const handleUpload = () => {
     if (widgetRef.current) {
+      uploadedUrlsRef.current = []; 
       widgetRef.current.open();
     } else {
       toast.error("El widget aún no está listo, intenta nuevamente.");
@@ -72,4 +82,4 @@ const CloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
   );
 };
 
-export default CloudinaryButton;
+export default MultipleImagesCloudinaryButton;

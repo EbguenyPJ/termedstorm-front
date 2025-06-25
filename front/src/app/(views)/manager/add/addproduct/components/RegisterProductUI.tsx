@@ -117,8 +117,9 @@ const RegisterProduct = () => {
               employee_id: "b1d2f3e4-5678-4abc-9def-1234567890ab", // momentaneo, consultar
               variants: values.variantes.map((v: any) => ({
                 description: v.descripcion,
-                color: v.color,
-                image: v.image, 
+                color_id: v.color_id,
+                // image: v.image, 
+                image: v.images,
                 variantSizes: v.variants2.map((v2: any) => ({
                   stock: parseInt(v2.stock),
                   size_id: v2.talle,

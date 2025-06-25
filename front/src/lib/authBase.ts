@@ -40,17 +40,20 @@ export const loginClientApi = async (values: ILogin) => {
 };
 
 export const registerClientApi = async (values: IRegister) => {
+  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/client/register", values);
   return res.data;
 };
 
 // EMPLOYEE
 export const loginApi = async (values: ILogin) => {
+  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/employee/login", values);
   return res.data;
 };
 
 export const registerApi = async (values: IRegister) => {
+  console.log(api.defaults.baseURL);
   const res = await api.post("/auth/employee/register", values);
   return res.data;
 };

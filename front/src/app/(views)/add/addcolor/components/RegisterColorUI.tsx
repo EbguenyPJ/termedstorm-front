@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form} from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
@@ -17,11 +17,7 @@ const colorSchema = yup.object().shape({
 
 const RegisterColor = () => {
   return (
-    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[60vh] max-h-[700px] overflow-auto">
-      <h2 className="text-2xl font-bold mb-10 pl-38 text-[#4e4090]">
-        Registrar nuevo Color
-      </h2>
-
+    <section>
       <Formik
         initialValues={{
           color: "",
@@ -44,6 +40,9 @@ const RegisterColor = () => {
         {() => (
           <Form>
             <div className="w-full max-w-3xl mx-auto px-10">
+              <h2 className="text-2xl font-bold mb-10 text-[#4e4090]">
+                Registrar nuevo Color
+              </h2>
               <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
                   <InputFormik
@@ -52,23 +51,18 @@ const RegisterColor = () => {
                     type="text"
                     placeholder="Ej: Negro"
                   />
-                  <ErrorMessage
-                    name="color"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
                 </div>
+              </div>
+              <div className="flex justify-end mt-6">
+                <ButtonAccent type="submit" textContent="GUARDAR" />
               </div>
             </div>
 
-            <div className="flex justify-end mt-6 mr-38">
-              <ButtonAccent type="submit" textContent="GUARDAR" />
-            </div>
           </Form>
         )}
       </Formik>
     </section>
-  );
-};
+  )
+}
 
 export default RegisterColor;

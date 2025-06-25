@@ -47,7 +47,7 @@ export const routes = {
     },
 
   // Cashier
-   cashier: {
+  cashier: {
       newCash: "/manager/cashier/newcash",
       newShift: "/manager/cashier/newshift",
       overview: "/manager/cashier/overview",
