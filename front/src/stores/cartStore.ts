@@ -25,31 +25,29 @@ export const useCartStore = create<CartStore>()(
       items: [],
 
       addItem: (item) =>
-        set((state) => {
-          const existing = state.items.find((i) => i.id === item.id);
-
-          if (existing) {
-            return {
-              items: state.items.map((i) =>
-                i.id === item.id
-                  ? {
-                      ...i,
-                      quantity:
-                        i.quantity + item.quantity <= (i.stock ?? Infinity)
-                          ? i.quantity + item.quantity
-                          : i.quantity,
-                    }
-                  : i
-              ),
-            };
-          }
-          return {
-            items: [
-              ...state.items,
-              { ...item, price: Number(item.price) },
-            ],
-          };
-        }),
+        set((state) => ({
+          items: state.items
+            .map((i) => {
+              if (i.id === item.id) {
+                // Si encontramos el item, creamos una versión actualizada
+                return {
+                  ...i,
+                  price: Number(i.price), // ⬅️ Re-aseguramos que el precio sea número
+                  quantity:
+                    i.quantity + item.quantity <= (i.stock ?? Infinity)
+                      ? i.quantity + item.quantity
+                      : i.quantity,
+                };
+              }
+              return i; // Devolvemos los otros items sin cambios
+            })
+            // Pequeño truco para añadir el item si no existía
+            .concat(
+              !state.items.some((i) => i.id === item.id)
+                ? [{ ...item, price: Number(item.price) }] // Lo añadimos con el precio ya convertido
+                : []
+            ),
+        })),
 
       increaseItem: (id) =>
         set((state) => ({

@@ -27,7 +27,7 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
       </div>
 
       <nav
-  className={`fixed top-0 right-0 h-full w-3/4 sm:w-2/4 md:static md:h-16 md:w-full md:flex md:items-center md:justify-between z-40 bg-secondary text-base shadow-md transition-transform duration-300 ${
+  className={`fixed top-0 right-0 h-full w-3/4 sm:w-2/4 md:static md:h-16 md:w-full md:flex md:items-center md:justify-between z-[999] bg-secondary text-base shadow-md transition-transform duration-300 ${
     isOpen ? "translate-x-0" : "translate-x-full"
   } md:translate-x-0`}
 >

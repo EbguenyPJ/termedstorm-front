@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import axios from "axios";
 import { getTotalAmount } from "@/lib/getTotalAmount";
-import {ButtonSecondary} from "./UI/Buttons/Buttons";
+import { ButtonSecondary } from "./UI/Buttons/Buttons";
 // import { useRouter } from "next/navigation";
 
 export const CartDropdown = () => {
@@ -48,7 +48,7 @@ export const CartDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-4 w-80 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-4 text-sm">
+        <div className="absolute left-1/2 top-full mt-4 w-80 -translate-x-1/2 z-[9999] bg-white border border-gray-200 rounded-md shadow-lg p-4 text-sm">
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-semibold">Carrito</h3>
             <span className="text-xs text-gray-400">{totalItems} ítems</span>
@@ -74,7 +74,7 @@ export const CartDropdown = () => {
                           onClick={() => decreaseItem(item.id)}
                           className="px-2 py-1 border rounded text-xs"
                         >
-                          <Minus size={14} />
+                          <Minus size={14} className="cursor-pointer" />
                         </button>
                         <button
                           onClick={() => increaseItem(item.id)}
@@ -84,7 +84,7 @@ export const CartDropdown = () => {
                             item.quantity >= item.stock
                           }
                         >
-                          <Plus size={14} />
+                          <Plus size={14} className="cursor-pointer" />
                         </button>
                       </div>
                     </div>
@@ -97,7 +97,7 @@ export const CartDropdown = () => {
                         className="text-red-500 hover:text-red-700"
                         title="Eliminar"
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={16} className="cursor-pointer"/>
                       </button>
                     </div>
                   </li>
@@ -112,7 +112,7 @@ export const CartDropdown = () => {
                 <ButtonSecondary
                   onClick={handleCheckout}
                   className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-600 text-sm"
-                textContent="Finalizar compra"
+                  textContent="Finalizar compra"
                 />
               </div>
             </>
