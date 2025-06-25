@@ -5,6 +5,7 @@ import { ICard } from "@/interfaces";
 import api from "@/lib/axiosInstance";
 import CardCategory from "@/components/UI/Cards/CardCategory";
 import Link from "next/link";
+import BreadcrumbClient from "../UI/Breadcrumb";
 
 interface Props {
   categorySlug: string;
@@ -16,9 +17,12 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
 
   useEffect(() => {
     api
-      .get(`/categories/${categorySlug}/subcategories`) // ✅ Asegurate de que exista este endpoint
-      .then((res) => setSubcategories(res.data))
-      .catch((err) => console.error("Error al obtener subcategorías:", err))
+      .get(`/categories/slug/${categorySlug}`) // ✅ Asegurate de que exista este endpoint
+      .then((res) => setSubcategories(res.data.subcategories || []))
+      .catch((err) => {
+      console.error("Error al obtener subcategorías:", err);
+      setSubcategories([]);
+    })
       .finally(() => setLoading(false));
   }, [categorySlug]);
 
@@ -27,6 +31,9 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-y-10">
+      <div className="w-full mb-2">
+      <BreadcrumbClient/>
+      </div>
       {subcategories.length > 0 ? (
         subcategories.map((subcat, index) => (
           <Link

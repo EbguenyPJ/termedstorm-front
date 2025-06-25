@@ -1,23 +1,34 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    /* config options here */
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'es.web.img3.acsta.net',
-            },
-            {
-                protocol: 'https',
-                hostname: 'res.cloudinary.com',
-            },
-            { 
-                protocol: 'https',
-                hostname: 'miapp.com',
-            },
-        ],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "es.web.img3.acsta.net",
+      },
+      {
+        protocol: "https",
+        hostname: "miapp.com",
+      },
+      {
+        protocol: "https",
+        hostname: "m.media-amazon.com",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.adidas.com",
+      },
+      {
+        protocol: "https",
+        hostname: "brand.assets.adidas.com", 
+      },
+    ],
+  },
 };
 
 export default nextConfig;

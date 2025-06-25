@@ -4,16 +4,17 @@ import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import axios from "axios";
-
+import { getTotalAmount } from "@/lib/getTotalAmount";
+import {ButtonSecondary} from "./UI/Buttons/Buttons";
 // import { useRouter } from "next/navigation";
 
 export const CartDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const items = useCartStore((state) => state.items);
-  const total = useCartStore((state) => state.totalAmount)();
   const increaseItem = useCartStore((state) => state.increaseItem);
   const decreaseItem = useCartStore((state) => state.decreaseItem);
   const removeItem = useCartStore((state) => state.removeItem);
+  const items = useCartStore((state) => state.items);
+  const total = getTotalAmount(items);
 
   //   const router = useRouter();
 
@@ -108,12 +109,11 @@ export const CartDropdown = () => {
                   <span>Total:</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
-                <button
+                <ButtonSecondary
                   onClick={handleCheckout}
                   className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-600 text-sm"
-                >
-                  Finalizar compra
-                </button>
+                textContent="Finalizar compra"
+                />
               </div>
             </>
           )}

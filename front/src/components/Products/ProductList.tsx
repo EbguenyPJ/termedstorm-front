@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import api from "@/lib/axiosInstance";
 import { ApiProduct, ICardProduct } from "@/interfaces";
 import CardProduct from "@/components/UI/Cards/CardProduct";
-
+import BreadcrumbClient from "../UI/Breadcrumb";
+import Link from "next/link";
 interface ProductListProps {
   category?: string;
   subcategory?: string;
@@ -18,7 +19,7 @@ const ProductList: React.FC<ProductListProps> = ({ category, subcategory }) => {
     let url = "/products";
 
     if (category && subcategory) {
-      url = `/categories/${category}/subcategories/${subcategory}/products`;
+      url = `/products/category/${category}/subcategory/${subcategory}`;
     }
 
     api
@@ -52,17 +53,23 @@ const ProductList: React.FC<ProductListProps> = ({ category, subcategory }) => {
   if (loading) return <p>Cargando productos...</p>;
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-10">
+    <div className="flex flex-wrap justify-center gap-y-4">
+      <div className="w-full mb-2">
+      <BreadcrumbClient/>
+      </div>
+
       {products.length > 0 ? (
         products.map((product) => (
+          <Link href={`/shop/products/${product.id}`} key={product.id}>
           <CardProduct
             key={product.id}
             id={product.id}
             name={product.name}
             image={product.image}
-            slug={product.slug} // 👈 ¡Muy importante para el link!
+            slug={product.slug}
             sale_price={product.sale_price}
           />
+          </Link>
         ))
       ) : (
         <div className="w-full h-60 flex justify-center items-center">

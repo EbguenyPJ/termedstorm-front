@@ -7,13 +7,11 @@ import { ButtonPrimary } from "../Buttons/Buttons";
 import Link from "next/link";
 
 export const CardProduct: React.FC<ICardProduct> = ({
+  id,
   name,
   image,
   sale_price,
-  slug,
 }) => {
-  const link = `/shop/products/${slug}`;
-  
   return (
     <div className="w-xs bg-white p-4 text-center border border-gray-300 hover:border-[#6e5cc4] rounded-lg transition-colors duration-300">
       <div className="w-full aspect-square relative overflow-hidden">
@@ -33,7 +31,7 @@ export const CardProduct: React.FC<ICardProduct> = ({
       <div className="mt-4 text-m font-semibold text-gray-800">{name}</div>
       <div className="mt-4 flex justify-between items-center text-sm font-semibold text-gray-800">
         <strong className="text-lg">${sale_price}</strong>
-        <Link href={link}>
+        <Link href={`/shop/products/${id}`}>
           <ButtonPrimary textContent="Ver más" />
         </Link>
       </div>

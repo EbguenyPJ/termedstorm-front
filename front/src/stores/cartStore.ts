@@ -6,7 +6,7 @@ export type CartItem = {
   name: string;
   price: number;
   quantity: number;
-  stock?: number; 
+  stock?: number;
   //variante
 };
 
@@ -15,19 +15,19 @@ type CartStore = {
   addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
-  totalAmount: () => number;
   increaseItem: (id: string) => void;
   decreaseItem: (id: string) => void;
 };
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       items: [],
 
       addItem: (item) =>
         set((state) => {
           const existing = state.items.find((i) => i.id === item.id);
+
           if (existing) {
             return {
               items: state.items.map((i) =>
@@ -43,7 +43,12 @@ export const useCartStore = create<CartStore>()(
               ),
             };
           }
-          return { items: [...state.items, item] };
+          return {
+            items: [
+              ...state.items,
+              { ...item, price: Number(item.price) },
+            ],
+          };
         }),
 
       increaseItem: (id) =>
@@ -78,9 +83,6 @@ export const useCartStore = create<CartStore>()(
         })),
 
       clearCart: () => set({ items: [] }),
-
-      totalAmount: () =>
-        get().items.reduce((acc, item) => acc + item.price * item.quantity, 0),
     }),
     { name: "cart-storage" }
   )

@@ -11,19 +11,16 @@ interface Product {
   sale_price: number;
   variants: Variant[];
 }
-
 interface Size {
     id: string;
     size_us?: number;
     size_eur?: number;
     size_cm?: number;
 }
-
 interface Color {
     id: string;
     name: string;
 }
-
 interface Props {
     product: Product;
     sizes: Size[];

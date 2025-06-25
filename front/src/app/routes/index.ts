@@ -30,11 +30,12 @@ export const routes = {
   manager: {
     // Add
     add: {
-      brand: "/manager/add/addbrand",
       category: "/manager/add/addcategory",
-      product: "/manager/add/addproduct",
-      size: "/manager/add/addsize",
       subcategory: "/manager/add/addsubcategory",
+      product: "/manager/add/addproduct",
+      brand: "/manager/add/addbrand",
+      size: "/manager/add/addsize",
+      color: "/manager/add/addcolor",
     },
 
   // Settings manager

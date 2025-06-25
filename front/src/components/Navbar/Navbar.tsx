@@ -1,9 +1,11 @@
 "use client";
 
 import { CartDropdown } from "../CartDropdown";
+import { Bell } from "../UI/Bell";
+import { Inbox } from "../UI/Inbox";
+import { UserWidget } from "./UserWidget/UserWidget";
 //import { Cart } from "../Cart";
 import SearchBar from "../SearchBar";
-import { UserWidget } from "./UserWidget/UserWidget";
 import { Menu, X } from "lucide-react";
 
 type NavbarProps = {
@@ -25,23 +27,25 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
       </div>
 
       <nav
-        className={`fixed top-0 right-0 h-full w-3/4 sm:w-2/4 md:static md:h-16 md:w-full md:flex md:items-center md:justify-around md:rounded-none z-40 bg-secondary text-base shadow-md transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } md:translate-x-0`}
-      >
-        <div className="flex flex-col-reverse gap-4 md:flex md:flex-row md:items-center md:justify-between md:mt-0 w-full md:mx-3">
-          <SearchBar />
+  className={`fixed top-0 right-0 h-full w-3/4 sm:w-2/4 md:static md:h-16 md:w-full md:flex md:items-center md:justify-between z-40 bg-secondary text-base shadow-md transition-transform duration-300 ${
+    isOpen ? "translate-x-0" : "translate-x-full"
+  } md:translate-x-0`}
+>
+  <div className="flex flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between w-full px-4 py-4 md:px-8 md:py-0">
+    {/* Búsqueda */}
+    <div className="w-full md:w-1/2">
+      <SearchBar />
+    </div>
 
-          <div className="flex flex-row-reverse w-2/3 justify-around md:w-auto md:justify-between mt-2 md:mt-0 md:ml-2 md:flex-row md:gap-28">
-            <div className="my-auto">{/* <Cart /> */}</div>
-
-            <div className="flex my-auto md:ml-auto">
-              <CartDropdown />
-              <UserWidget />
-            </div>
-          </div>
-        </div>
-      </nav>
+    {/* Íconos */}
+    <div className="flex items-center justify-center gap-4 md:gap-6">
+      <Inbox />
+      <Bell />
+      <CartDropdown />
+      <UserWidget />
+    </div>
+  </div>
+</nav>
     </>
   );
 }

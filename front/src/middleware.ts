@@ -36,7 +36,6 @@ export async function middleware(req: NextRequest) {
 
   // CASO 2.1: El token es inválido (user es null)
 if (!user) {
-    console.error("🔐 Token inválido o expirado. Redirigiendo a login.");
     const response = isPublic
       ? NextResponse.next() // Si ya está en pública, solo limpia la cookie
       : NextResponse.redirect(new URL(routes.public.login, req.url)); // Si no, redirige al login y limpia cookie

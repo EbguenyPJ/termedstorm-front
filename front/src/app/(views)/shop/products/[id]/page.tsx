@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 interface Props {
   params: {
-    slug: string;
+    id: string;
   };
 }
 
@@ -33,11 +33,9 @@ async function getColors() {
   }
 }
 
-async function getProductBySlug(slug: string) {
-  // getProductById(id: string)
+async function getProductById(id: string) {
   try {
-    const res = await api.get(`/products/${slug}`, {
-      //(`/products/slug/${id}
+    const res = await api.get(`/products/${id}`, {
       headers: { "Cache-Control": "no-store" },
     });
     return res.data ?? null;
@@ -48,12 +46,12 @@ async function getProductBySlug(slug: string) {
 }
 
 const ProductDetailPage = async ({ params }: Props) => {
-  const { slug } = params;
+  const { id } = params;
 
   const [sizes, colors, product] = await Promise.all([
     getSizes(),
     getColors(),
-    getProductBySlug(slug),
+    getProductById(id),
   ]);
 
   if (!product) redirect("/404");

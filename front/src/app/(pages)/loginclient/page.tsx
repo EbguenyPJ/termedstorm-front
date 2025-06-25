@@ -6,20 +6,7 @@ import { routes } from "../../routes/index";
 const LoginPageClient = () => {
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2">
-      {/* Sección izquierda: imagen o color */}
-      <div className="hidden lg:block bg-[#4e4090] relative">
-        {/* Texto */}
-        <div className="relative z-10 flex items-center justify-center h-full px-10 text-base-100 text-center">
-          <div>
-            <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
-            <p className="text-lg">
-              Iniciá sesión para acceder a tu cuenta CLIENTE
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Sección derecha: formulario */}
+      {/* Sección izquierda : formulario */}
       <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
         <div className="w-full max-w-md">
           <LoginFormClient />
@@ -44,6 +31,19 @@ const LoginPageClient = () => {
               Clickea aquí
             </Link>
           </p>
+        </div>
+      </div>
+
+      {/* Sección derecha : imagen o color */}
+      <div className="hidden lg:block bg-primary relative">
+        {/* Texto */}
+        <div className="relative z-10 flex items-center justify-center h-full px-10 text-base-100 text-center">
+          <div>
+            <h1 className="text-4xl font-bold mb-4">Bienvenido</h1>
+            <p className="text-lg">
+              Iniciá sesión para acceder a tu cuenta CLIENTE
+            </p>
+          </div>
         </div>
       </div>
     </div>

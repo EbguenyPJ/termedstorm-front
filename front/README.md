@@ -1,13 +1,13 @@
-
 1. client: Unicamente puede ingresar al registro de cliente, login (normal y con google), su dashboard donde habra una opcion para que adquiera una membersia del POS y no podra navegar en todo el resto de la aplicacion
 
 2. employees
-a. sellers: NO se podran registrar por su cuenta, sino que el admin les debe crear la cuenta tipo empleado vendedor.
-Pueden navegar en la aplicacion para vender, ver sus ordenes/ventas.
-No podran configurar ni editar nada, por ende el modulo de add, cashier y settingsmanager no lo podran visualizar.
-si podran visualizar el modulo de shop y dentro de user podran ver profile (generico con sus datos), sales/reports/dashboard(sus ordenes) y support (generico para todos)
+   a. sellers: NO se podran registrar por su cuenta, sino que el admin les debe crear la cuenta tipo empleado vendedor.
+   Pueden navegar en la aplicacion para vender, ver sus ordenes/ventas.
+   No podran configurar ni editar nada, por ende el modulo de add, cashier y settingsmanager no lo podran visualizar.
+   si podran visualizar el modulo de shop y dentro de user podran ver profile (generico con sus datos), sales/reports/dashboard(sus ordenes) y support (generico para todos)
 
 b. Admin/manager: podra vender y ademas configurar todo en la aplicacion.
+
 - Seria como una cuenta empresarial donde nosotros fuera de esta aplicacion los crearemos, por ende tampoco se podran registrar por su cuenta.
 - Podran navegar en todos los modulos.
 - Logicamente como cualquier otro usuario si esta logueado no puede ir a ningun login ni register.
@@ -19,19 +19,32 @@ const sellerRoutes = ["/views/shop", "/views/user/profile", "/views/user/sales",
 const adminRoutes = ["/views/add", "/views/settingsmanager", "/views/cashier", "views/shop"];
 
 
+
 NACHO checklist:
+
 - API ROL ✔
 - FORMULARIO CREAR EMPLEADO ✔
-- MIDDLEWARE 
-- CREAR MICROFUNCIONES: 
-===> SEARCHBAR: *necesito endpoint PENTDIENTE
-===> BREADCRUMBLE
-===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
-===> PROFILE: ADMIN, VENDEDOR, CLIENT
-===> REPORT: ADMIN, VENDEDOR
+- MIDDLEWARE ✔
+- CREAR MICROFUNCIONES:
+  ===> SEARCHBAR: ✔
+  ===> BREADCRUMBLE ✔
+  ===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
+  ===> PROFILE: ADMIN, VENDEDOR, CLIENT ✔
+  ===> REPORT: ADMIN, VENDEDOR
+
+- QUE LA MARCA NO ESTE RELACIONADA A UNA SUB-CATEGORIA
+QUE EL PRODUCTO NO ESTE RELACIONADO A UNA CATEGORIA Y SUBCATEGORIA
+
+Precio de compra. Para que? Dejar uno solo. En todo caso dejar disponible un icono signo de pregunta y un toolkit para que haya informacion de que debe poner en cada lugar.
+
+En el momento de crear la variante del producto hay un alert que no debe existir.
+
+addproduct:Agregar Producto
 
 
+STEVEN: linea 215 del service comentada //.andWhere('color.color ILIKE :color', { color: `%${color}%` })
 
-* En realidad deberia hablar con back para que me pase este endpoint:
-esta en shop\categories\[...slug]\components\DetailProduct.tsx
-async function getProductBySlug(slug: string) // getProductById(id: string)
+
+- Corroborar Carrito
+- Ver con flor lo de websockets
+- Endpoint de fecha: 7 dias, 30 dias, 3 meses, 12 meses

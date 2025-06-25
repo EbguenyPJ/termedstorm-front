@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-
+import { useCartStore } from "@/stores/cartStore";
+import toast from "react-hot-toast";
+import { ButtonPrimary } from "../UI/Buttons/Buttons";
 interface VariantSize {
   size_id: string;
   stock: number;
@@ -38,6 +40,7 @@ const ProductViewerClient: React.FC<Props> = ({
     variants?.[0]?.color_id || ""
   );
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
     if (variants.length > 0) {
@@ -166,9 +169,39 @@ const ProductViewerClient: React.FC<Props> = ({
           </div>
         </div>
 
-        <button className="mt-6 px-5 py-2 bg-primary text-white rounded hover:bg-secondary transition">
-          Añadir al carrito
-        </button>
+        <ButtonPrimary
+          onClick={() => {
+            if (!currentVariant || selectedSizes.length === 0) {
+              toast.error("Seleccioná al menos un talle.");
+              return;
+            }
+
+            selectedSizes.forEach((sizeId) => {
+              const stockObj = currentVariant.variantSizes.find(
+                (vs) => vs.size_id === sizeId
+              );
+
+              if (!stockObj) return;
+
+              const itemId = `${product.name}-${currentVariant.color_id}-${sizeId}`;
+
+              addItem({
+                id: itemId,
+                name: `${product.name} - ${getColorLabel(
+                  currentVariant.color_id
+                )} - ${getSizeLabel(sizeId)}`,
+                price: product.sale_price,
+                quantity: 1,
+                stock: stockObj.stock,
+              });
+            });
+
+            toast.success("Producto agregado al carrito");
+            setSelectedSizes([]); // opcional: resetea talles seleccionados después de agregar
+          }}
+          className="mt-6 px-5 py-2 bg-primary text-white rounded hover:bg-secondary transition"
+          textContent="Añadir al carrito"
+        />
       </div>
     </div>
   );
