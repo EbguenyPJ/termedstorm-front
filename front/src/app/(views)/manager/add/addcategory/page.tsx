@@ -5,7 +5,7 @@ const addProductPage = () => {
   return (
     <div className="p-4">
       <BreadcrumbClient />
-      <RegisterCategory />;
+      <RegisterCategory />
     </div>
   )
 };

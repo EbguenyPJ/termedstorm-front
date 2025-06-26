@@ -7,6 +7,10 @@ import InputFormik from "@/components/UI/Inputs/InputFormik";
 import toast from "react-hot-toast";
 import api from "@/lib/axiosInstance";
 
+interface RegisterSizeProps {
+  onSizeRegistered: () => void; 
+}
+
 const sizeSchema = yup.object().shape({
   size_us: yup
     .number()
@@ -22,7 +26,7 @@ const sizeSchema = yup.object().shape({
     .required("El talle CM es obligatorio"),
 });
 
-const RegisterSize = () => {
+const RegisterSize = ({ onSizeRegistered }: RegisterSizeProps) => {
   return (
     <>
       <h2 className="text-2xl font-bold mb-10 text-[#4e4090]">Registrar nuevo Talle</h2>
@@ -44,6 +48,7 @@ const RegisterSize = () => {
 
             toast.success("Talle registrado correctamente");
             resetForm();
+            onSizeRegistered();
           } catch (error: any) {
             console.error("Error al registrar el talle:", error.response?.data || error.message);
             toast.error("Ocurrió un error al registrar el talle");

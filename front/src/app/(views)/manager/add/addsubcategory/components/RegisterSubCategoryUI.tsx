@@ -68,7 +68,7 @@ const RegisterSubCategory = () => {
   }, []);
 
   return (
-    <section className="bg-white rounded-lg shadow-xl p-8 min-w-[90vw] max-w-[1100px] min-h-[80vh] max-h-[800px] overflow-auto">
+    <section>
       <h2 className="text-2xl font-bold mb-10 pl-10 text-[#4e4090]">
         Registrar nueva Sub-Categoria
       </h2>

@@ -23,7 +23,7 @@ const CategoryList = () => {
     return <p className="text-center mt-10">Cargando categorías...</p>;
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-10">
+    <div className="flex flex-wrap justify-center gap-x-10 gap-y-10">
       {categories.length > 0 ? (
         categories.map((category, index) => (
           <CardCategory

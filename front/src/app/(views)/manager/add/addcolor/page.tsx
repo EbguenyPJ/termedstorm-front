@@ -1,13 +1,15 @@
 import BreadcrumbClient from "@/components/UI/Breadcrumb";
-import RegisterColor from "./components/RegisterColorUI";
+import ColorManager from "./components/ColorManager";
 
 const addColorPage = () => {
   return (
     <div className="p-4">
       <BreadcrumbClient />
-      <RegisterColor />
+      <div className="flex flex-col md:flex-row gap-8 mt-8">
+        <ColorManager />
+      </div>
     </div>
-  )
+  );
 };
 
 export default addColorPage;

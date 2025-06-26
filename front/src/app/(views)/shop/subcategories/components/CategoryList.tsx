@@ -20,7 +20,7 @@ const SubCategoryList = () => {
   if (loading) return <p className="text-center mt-10">Cargando subcategorías...</p>;
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-10">
+    <div className="flex flex-wrap justify-center gap-x-10 gap-y-10">
       {subCategories.length > 0 ? (
         subCategories.map((category, index) => (
           <CardCategory key={index} name={category.name} image={category.image} />

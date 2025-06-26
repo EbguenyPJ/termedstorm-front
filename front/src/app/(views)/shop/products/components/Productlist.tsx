@@ -44,7 +44,7 @@ const ProductList = () => {
     if (loading) return <p>Cargando productos...</p>;
 
     return (
-        <div className="flex flex-wrap justify-center gap-y-10">
+        <div className="flex flex-wrap justify-center gap-x-10 gap-y-10">
             {products.length > 0 ? (
                 products.map((product) => (
                     <CardProduct

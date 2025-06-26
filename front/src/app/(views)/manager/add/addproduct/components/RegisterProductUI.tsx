@@ -114,11 +114,10 @@ const RegisterProduct = () => {
               category_id: values.categoria,
               sub_category_id: values.subcategoria,
               brand_id: values.marca,
-              employee_id: "b1d2f3e4-5678-4abc-9def-1234567890ab", // momentaneo, consultar
+              // employee_id: "b1d2f3e4-5678-4abc-9def-1234567890ab", // momentaneo, consultar
               variants: values.variantes.map((v: any) => ({
                 description: v.descripcion,
                 color_id: v.color_id,
-                // image: v.image, 
                 image: v.images,
                 variantSizes: v.variants2.map((v2: any) => ({
                   stock: parseInt(v2.stock),
@@ -136,8 +135,6 @@ const RegisterProduct = () => {
               if (fileInputRef.current) {
                 fileInputRef.current.value = "";
               }
-            } else {
-              toast.error("Error al registrar el producto");
             }
           } catch (error) {
             console.error("Error al registrar producto:", error);
@@ -254,25 +251,20 @@ const RegisterProduct = () => {
             {/* Botón aceptar, que habilita las variantes */}
             {!productoAceptado && (
               <div className="flex justify-end mt-6 mr-10">
-                <button
+                <ButtonAccent
                   type="button"
+                  textContent="ACEPTAR"
                   onClick={() => {
-                    productoSchema.validate(values, { abortEarly: false })
+                    productoSchema.validate(values, { abortEarly: true })
                       .then(() => {
                         setProductoAceptado(true);
-                        toast.success("Producto aceptado. Ahora agregá las variantes");
+                        toast.success("Producto aceptado. Ahora agrega las variantes");
                       })
-                      .catch((errors) => {
-                        errors.inner.forEach((error: any) => {
-                          toast.error(error.message);
-                        });
-                        console.log("Errores de validación:", errors.inner);
+                      .catch(() => {
+                        toast.error("Por favor, completa todos los campos obligatorios.");
                       });
                   }}
-                  className="bg-[#4e4090] text-white px-6 py-2 rounded hover:bg-[#3d3370]"
-                >
-                  ACEPTAR
-                </button>
+                />
               </div>
             )}
 
