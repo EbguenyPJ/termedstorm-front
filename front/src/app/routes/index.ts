@@ -16,6 +16,7 @@ export const routes = {
     profile: "/user/profile",
     sales: "/user/sales",
     support: "/user/support",
+    chat: "/user/chat",
     companySubscription: "/user/companysubscription",
   },
 

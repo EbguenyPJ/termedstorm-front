@@ -11,7 +11,7 @@ const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<IProduct[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const debouncedSearch = useDebounce(search, 400);
+  const debouncedSearch = useDebounce(search, 200);
   const router = useRouter();
 
   useEffect(() => {

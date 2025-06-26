@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import api from "@/lib/axiosInstance";
 import { ApiProduct, ICardProduct } from "@/interfaces";
 import CardProduct from "@/components/UI/Cards/CardProduct";
-import BreadcrumbClient from "../UI/Breadcrumb";
 import Link from "next/link";
 interface ProductListProps {
   category?: string;
@@ -54,21 +53,19 @@ const ProductList: React.FC<ProductListProps> = ({ category, subcategory }) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-y-4">
-      <div className="w-full mb-2">
-      <BreadcrumbClient/>
-      </div>
+      <div className="w-full mb-2"></div>
 
       {products.length > 0 ? (
         products.map((product) => (
           <Link href={`/shop/products/${product.id}`} key={product.id}>
-          <CardProduct
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            image={product.image}
-            slug={product.slug}
-            sale_price={product.sale_price}
-          />
+            <CardProduct
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              image={product.image}
+              slug={product.slug}
+              sale_price={product.sale_price}
+            />
           </Link>
         ))
       ) : (

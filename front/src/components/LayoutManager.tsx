@@ -5,12 +5,19 @@ import Navbar from "@/components/Navbar/Navbar";
 import SideBar from "@/components/SideBar";
 import ExcludedWrapper from "@/components/ExcludedWrapper";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import BreadcrumbClient from "@/components/UI/Breadcrumb";
+
+interface LayoutManagerProps {
+  children: React.ReactNode;
+  showBreadcrumb?: boolean;
+  showContainer?: boolean;
+}
 
 export default function LayoutManager({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  showBreadcrumb = true,
+  showContainer = true,
+}: LayoutManagerProps) {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [isMobileOverlay, setIsMobileOverlay] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -81,9 +88,25 @@ export default function LayoutManager({
           </div>
         </ExcludedWrapper>
 
-        <main className="min-h-[90vh] w-full flex justify-center items-center overflow-hidden">
-          <div className="div-container">{children}</div>
-        </main>
+        {showBreadcrumb || showContainer ? (
+          <div className="p-4 sm:p-6 lg:p-8">
+            {showBreadcrumb && (
+              <div className="mb-4">
+                <BreadcrumbClient />
+              </div>
+            )}
+
+            {showContainer ? (
+              <main className="bg-white rounded-lg shadow-md p-6 min-h-[75vh]">
+                {children}
+              </main>
+            ) : (
+              children
+            )}
+          </div>
+        ) : (
+          children
+        )}
       </div>
     </>
   );

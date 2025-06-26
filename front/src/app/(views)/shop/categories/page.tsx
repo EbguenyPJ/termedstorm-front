@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import BreadcrumbClient from "@/components/UI/Breadcrumb";
 import CardCategory from "@/components/UI/Cards/CardCategory";
 import api from "@/lib/axiosInstance";
 import Link from "next/link";
@@ -29,7 +28,6 @@ export default function CategoriesPage() {
 
   return (
     <>
-      <BreadcrumbClient />
 
       <div className="flex flex-wrap justify-center gap-y-10">
         {categories.length > 0 ? (

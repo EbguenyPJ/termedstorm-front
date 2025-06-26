@@ -1,12 +1,12 @@
 "use client";
 
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import axios from "axios";
 import { getTotalAmount } from "@/lib/getTotalAmount";
 import { ButtonSecondary } from "./UI/Buttons/Buttons";
-// import { useRouter } from "next/navigation";
+import Portal from "./Portal";
 
 export const CartDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +15,8 @@ export const CartDropdown = () => {
   const removeItem = useCartStore((state) => state.removeItem);
   const items = useCartStore((state) => state.items);
   const total = getTotalAmount(items);
-
-  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+  const buttonRef = useRef<HTMLButtonElement>(null); // Referencia al botón
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
   // BOTON PARA REALIZAR LA COMPRA DEL PRODUCTO CON STRIPE
   const handleCheckout = async () => {
@@ -31,9 +31,23 @@ export const CartDropdown = () => {
     }
   };
 
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      // Calculamos la posición justo debajo del botón
+      setPosition({
+        top: rect.bottom + window.scrollY + 20, // 8px de margen
+        left: rect.left + rect.width / 2, // Centrado con el botón
+      });
+    }
+  }, [isOpen]);
+
+  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+
   return (
-    <div className="relative flex items-center">
+    <div className="flex items-center">
       <button
+        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="relative text-white mx-4 p-2 rounded-lg hover:bg-[#6e5cc4] transition-colors cursor-pointer"
       >
@@ -46,76 +60,86 @@ export const CartDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-1/2 top-full mt-4 w-80 -translate-x-1/2 z-[9999] bg-white border border-gray-200 rounded-md shadow-lg p-4 text-sm">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-semibold">Carrito</h3>
-            <span className="text-xs text-gray-400">{totalItems} ítems</span>
-          </div>
-
-          {items.length === 0 ? (
-            <p className="text-gray-500">Tu carrito está vacío.</p>
-          ) : (
-            <>
-              <ul className="max-h-60 overflow-y-auto divide-y">
-                {items.map((item) => (
-                  <li
-                    key={item.id}
-                    className="py-3 flex justify-between items-start"
-                  >
-                    <div className="flex flex-col w-3/4">
-                      <span className="font-medium">{item.name}</span>
-                      <span className="text-xs text-gray-500">
-                        x{item.quantity} · ${item.price.toFixed(2)} c/u
-                      </span>
-                      <div className="flex items-center gap-2 mt-1">
+        <Portal>
+          <div
+            className="w-80 bg-white border border-gray-200 rounded-md shadow-lg p-4 text-sm z-[9999]"
+            style={{
+              position: "absolute",
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+              transform: "translateX(-50%)", // Truco para centrarlo perfectamente
+            }}
+          >
+            {" "}
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="font-semibold">Carrito</h3>
+              <span className="text-xs text-gray-400">{totalItems} ítems</span>
+            </div>
+            {items.length === 0 ? (
+              <p className="text-gray-500">Tu carrito está vacío.</p>
+            ) : (
+              <>
+                <ul className="max-h-60 overflow-y-auto divide-y">
+                  {items.map((item) => (
+                    <li
+                      key={item.id}
+                      className="py-3 flex justify-between items-start"
+                    >
+                      <div className="flex flex-col w-3/4">
+                        <span className="font-medium">{item.name}</span>
+                        <span className="text-xs text-gray-500">
+                          x{item.quantity} · ${item.price.toFixed(2)} c/u
+                        </span>
+                        <div className="flex items-center gap-2 mt-1">
+                          <button
+                            onClick={() => decreaseItem(item.id)}
+                            className="px-2 py-1 border rounded text-xs"
+                          >
+                            <Minus size={14} className="cursor-pointer" />
+                          </button>
+                          <button
+                            onClick={() => increaseItem(item.id)}
+                            className="px-2 py-1 border rounded text-xs"
+                            disabled={
+                              item.stock !== undefined &&
+                              item.quantity >= item.stock
+                            }
+                          >
+                            <Plus size={14} className="cursor-pointer" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <span className="font-bold whitespace-nowrap">
+                          ${(item.quantity * item.price).toFixed(2)}
+                        </span>
                         <button
-                          onClick={() => decreaseItem(item.id)}
-                          className="px-2 py-1 border rounded text-xs"
+                          onClick={() => removeItem(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                          title="Eliminar"
                         >
-                          <Minus size={14} className="cursor-pointer" />
-                        </button>
-                        <button
-                          onClick={() => increaseItem(item.id)}
-                          className="px-2 py-1 border rounded text-xs"
-                          disabled={
-                            item.stock !== undefined &&
-                            item.quantity >= item.stock
-                          }
-                        >
-                          <Plus size={14} className="cursor-pointer" />
+                          <Trash2 size={16} className="cursor-pointer" />
                         </button>
                       </div>
-                    </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <span className="font-bold whitespace-nowrap">
-                        ${(item.quantity * item.price).toFixed(2)}
-                      </span>
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="text-red-500 hover:text-red-700"
-                        title="Eliminar"
-                      >
-                        <Trash2 size={16} className="cursor-pointer"/>
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="border-t pt-3 mt-3">
-                <div className="flex justify-between font-semibold">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
+                <div className="border-t pt-3 mt-3">
+                  <div className="flex justify-between font-semibold mb-2">
+                    <span>Total:</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                  <ButtonSecondary
+                    onClick={handleCheckout}
+                    className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-600 text-sm"
+                    textContent="Finalizar compra"
+                  />
                 </div>
-                <ButtonSecondary
-                  onClick={handleCheckout}
-                  className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-600 text-sm"
-                  textContent="Finalizar compra"
-                />
-              </div>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
+        </Portal>
       )}
     </div>
   );
