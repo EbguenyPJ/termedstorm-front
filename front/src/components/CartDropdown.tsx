@@ -16,8 +16,6 @@ export const CartDropdown = () => {
   const items = useCartStore((state) => state.items);
   const total = getTotalAmount(items);
 
-  //   const router = useRouter();
-
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   // BOTON PARA REALIZAR LA COMPRA DEL PRODUCTO CON STRIPE
