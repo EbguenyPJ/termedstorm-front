@@ -5,6 +5,8 @@ import api from "@/lib/axiosInstance";
 export const getUserApi = async (): Promise<IAuthMeUser | null> => {
   try {
     const user = await api.get("/auth/me");
+    console.log("Usuario recibido de back ", user.data);
+    
     return user.data;
   } catch (error) {
     console.error("Error al obtener usuario", error);
