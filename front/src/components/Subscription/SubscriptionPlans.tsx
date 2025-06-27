@@ -1,8 +1,6 @@
-// src/components/Subscription/SubscriptionPlans.tsx
-
 'use client';
 
-import { useAuthStore } from '@/app/stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { createCheckoutSession } from '@/lib/subscriptionService';
 import { CheckIcon } from 'lucide-react';
 import { useState } from 'react';
