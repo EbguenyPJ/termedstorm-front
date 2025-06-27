@@ -2,7 +2,7 @@ import RegisterProductUI from "@/app/(views)/manager/add/addproduct/components/R
 
 const addProductPage = () => {
   return (
-    <div>
+    <div className="p-4 sm:p-6 md:p-8">
       <RegisterProductUI />;
     </div>
   );

@@ -8,6 +8,7 @@ const Page = () => {
   const params = useParams();
   const slugParam = params?.slug;
 
+
   if (!slugParam || typeof slugParam === "string") {
     return <p className="text-center mt-10">Ruta no válida</p>;
   }

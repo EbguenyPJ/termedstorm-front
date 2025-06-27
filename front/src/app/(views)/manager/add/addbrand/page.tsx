@@ -3,7 +3,7 @@ import RegisterBrand from "./components/RegisterBrandUI";
 
 const addBrandPage = () => {
   return (
-    <div className="">
+    <div>
       <RegisterBrand />
     </div>
   );

@@ -1,13 +1,17 @@
 "use client";
+
+
 import ProductViewerClient from "./ProductViewerClient";
 import { Variant } from "./ProductViewerClient";
 
 
+
+
 interface Product {
-    name: string;
-    description: string;
-    sale_price: number;
-    variants: Variant[];
+  name: string;
+  description: string;
+  sale_price: number;
+  variants: Variant[];
 }
 interface Size {
     id: string;
@@ -17,8 +21,7 @@ interface Size {
 }
 interface Color {
     id: string;
-    color: string;
-    hexCode: string;
+    name: string;
 }
 interface Props {
     product: Product;
@@ -26,7 +29,9 @@ interface Props {
     colors: Color[];
 }
 
+
 const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
+
 
     const getSizeLabel = (id: string): string => {
         const size = sizes.find((s) => s.id === id);
@@ -40,19 +45,17 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
             .join(" - ");
     };
 
+
     const getColorLabel = (id: string): string => {
         const color = colors.find((c) => c.id === id);
-        return color ? color.color : id; 
+        return color ? color.name : id;
     };
 
-    const getColorHexCode = (id: string): string => {
-        const color = colors.find((c) => c.id === id);
-        return color ? color.hexCode : '#FFFFFF'; 
-    };
 
     if (!product || !product.variants || product.variants.length === 0) {
         return <p className="text-center text-red-500 font-semibold">No hay productos disponibles.</p>;
     }
+
 
     return (
         <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-8">
@@ -64,7 +67,6 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
                         sale_price: product.sale_price,
                     }}
                     variants={product?.variants ?? []}
-                    getColorHexCode={getColorHexCode} 
                     getColorLabel={getColorLabel}
                     getSizeLabel={getSizeLabel}
                 />
@@ -72,5 +74,6 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
         </div>
     );
 };
+
 
 export default ProductDetailClient;

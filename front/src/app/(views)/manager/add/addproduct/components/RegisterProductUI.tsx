@@ -87,7 +87,7 @@ const RegisterProduct = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold text-[#4e4090]">
+      <h2 className="text-2xl font-bold mb-6 sm:mb-10 text-[#4e4090] text-center sm:text-left sm:pl-10">
         Registrar nuevo Producto
       </h2>
       <Formik
@@ -114,11 +114,9 @@ const RegisterProduct = () => {
               category_id: values.categoria,
               sub_category_id: values.subcategoria,
               brand_id: values.marca,
-              employee_id: "b1d2f3e4-5678-4abc-9def-1234567890ab", // momentaneo, consultar
               variants: values.variantes.map((v: any) => ({
                 description: v.descripcion,
                 color_id: v.color_id,
-                // image: v.image, 
                 image: v.images,
                 variantSizes: v.variants2.map((v2: any) => ({
                   stock: parseInt(v2.stock),
@@ -136,8 +134,6 @@ const RegisterProduct = () => {
               if (fileInputRef.current) {
                 fileInputRef.current.value = "";
               }
-            } else {
-              toast.error("Error al registrar el producto");
             }
           } catch (error) {
             console.error("Error al registrar producto:", error);
@@ -148,8 +144,8 @@ const RegisterProduct = () => {
       >
         {({ values }) => (
           <Form>
-            <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-10">
-              <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
+            <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+              <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
                 <InputFormik
                   name="nombre"
                   label="Nombre del Producto:"
@@ -186,7 +182,7 @@ const RegisterProduct = () => {
                 />
               </div>
 
-              <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
+              <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
                 <label className="block text-md font-semibold text-[#4e4090]">
                   Categoría
                 </label>
@@ -253,26 +249,21 @@ const RegisterProduct = () => {
             </div>
             {/* Botón aceptar, que habilita las variantes */}
             {!productoAceptado && (
-              <div className="flex justify-end mt-6 mr-10">
-                <button
+              <div className="flex justify-center md:justify-end mt-6 px-4 sm:px-6 lg:px-10">
+                <ButtonAccent
                   type="button"
+                  textContent="ACEPTAR"
                   onClick={() => {
-                    productoSchema.validate(values, { abortEarly: false })
+                    productoSchema.validate(values, { abortEarly: true })
                       .then(() => {
                         setProductoAceptado(true);
-                        toast.success("Producto aceptado. Ahora agregá las variantes");
+                        toast.success("Producto aceptado. Ahora agrega las variantes");
                       })
-                      .catch((errors) => {
-                        errors.inner.forEach((error: any) => {
-                          toast.error(error.message);
-                        });
-                        console.log("Errores de validación:", errors.inner);
+                      .catch(() => {
+                        toast.error("Por favor, completa todos los campos obligatorios.");
                       });
                   }}
-                  className="bg-[#4e4090] text-white px-6 py-2 rounded hover:bg-[#3d3370]"
-                >
-                  ACEPTAR
-                </button>
+                />
               </div>
             )}
 
@@ -280,7 +271,7 @@ const RegisterProduct = () => {
             {productoAceptado && <VariantProduct name="variantes" />}
 
             {productoAceptado && (
-              <div className="flex justify-end mt-6 mr-10">
+              <div className="flex justify-center md:justify-end mt-6 px-4 sm:px-6 lg:px-10">
                 <ButtonAccent type="submit" textContent="GUARDAR" />
               </div>
             )}

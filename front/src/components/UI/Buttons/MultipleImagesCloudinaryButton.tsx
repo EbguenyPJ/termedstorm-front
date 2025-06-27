@@ -74,7 +74,7 @@ const MultipleImagesCloudinaryButton: React.FC<CloudinaryUploadButtonProps> = ({
   return (
     <button
       type="button"
-      className="bg-primary text-white px-4 py-2 rounded hover:bg-[#0d0d0d]"
+      className="bg-primary text-white px-4 py-2 rounded hover:bg-[#0d0d0d] cursor-pointer"
       onClick={handleUpload}
     >
       {buttonText}

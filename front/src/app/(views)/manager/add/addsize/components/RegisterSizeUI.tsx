@@ -7,6 +7,10 @@ import InputFormik from "@/components/UI/Inputs/InputFormik";
 import toast from "react-hot-toast";
 import api from "@/lib/axiosInstance";
 
+interface RegisterSizeProps {
+  onSizeRegistered: () => void; 
+}
+
 const sizeSchema = yup.object().shape({
   size_us: yup
     .number()
@@ -22,10 +26,10 @@ const sizeSchema = yup.object().shape({
     .required("El talle CM es obligatorio"),
 });
 
-const RegisterSize = () => {
+const RegisterSize = ({ onSizeRegistered }: RegisterSizeProps) => {
   return (
     <>
-      <h2 className="text-2xl font-bold mb-10 text-[#4e4090]">Registrar nuevo Talle</h2>
+      <h2 className="text-2xl font-bold mb-6 sm:mb-10 text-[#4e4090] text-center sm:text-left">Registrar nuevo Talle</h2>
 
       <Formik
         initialValues={{
@@ -44,6 +48,7 @@ const RegisterSize = () => {
 
             toast.success("Talle registrado correctamente");
             resetForm();
+            onSizeRegistered();
           } catch (error: any) {
             console.error("Error al registrar el talle:", error.response?.data || error.message);
             toast.error("Ocurrió un error al registrar el talle");
@@ -52,7 +57,7 @@ const RegisterSize = () => {
       >
         {() => (
           <Form>
-            <div className="border border-gray-300 p-6 bg-white rounded-lg space-y-4">
+          <div className="border border-gray-300 p-6 sm:p-8 bg-white rounded-lg space-y-4">
               <InputFormik
                 name="size_us"
                 label="Talle US:"
@@ -75,7 +80,7 @@ const RegisterSize = () => {
               />
             </div>
 
-            <div className="flex justify-end mt-6">
+          <div className="flex justify-center md:justify-end mt-6">
               <ButtonAccent type="submit" textContent="GUARDAR" />
             </div>
           </Form>

@@ -1,11 +1,11 @@
 import React from "react";
-import RegisterSize from "./components/RegisterSizeUI";
+import SizeManager from "./components/SizeManager";
 
 const addSizePage = () => {
     return(
         <div>
-            <RegisterSize />
-        </div>
+        <SizeManager />
+      </div>
     )
 }
 

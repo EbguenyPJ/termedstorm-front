@@ -12,10 +12,10 @@ export const CardCategory: React.FC<ICard> = ({ name, image }) => {
                     src={image}
                     alt={name}
                     fill
-                    className="max-h-64 aspect-auto object-cover"
+                    className="max-h-64 aspect-auto object-cover rounded-md"
                 />
             </div>
-            <div className="mt-4 text-lg font-semibold text-gray-800">
+            <div className="mt text-xl uppercase font-semibold text-gray-800">
                 {name}
             </div>
         </div>
