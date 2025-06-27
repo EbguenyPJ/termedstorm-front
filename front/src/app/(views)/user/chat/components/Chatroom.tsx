@@ -54,10 +54,25 @@ export default function ChatRoomLayout() {
     }
   }, [message]);
 
+
+//   useEffect(() => {
+//   const fetchUsers = async () => {
+//     const res = await api.get("/employees");
+//     setAvailableUsers(res.data); // guardás en un estado local
+//   };
+
+//   fetchUsers();
+// }, []);
+
+
+
   return (
     <div
-      className="flex flex-col sm:flex-row h-[calc(100dvh-64px)] text-[#444141]"
-      style={{ backgroundColor: "var(--color-background-light, #F4F3F8)" }}
+      className="flex text-[#444141]"
+      style={{ 
+        height: "calc(100dvh - 64px)",
+        backgroundColor: "var(--color-background-light, #F4F3F8)"
+       }}
     >
       {/* Sidebar */}
       <aside className="w-80 flex-shrink-0 bg-white border-r border-[#f0f2f1]">

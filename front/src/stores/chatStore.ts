@@ -17,21 +17,25 @@ type ChatStore = {
   resetMessages: () => void;
 };
 
+
+
 export const useChatStore = create<ChatStore>((set, get) => ({
   socket: null,
   messages: [],
 
   connect: (room) => {
-    const tenantSlug = "nivo-a"; // Obtener usuario actual
+    const tenantSlug = "nivo-a"; // Obtener usuario actual: useAuthStore.getState().user?.tenant?.slug || "nivo-a"
     const socket = io("http://localhost:8080", {
       withCredentials: true,
       auth: { tenantSlug },
+      transports: ["websocket", "polling"],
     });
 
     socket.on("connect", () => {
       console.log("🟢 Conectado al socket:", socket.id);
       socket.emit("event_join", room);
     });
+
 
     socket.on("new_message", (msg: ChatMessage) => {
       set((state) => ({
@@ -41,6 +45,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
     set({ socket });
   },
+
 
   sendMessage: (message, room) => {
     const socket = get().socket;
@@ -61,6 +66,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       ],
     }));
   },
+
 
   disconnect: () => {
     const socket = get().socket;
