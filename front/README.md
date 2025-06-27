@@ -27,10 +27,11 @@ NACHO checklist:
 - MIDDLEWARE ✔
 - CREAR MICROFUNCIONES:
   ===> SEARCHBAR: ✔
-  ===> BREADCRUMBLE ✔
   ===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
-  ===> PROFILE: ADMIN, VENDEDOR, CLIENT ✔
-  ===> REPORT: ADMIN, VENDEDOR
+  ===> PROFILE: ADMIN, VENDEDOR, CLIENT 
+  ===> REPORT: ADMIN, VENDEDOR, SUPERADMIN
+ ===> MIDDLEWARE
+  
 
 - QUE LA MARCA NO ESTE RELACIONADA A UNA SUB-CATEGORIA
 QUE EL PRODUCTO NO ESTE RELACIONADO A UNA CATEGORIA Y SUBCATEGORIA
@@ -38,13 +39,20 @@ QUE EL PRODUCTO NO ESTE RELACIONADO A UNA CATEGORIA Y SUBCATEGORIA
 Precio de compra. Para que? Dejar uno solo. En todo caso dejar disponible un icono signo de pregunta y un toolkit para que haya informacion de que debe poner en cada lugar.
 
 En el momento de crear la variante del producto hay un alert que no debe existir.
-
-addproduct:Agregar Producto
-
-
-STEVEN: linea 215 del service comentada //.andWhere('color.color ILIKE :color', { color: `%${color}%` })
-
-
-- Corroborar Carrito
-- Ver con flor lo de websockets
 - Endpoint de fecha: 7 dias, 30 dias, 3 meses, 12 meses
+
+FLOR
+- Para recibir una notificacion de mensajeria tengo que estar dentro de la sala. O desde la aplicacion nivo ya puedo recibir notificaciones?
+
+
+
+ChatRoom:
+- Hacer prueba con datos reales.
+- El nombre del usuario tiene que aparecer arriba en el globo del mensaje
+- Las conversaciones deben ser unicas para cada chat. Como esta ahora se puede ver el mismo mensaje en todos los chats
+- Consumir el dato de get employees, para listado de empleados
+-
+
+
+
+Slug: que figuren los nombres y no el id

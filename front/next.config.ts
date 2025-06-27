@@ -25,9 +25,17 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "brand.assets.adidas.com", 
+        hostname: "brand.assets.adidas.com",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/products/:path*",
+        destination: "http://localhost:3000/:path*", // o el puerto real de tu backend
+      },
+    ];
   },
 };
 

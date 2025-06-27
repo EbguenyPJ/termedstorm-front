@@ -5,7 +5,6 @@ import { ICard } from "@/interfaces";
 import api from "@/lib/axiosInstance";
 import CardCategory from "@/components/UI/Cards/CardCategory";
 import Link from "next/link";
-import BreadcrumbClient from "../UI/Breadcrumb";
 
 interface Props {
   categorySlug: string;
@@ -20,9 +19,9 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
       .get(`/categories/slug/${categorySlug}`) // ✅ Asegurate de que exista este endpoint
       .then((res) => setSubcategories(res.data.subcategories || []))
       .catch((err) => {
-      console.error("Error al obtener subcategorías:", err);
-      setSubcategories([]);
-    })
+        console.error("Error al obtener subcategorías:", err);
+        setSubcategories([]);
+      })
       .finally(() => setLoading(false));
   }, [categorySlug]);
 
@@ -31,9 +30,7 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-y-10">
-      <div className="w-full mb-2">
-      <BreadcrumbClient/>
-      </div>
+      <div className="w-full mb-2"></div>
       {subcategories.length > 0 ? (
         subcategories.map((subcat, index) => (
           <Link
@@ -41,10 +38,10 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
             key={index}
             className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4"
           >
-            <CardCategory 
-            name={subcat.name} 
-            image={subcat.image} 
-            slug={subcat.slug}
+            <CardCategory
+              name={subcat.name}
+              image={subcat.image}
+              slug={subcat.slug}
             />
           </Link>
         ))

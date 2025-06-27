@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
 import { IProduct } from "../interfaces/index";
 import { Search } from "lucide-react";
+import api from "@/lib/axiosInstance";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<IProduct[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const debouncedSearch = useDebounce(search, 400);
+  const debouncedSearch = useDebounce(search, 200);
   const router = useRouter();
 
   useEffect(() => {
@@ -19,13 +19,29 @@ const SearchBar = () => {
       if (debouncedSearch.trim().length < 2) return setResults([]);
 
       try {
-        const { data } = await axios.get(
+        const { data } = await api.get(
           `/products/search?query=${debouncedSearch}`
         );
         setResults(data);
         setShowSuggestions(true);
       } catch (err) {
-        console.error("Error buscando productos", err);
+        if (err && typeof err === "object" && "response" in err) {
+          console.error(
+            "Error buscando productos",
+            err.response &&
+              typeof err.response === "object" &&
+              "data" in err.response
+              ? (err.response as { data?: any }).data
+              : err instanceof Error
+              ? err.message
+              : String(err)
+          );
+        } else {
+          console.error(
+            "Error buscando productos",
+            (err as Error).message || err
+          );
+        }
         setResults([]);
       }
     };
@@ -40,18 +56,17 @@ const SearchBar = () => {
     setShowSuggestions(false);
   };
 
-  const highlightMatch = (text: string, query: string) => {
+  const getHighlightedParts = (text: string, query: string) => {
     const regex = new RegExp(`(${query})`, "gi");
-    return {
-      __html: text.replace(
-        regex,
-        `<strong class="text-indigo-600">$1</strong>`
-      ),
-    };
+    const parts = text.split(regex);
+    return parts.map((part) => ({
+      text: part,
+      match: part.toLowerCase() === query.toLowerCase(),
+    }));
   };
 
   return (
-    <div className="relative w-full max-w-xs mx-auto">
+    <div className="relative w-full max-w-sm mx-auto">
       <div className="relative flex items-center">
         <Search className="absolute left-3 text-gray-400 w-5 h-5" />
         <input
@@ -80,9 +95,17 @@ const SearchBar = () => {
               role="option"
               aria-selected={false}
               onClick={() => handleSelect(product.id)}
-              className="px-4 py-2 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer transition flex items-center gap-2 text-sm"
-              dangerouslySetInnerHTML={highlightMatch(product.name, search)}
-            />
+              className="px-4 py-2 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer transition text-sm"
+            >
+              {getHighlightedParts(product.name, search).map((part, idx) => (
+                <span
+                  key={idx}
+                  className={part.match ? "text-indigo-600 font-semibold" : ""}
+                >
+                  {part.text}
+                </span>
+              ))}
+            </li>
           ))}
         </ul>
       )}

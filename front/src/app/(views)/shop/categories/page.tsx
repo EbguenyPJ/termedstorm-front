@@ -1,16 +1,18 @@
 "use client";
 
+
 import React, { useEffect, useState } from "react";
-import BreadcrumbClient from "@/components/UI/Breadcrumb";
 import CardCategory from "@/components/UI/Cards/CardCategory";
 import api from "@/lib/axiosInstance";
 import Link from "next/link";
 import { ICard } from "@/interfaces"; // 👈 Asegurate de que tenga slug
 
+
 export default function CategoriesPage() {
   // Estado para guardar categorías
   const [categories, setCategories] = useState<ICard[]>([]);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     api
@@ -23,13 +25,15 @@ export default function CategoriesPage() {
       .finally(() => setLoading(false));
   }, []);
 
+
   if (loading) {
     return <p className="text-center mt-10">Cargando categorías...</p>;
   }
 
+
   return (
     <>
-      <BreadcrumbClient />
+
 
       <div className="flex flex-wrap justify-center gap-y-10">
         {categories.length > 0 ? (

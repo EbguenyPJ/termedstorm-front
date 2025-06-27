@@ -11,6 +11,8 @@
   --color-base-3: #444141;
   --color-base-4: #0d0d0d;
 
+  --color-background-light: #F4F3F8;
+
   --font-sans: "Lexend", sans-serif;
   --font-mono: "Geist Mono", monospace;
 }
@@ -102,9 +104,6 @@
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-
-    /* Solo si realmente lo necesitás */
-    /* display: flex; */
   }
 }
 

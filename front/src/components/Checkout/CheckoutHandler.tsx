@@ -44,7 +44,7 @@ export const CheckoutHandler = () => {
         };
 
         try {
-        const { data } = await api.post('/api/orders', payload, {
+        const { data } = await api.post('/orders', payload, {
             withCredentials: true,
             // headers: {
             // Authorization: `Bearer ${token}`, // solo si usás autenticación por header

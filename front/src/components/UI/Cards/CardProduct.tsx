@@ -1,13 +1,13 @@
 "use client";
 
+
 import { ICardProduct } from "@/interfaces";
 import Image from "next/image";
 import React from "react";
 import { ButtonPrimary } from "../Buttons/Buttons";
-import Link from "next/link";
+
 
 export const CardProduct: React.FC<ICardProduct> = ({
-  id,
   name,
   image,
   sale_price,
@@ -27,16 +27,16 @@ export const CardProduct: React.FC<ICardProduct> = ({
             Sin imagen
           </div>
         )}
+       
       </div>
       <div className="mt-4 text-m font-semibold text-gray-800">{name}</div>
       <div className="mt-4 flex justify-between items-center text-sm font-semibold text-gray-800">
         <strong className="text-lg">${sale_price}</strong>
-        <Link href={`/shop/products/${id}`}>
           <ButtonPrimary textContent="Ver más" />
-        </Link>
       </div>
     </div>
   );
 };
+
 
 export default CardProduct;

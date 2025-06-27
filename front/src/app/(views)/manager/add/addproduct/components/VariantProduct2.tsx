@@ -5,7 +5,7 @@ import api from '@/lib/axiosInstance'
 
 interface Props {
   name: string;
-  index: number; //Indice de la variante padre
+  index: number; 
 }
 
 interface Size {
@@ -32,7 +32,7 @@ const VariantProduct2: React.FC<Props> = ({ name, index }) => {
   }, []);
 
   return (
-    <div className="border border-[#d3d3d3] p-4 rounded-lg mt-2 bg-gray-100">
+    <div className="border border-[#d3d3d3] p-4 rounded-lg mt-2">
       <h4 className="text-lg font-semibold text-[#4e4090] mb-3">Detalle de Stock y Talle</h4>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
