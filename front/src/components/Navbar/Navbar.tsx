@@ -4,7 +4,6 @@ import { CartDropdown } from "../CartDropdown";
 import { Bell } from "../UI/Bell";
 import { Inbox } from "../UI/Inbox";
 import { UserWidget } from "./UserWidget/UserWidget";
-//import { Cart } from "../Cart";
 import SearchBar from "../SearchBar";
 import { Menu, X } from "lucide-react";
 

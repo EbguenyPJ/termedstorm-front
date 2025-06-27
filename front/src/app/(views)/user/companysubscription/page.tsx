@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuthStore } from "@/stores/authStore";
 import { useMembershipTypes } from "@/hooks/useMembershipTypes";
 import { createCheckoutSession } from "@/lib/subscriptionService";
+import { useAuthStore } from "@/stores/authStore";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 

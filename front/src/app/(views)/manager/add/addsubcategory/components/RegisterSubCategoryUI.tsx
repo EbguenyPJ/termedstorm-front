@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image";
-import api from "@/lib/axiosInstance";
+import api from '@/lib/axiosInstance'
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 

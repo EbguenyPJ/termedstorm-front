@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
-import api from "@/lib/axiosInstance";
+import api from '@/lib/axiosInstance'
 
 interface Props {
   name: string;

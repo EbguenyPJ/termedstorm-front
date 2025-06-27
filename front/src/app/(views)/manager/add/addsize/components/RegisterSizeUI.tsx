@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import toast from "react-hot-toast";
-import api from "@/lib/axiosInstance";
+import api from '@/lib/axiosInstance'
 
 interface RegisterSizeProps {
   onSizeRegistered: () => void; 

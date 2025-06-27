@@ -3,10 +3,10 @@
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useCartStore } from "@/stores/cartStore";
-import axios from "axios";
 import { getTotalAmount } from "@/lib/getTotalAmount";
-import { ButtonSecondary } from "./UI/Buttons/Buttons";
 import Portal from "./Portal";
+import { CheckoutHandler } from "./Checkout/CheckoutHandler";
+
 
 export const CartDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,18 +18,6 @@ export const CartDropdown = () => {
   const buttonRef = useRef<HTMLButtonElement>(null); // Referencia al botón
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
-  // BOTON PARA REALIZAR LA COMPRA DEL PRODUCTO CON STRIPE
-  const handleCheckout = async () => {
-    try {
-      const { data } = await axios.post("/api/checkout", { items });
-
-      if (data.url) {
-        window.location.href = data.url; //session.url
-      }
-    } catch (err) {
-      console.error("Error al redirigir a Stripe:", err);
-    }
-  };
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -45,6 +33,7 @@ export const CartDropdown = () => {
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
+
     <div className="flex items-center">
       <button
         ref={buttonRef}
@@ -130,17 +119,14 @@ export const CartDropdown = () => {
                     <span>Total:</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
-                  <ButtonSecondary
-                    onClick={handleCheckout}
-                    className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-600 text-sm"
-                    textContent="Finalizar compra"
-                  />
+                  <CheckoutHandler />
                 </div>
               </>
             )}
           </div>
         </Portal>
       )}
+
     </div>
   );
 };

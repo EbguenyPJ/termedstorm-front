@@ -1,24 +1,23 @@
 "use client";
 
-
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import toast from "react-hot-toast";
+// Update the import path below if the actual file or folder name differs (e.g., 'buttons' instead of 'Buttons')
 import { ButtonPrimary } from "../Buttons/Buttons";
 interface VariantSize {
   size_id: string;
   stock: number;
 }
 
-
 export interface Variant {
+  id: string;
   image: string[];
   color_id: string;
   description: string;
   variantSizes: VariantSize[];
 }
-
 
 interface Props {
   product: {
@@ -30,7 +29,6 @@ interface Props {
   getColorLabel: (id: string) => string;
   getSizeLabel: (id: string) => string;
 }
-
 
 const ProductViewerClient: React.FC<Props> = ({
   product,
@@ -46,14 +44,12 @@ const ProductViewerClient: React.FC<Props> = ({
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const addItem = useCartStore((state) => state.addItem);
 
-
   useEffect(() => {
     if (variants.length > 0) {
       setSelectedImage(variants[0]?.image?.[0] || "/placeholder-image.jpg");
       setActiveColor(variants[0]?.color_id || "");
     }
   }, [variants]);
-
 
   if (!variants || variants.length === 0) {
     return (
@@ -63,9 +59,7 @@ const ProductViewerClient: React.FC<Props> = ({
     );
   }
 
-
   const currentVariant = variants.find((v) => v.color_id === activeColor);
-
 
   const toggleSize = (sizeId: string) => {
     setSelectedSizes((prev) =>
@@ -74,7 +68,6 @@ const ProductViewerClient: React.FC<Props> = ({
         : [...prev, sizeId]
     );
   };
-
 
   return (
     <div className="grid grid-cols-[auto_1fr] gap-8">
@@ -102,7 +95,6 @@ const ProductViewerClient: React.FC<Props> = ({
         )}
       </div>
 
-
       <div className="flex flex-col gap-4">
         <div className="w-full aspect-[4/3] relative border rounded overflow-hidden">
           <Image
@@ -113,13 +105,11 @@ const ProductViewerClient: React.FC<Props> = ({
           />
         </div>
 
-
         <h1 className="text-3xl font-bold text-secondary">{product.name}</h1>
         <p className="text-gray-700">{product.description}</p>
         <p className="text-2xl font-semibold text-primary">
           ${product.sale_price}
         </p>
-
 
         <div>
           <h3 className="font-semibold text-base-300 mb-2">
@@ -155,7 +145,6 @@ const ProductViewerClient: React.FC<Props> = ({
           </div>
         </div>
 
-
         <div>
           <h3 className="font-semibold text-base-300 mb-2 mt-4">
             Talles disponibles:
@@ -182,7 +171,6 @@ const ProductViewerClient: React.FC<Props> = ({
           </div>
         </div>
 
-
         <ButtonPrimary
           onClick={() => {
             if (!currentVariant || selectedSizes.length === 0) {
@@ -190,30 +178,24 @@ const ProductViewerClient: React.FC<Props> = ({
               return;
             }
 
-
             selectedSizes.forEach((sizeId) => {
               const stockObj = currentVariant.variantSizes.find(
                 (vs) => vs.size_id === sizeId
               );
 
-
               if (!stockObj) return;
-
 
               const itemId = `${product.name}-${currentVariant.color_id}-${sizeId}`;
 
-
               addItem({
                 id: itemId,
-                name: `${product.name} - ${getColorLabel(
-                  currentVariant.color_id
-                )} - ${getSizeLabel(sizeId)}`,
+                idVariant: currentVariant.id, // <- este campo es clave para Stripe
+                name: `${product.name} - ${getColorLabel(currentVariant.color_id)} - ${getSizeLabel(sizeId)}`,
                 price: product.sale_price,
                 quantity: 1,
                 stock: stockObj.stock,
               });
             });
-
 
             toast.success("Producto agregado al carrito");
             setSelectedSizes([]); // opcional: resetea talles seleccionados después de agregar
@@ -225,6 +207,5 @@ const ProductViewerClient: React.FC<Props> = ({
     </div>
   );
 };
-
 
 export default ProductViewerClient;

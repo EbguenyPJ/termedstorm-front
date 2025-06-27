@@ -7,7 +7,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   stock?: number;
-  //variante
+  idVariant: string;
 };
 
 type CartStore = {

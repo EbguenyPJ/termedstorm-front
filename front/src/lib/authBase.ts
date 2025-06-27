@@ -5,6 +5,8 @@ import api from "@/lib/axiosInstance";
 export const getUserApi = async (): Promise<IAuthMeUser | null> => {
   try {
     const user = await api.get("/auth/me");
+    console.log("Usuario recibido de back ", user.data);
+    
     return user.data;
   } catch (error) {
     console.error("Error al obtener usuario", error);
@@ -24,7 +26,7 @@ export const logoutApi = async () => {
 // // ROLES
 // export const getRolesApi = async (): Promise<IRole[]> => {
 //   try {
-//     const res = await baseAxios.get("/roles");
+//     const res = await api.get("/roles");
 //     return res.data; // [{ id: "1", name: "SUPERADMIN" }, ...]
 //   } catch (error) {
 //     console.error("Error al obtener los roles", error);

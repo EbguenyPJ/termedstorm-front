@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import CloudinaryButton from "@/components/UI/Buttons/CloudinaryButton";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import Image from "next/image"
-import api from "@/lib/axiosInstance";
+import api from '@/lib/axiosInstance'
 
 const categorySchema = yup.object().shape({
   nombreCategoria: yup

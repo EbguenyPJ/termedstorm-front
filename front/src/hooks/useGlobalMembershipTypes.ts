@@ -1,5 +1,5 @@
 // import { useEffect, useState } from 'react';
-// import { baseAxios } from '@/lib/authBase';
+// import { api } from '@/lib/authBase';
 // import IMembershipType from '@/interfaces/membershipType';
 
 // export function useGlobalMembershipTypes() {
@@ -10,7 +10,7 @@
 //     useEffect(() => {
 //         const fetchGlobalMembershipTypes = async () => {
 //         try {
-//             const response = await baseAxios.get('/global-membership-types');
+//             const response = await api.get('/global-membership-types');
 //             setTypes(response.data);
 //         } catch (err) {
 //             console.error('Error al obtener tipos de membresía globales:', err);
