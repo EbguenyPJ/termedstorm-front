@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import toast from "react-hot-toast";
 import { ButtonPrimary } from "../UI/Buttons/Buttons";
+
 interface VariantSize {
   size_id: string;
   stock: number;
