@@ -66,7 +66,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative w-full max-w-xs mx-auto">
+    <div className="relative w-full max-w-sm mx-auto">
       <div className="relative flex items-center">
         <Search className="absolute left-3 text-gray-400 w-5 h-5" />
         <input
