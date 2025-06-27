@@ -56,7 +56,7 @@ export default function ChatRoomLayout() {
 
   return (
     <div
-      className="flex h-screen text-[#444141]"
+      className="flex flex-col sm:flex-row h-[calc(100dvh-64px)] text-[#444141]"
       style={{ backgroundColor: "var(--color-background-light, #F4F3F8)" }}
     >
       {/* Sidebar */}
