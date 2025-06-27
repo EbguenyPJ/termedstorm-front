@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import api from "@/lib/axiosInstance"; 
+import api from "@/lib/axiosInstance";
 import toast from "react-hot-toast";
 import RegisterSize from "./RegisterSizeUI";
 import SizeList from "./SizeList";
@@ -18,7 +18,7 @@ const SizeManager = () => {
 
   const fetchSizes = useCallback(async () => {
     try {
-      const res = await api.get(`${process.env.NEXT_PUBLIC_API_URL}/sizes`); 
+      const res = await api.get(`${process.env.NEXT_PUBLIC_API_URL}/sizes`);
       setSizes(res.data);
     } catch (error) {
       console.error("Error al obtener talles:", error);
@@ -33,11 +33,11 @@ const SizeManager = () => {
   }, [fetchSizes]);
 
   const handleSizeRegistered = () => {
-    fetchSizes(); 
+    fetchSizes();
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-6"> 
+    <div className="flex flex-col md:flex-row gap-8 p-4 sm:p-6 md:p-8">
       <div className="flex-1">
         <RegisterSize onSizeRegistered={handleSizeRegistered} />
       </div>

@@ -23,7 +23,7 @@ const CategoryList = () => {
     return <p className="text-center mt-10">Cargando categorías...</p>;
 
   return (
-    <div className="flex flex-wrap justify-center gap-x-10 gap-y-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
       {categories.length > 0 ? (
         categories.map((category, index) => (
           <CardCategory
@@ -33,7 +33,7 @@ const CategoryList = () => {
           />
         ))
       ) : (
-        <div className="w-full h-60 flex justify-center items-center">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 w-full h-60 flex justify-center items-center">
           <p className="text-center text-gray-500 text-lg w-full">
             No hay categorías disponibles.
           </p>

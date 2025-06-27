@@ -4,7 +4,7 @@ import BreadcrumbClient from "../../../../../components/UI/Breadcrumb";
 
 const addBrandPage = () => {
   return (
-    <div className="">
+    <div className="p-4 sm:p-6 md:p-8">
       <BreadcrumbClient />
       <RegisterBrand />
     </div>

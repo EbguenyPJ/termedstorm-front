@@ -12,7 +12,7 @@ const ProductList = () => {
         api
             .get(`/products`)
             .then((res) => {
-                const fetchedProducts: ApiProduct[] = res.data; 
+                const fetchedProducts: ApiProduct[] = res.data;
 
                 const mappedProducts: ICardProduct[] = fetchedProducts.map((product: ApiProduct) => {
                     let imageUrl: string = "";
@@ -20,7 +20,7 @@ const ProductList = () => {
                     if (product.image && product.image !== "") {
                         imageUrl = product.image;
                     }
-                    else if (product.variants && product.variants.length > 0 && product.variants[0].image && 
+                    else if (product.variants && product.variants.length > 0 && product.variants[0].image &&
                         product.variants[0].image.length > 0) {
                         imageUrl = product.variants[0].image[0];
                     }
@@ -31,7 +31,7 @@ const ProductList = () => {
                     return {
                         id: product.id,
                         name: product.name,
-                        image: imageUrl, 
+                        image: imageUrl,
                         sale_price: product.sale_price,
                     };
                 });
@@ -44,19 +44,19 @@ const ProductList = () => {
     if (loading) return <p>Cargando productos...</p>;
 
     return (
-        <div className="flex flex-wrap justify-center gap-x-10 gap-y-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
             {products.length > 0 ? (
                 products.map((product) => (
                     <CardProduct
-                        key={product.id} 
-                        id={product.id} 
+                        key={product.id}
+                        id={product.id}
                         name={product.name}
-                        image={product.image} 
+                        image={product.image}
                         sale_price={product.sale_price}
                     />
                 ))
             ) : (
-                <div className="w-full h-60 flex justify-center items-center">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 w-full h-60 flex justify-center items-center">
                     <p className="text-center text-gray-500 text-lg w-full">
                         No hay productos disponibles.
                     </p>

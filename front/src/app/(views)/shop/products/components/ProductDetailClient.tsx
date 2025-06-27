@@ -1,15 +1,13 @@
-// src\app\(views)\shop\products\components\ProductDetailClient.tsx
 "use client";
-
 import ProductViewerClient from "./ProductViewerClient";
 import { Variant } from "./ProductViewerClient";
 
 
 interface Product {
-  name: string;
-  description: string;
-  sale_price: number;
-  variants: Variant[];
+    name: string;
+    description: string;
+    sale_price: number;
+    variants: Variant[];
 }
 
 interface Size {
@@ -21,7 +19,8 @@ interface Size {
 
 interface Color {
     id: string;
-    name: string;
+    color: string;
+    hexCode: string;
 }
 
 interface Props {
@@ -46,7 +45,12 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
 
     const getColorLabel = (id: string): string => {
         const color = colors.find((c) => c.id === id);
-        return color ? color.name : id;
+        return color ? color.color : id; 
+    };
+
+    const getColorHexCode = (id: string): string => {
+        const color = colors.find((c) => c.id === id);
+        return color ? color.hexCode : '#FFFFFF'; 
     };
 
     if (!product || !product.variants || product.variants.length === 0) {
@@ -63,6 +67,7 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
                         sale_price: product.sale_price,
                     }}
                     variants={product?.variants ?? []}
+                    getColorHexCode={getColorHexCode} 
                     getColorLabel={getColorLabel}
                     getSizeLabel={getSizeLabel}
                 />

@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 interface Color {
   id: string;
   color: string;
+  hexCode: string;
 }
 
 const ColorManager = () => {

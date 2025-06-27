@@ -8,100 +8,108 @@ import api from "@/lib/axiosInstance";
 import Select from "react-select";
 
 interface Props {
-    name: string;
+  name: string;
 }
 
 interface ColorOption {
-    value: string;
-    label: string;
+  value: string;
+  label: string;
+  hexCode: string;
+  id: string; // ID del color
 }
 
 interface Variante {
-    id: string;
-    color: string;
-    images: string[];
-    descripcion: string;
-    variants2: {
-        talle: string;
-        stock: number | string;
-    }[]
+  id: string;
+  color_id: string; 
+  color: string;
+  images: string[];
+  descripcion: string;
+  variants2: {
+    talle: string;
+    stock: number | string;
+  }[]
 }
 
 const VariantProduct: React.FC<Props> = ({ name }) => {
-    const [showVariant2, setShowVariant2] = useState<boolean[]>([]);
-    const [colorOptions, setColorOptions] = useState<ColorOption[]>([]); 
-    const [loadingColors, setLoadingColors] = useState(true);
+  const [showVariant2, setShowVariant2] = useState<boolean[]>([]);
+  const [colorOptions, setColorOptions] = useState<ColorOption[]>([]);
+  const [loadingColors, setLoadingColors] = useState(true);
 
-    const { setFieldValue, values } = useFormikContext<any>();
+  const { setFieldValue, values } = useFormikContext<any>();
 
-    useEffect(() => {
-        const fetchColors = async () => {
-            try {
-                const res = await api.get("/colors");
-                const options = res.data.map((col: { id: string; color: string }) => ({
-                    value: col.color,
-                    label: col.color,
-                }));
-                setColorOptions(options);
-            } catch (error) {
-                console.error("Error al obtener colores:", error);
-            } finally {
-                setLoadingColors(false);
-            }
-        };
-        fetchColors();
-    }, []);
+  useEffect(() => {
+    const fetchColors = async () => {
+      try {
+        const res = await api.get("/colors");
+        const options = res.data.map((col: { id: string; color: string; hexCode: string }) => ({
+          value: col.color,
+          label: col.color,
+          hexCode: col.hexCode,
+          id: col.id, 
+        }));
+        setColorOptions(options);
+      } catch (error) {
+        console.error("Error al obtener colores:", error);
+      } finally {
+        setLoadingColors(false);
+      }
+    };
+    fetchColors();
+  }, []);
 
 
-    return (
-        <FieldArray name={name}>
-            {({ push, remove, form }) => (
-                <div className="border border-gray-300 p-6 rounded-lg mt-6 bg-gray-50">
-                    <h3 className="text-xl font-bold text-[#4e4090] mb-4">Variantes del Producto</h3>
-
-                    {(form.values[name] as Variante[]).map((variante, index: number) => {
+  return (
+    <FieldArray name={name}>
+      {({ push, remove, form }) => (
+        <div className="border border-gray-300 p-4 sm:p-6 rounded-lg mt-6 mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
+          <h3 className="text-xl font-bold text-[#4e4090] mb-4">Variantes del Producto</h3>
+          {(form.values[name] as Variante[]).map((variante, index: number) => {
             const selectedColorOption = colorOptions.find(
-              (option) => option.value === variante.color
+              (option) => option.id === variante.color_id
             );
 
             return (
               <div
                 key={variante.id}
-                className="border border-[#d3d3d3] p-4 rounded-lg mb-4 bg-white flex flex-col gap-2"
+                className="border border-[#d3d3d3] p-4 rounded-lg mb-4 bg-white flex flex-col gap-4"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
-                    <label className="block font-semibold text-[#4e4090]">
+                    <label className="block font-semibold text-[#4e4090] mb-2">
                       Color
                     </label>
                     <Select
-                      name={`${name}[${index}].color`}
+                      name={`${name}[${index}].color_id`}
                       options={colorOptions}
                       className="basic-single"
                       classNamePrefix="select"
                       isLoading={loadingColors}
-                      value={selectedColorOption || null} 
-                      onChange={(newValue: any) => {
+                      value={selectedColorOption || null}
+                      onChange={(newValue: ColorOption | null) => {
+                        setFieldValue(
+                          `${name}[${index}].color_id`,
+                          newValue ? newValue.id : "" 
+                        );
                         setFieldValue(
                           `${name}[${index}].color`,
-                          newValue ? newValue.value : ""
+                          newValue ? newValue.value : "" 
                         );
                       }}
                       placeholder="Seleccioná un color"
                       noOptionsMessage={() => "No hay colores disponibles"}
                     />
                     <ErrorMessage
-                      name={`${name}[${index}].color`}
+                      name={`${name}[${index}].color_id`}
                       component="div"
                       className="text-red-500 text-sm"
                     />
                     {/* VISTA PREVIA DEL COLOR */}
                     {selectedColorOption && (
-                      <div className="mt-4 flex items-center gap-4">
+                      <div className="mt-4 flex flex-wrap items-center gap-4">
                         <span className="text-gray-700">Vista previa:</span>
                         <div
                           className="w-10 h-10 rounded-full border"
-                          style={{ backgroundColor: selectedColorOption.value }} 
+                          style={{ backgroundColor: selectedColorOption.hexCode }}
                         ></div>
                         <span className="text-gray-600">
                           {selectedColorOption.label}
@@ -110,7 +118,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                     )}
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#4e4090]">
+                    <label className="block font-semibold text-[#4e4090] mb-2">
                       Descripción
                     </label>
                     <Field
@@ -127,7 +135,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                 </div>
 
                 <div>
-                  <label className="block text-md font-semibold text-[#4e4090]">
+                  <label className="block text-md font-semibold text-[#4e4090] mb-2">
                     Imagen de la Variante:
                   </label>
                   <MultipleImagesCloudinaryButton
@@ -184,7 +192,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                   />
                 </div>
 
-                <div className="flex justify-end mt-2">
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-2 gap-4">
                   <button
                     type="button"
                     onClick={() => remove(index)}
@@ -202,7 +210,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                           index
                         ];
                         if (
-                          currentVariant.color &&
+                          currentVariant.color_id &&
                           currentVariant.images.length > 0 &&
                           currentVariant.descripcion
                         ) {
@@ -223,7 +231,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                           );
                         }
                       }}
-                      className="bg-[#4e4090] text-white px-4 py-2 rounded hover:bg-[#3d3370] cursor-pointer"
+                      className="bg-[#4e4090] text-white px-4 py-2 rounded hover:bg-[#3d3370] cursor-pointer w-full sm:w-auto"
                     >
                       Aceptar Variantes
                     </button>
@@ -233,7 +241,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                 {showVariant2[index] && (
                   <FieldArray name={`${name}[${index}].variants2`}>
                     {({ push: push2, remove: remove2, form: form2 }) => (
-                      <div className="border border-gray-200 p-4 rounded-lg mt-4 bg-gray-50">
+                      <div className="border border-gray-200 p-4 rounded-lg mt-4">
                         <h4 className="text-lg font-bold text-[#4e4090] mb-3">
                           Talles y Stock
                         </h4>
@@ -263,7 +271,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
                         <button
                           type="button"
                           onClick={() => push2({ talle: "", stock: "" })}
-                          className="bg-[#4e4090] text-white px-3 py-1 rounded mt-2 hover:bg-[#3d3370] text-sm cursor-pointer"
+                          className="bg-[#4e4090] text-white px-3 py-1 rounded mt-2 hover:bg-[#3d3370] text-sm cursor-pointer w-full sm:w-auto"
                         >
                           Agregar Talle/Stock
                         </button>
@@ -280,6 +288,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
             onClick={() => {
               push({
                 id: Date.now(),
+                color_id: "", 
                 color: "",
                 images: [],
                 descripcion: "",
@@ -287,7 +296,7 @@ const VariantProduct: React.FC<Props> = ({ name }) => {
               });
               setShowVariant2([...showVariant2, false]);
             }}
-            className="bg-[#4e4090] text-white px-4 py-2 rounded mt-2 hover:bg-[#3d3370] cursor-pointer"
+            className="bg-[#4e4090] text-white px-4 py-2 rounded mt-6 hover:bg-[#3d3370] cursor-pointer w-full sm:w-auto mx-auto block"
           >
             Agregar variante
           </button>
