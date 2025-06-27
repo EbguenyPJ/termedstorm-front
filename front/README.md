@@ -43,3 +43,16 @@ En el momento de crear la variante del producto hay un alert que no debe existir
 
 FLOR
 - Para recibir una notificacion de mensajeria tengo que estar dentro de la sala. O desde la aplicacion nivo ya puedo recibir notificaciones?
+
+
+
+ChatRoom:
+- Hacer prueba con datos reales.
+- El nombre del usuario tiene que aparecer arriba en el globo del mensaje
+- Las conversaciones deben ser unicas para cada chat. Como esta ahora se puede ver el mismo mensaje en todos los chats
+- Consumir el dato de get employees, para listado de empleados
+-
+
+
+
+Slug: que figuren los nombres y no el id
