@@ -1,27 +1,29 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import ReportsSlider from './components/ReportsSlider';
-import { cookies } from 'next/headers';
-import jwtDecode from 'jwt-decode';
+import { useAuthStore } from '@/stores/authStore';
+//import { useRouter } from 'next/navigation';
 
-interface TokenPayload {
-    role: string;
-}
+export default function ReportsPage() {
+    //const router = useRouter();
+    const { user, fetchUser, isInitialized, setInitialized, loading, hasRole } = useAuthStore();
 
-export default function DashboardPage() {
-    const cookieStore = cookies();
-    const token = cookieStore.get('auth-token')?.value;
+    useEffect(() => {
+        const init = async () => {
+            if (!isInitialized) {
+                await fetchUser(); // intenta obtener el usuario desde el backend
+                setInitialized(true);
+            }
+        };
+        init();
+    }, [isInitialized, fetchUser, setInitialized]);
 
-    let isAdmin = false;
-    if (token) {
-        try {
-            const decoded = jwtDecode<TokenPayload>(token);
-            isAdmin = decoded.role === 'admin';
-        } catch (err) {
-            console.error('Error decoding token', err);
-        }
+    if (loading || !isInitialized) {
+        return <p className="p-6 text-gray-600">Cargando información...</p>;
     }
 
-    if (!isAdmin) {
+    if (!user || !hasRole('admin')) {
         return <p className="text-red-500 p-6">Acceso restringido. Debes ser administrador.</p>;
     }
 

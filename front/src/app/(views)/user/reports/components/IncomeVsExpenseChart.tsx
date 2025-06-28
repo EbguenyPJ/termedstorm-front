@@ -2,10 +2,11 @@
 
 import React from 'react';
 import Chart from 'react-apexcharts';
-import ChartCard from '../ChartCard';
+import ChartCard from '../components/ChartCard';
+import { ApexOptions } from 'apexcharts';
 
 export default function IncomeVsExpenseChart() {
-    const options = {
+    const options: ApexOptions = {
         chart: { type: 'bar', toolbar: { show: false } },
         xaxis: { categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May'] },
         plotOptions: { bar: { horizontal: false, columnWidth: '55%' } },

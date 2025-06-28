@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import SalesChart from './charts/SalesChart';
-import IncomeVsExpenseChart from './charts/IncomeVsExpenseChart';
-import EmployeeComparisonChart from './charts/EmployeeComparisonChart';
+import SalesChart from './SalesChart';
+import IncomeVsExpenseChart from './IncomeVsExpenseChart';
+import EmployeeComparisonChart from './EmployeeComparisonChart';
 
 export default function ReportsSlider() {
   return (
@@ -15,4 +15,4 @@ export default function ReportsSlider() {
       </div>
     </div>
   );
-}
+};
