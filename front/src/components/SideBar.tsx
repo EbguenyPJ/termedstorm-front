@@ -141,8 +141,8 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     )
                   }
                   className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
-          ${isCollapsed ? "justify-center" : ""}
-          ${isEditingActive ? "bg-[#4e4090]" : "hover:bg-[#4e4090]"}`}
+                  ${isCollapsed ? "justify-center" : ""}
+                  ${isEditingActive ? "bg-[#4e4090]" : "hover:bg-[#4e4090]"}`}
                 >
                   <Sliders
                     className={`text-base-100 group-hover:text-white ${
@@ -188,18 +188,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         Subcategorías
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href={routes.manager.add.product}
-                        className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.product
-                            ? "font-bold"
-                            : ""
-                        }`}
-                      >
-                        Productos
-                      </Link>
-                    </li>
+                    
                     <li>
                       <Link
                         href={routes.manager.add.brand}
@@ -234,6 +223,18 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         }`}
                       >
                         Agregar Medidas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.add.product}
+                        className={`block px-2 py-1 text-base-200 ${
+                          pathname === routes.manager.add.product
+                            ? "font-bold"
+                            : ""
+                        }`}
+                      >
+                        Productos
                       </Link>
                     </li>
                   </ul>
@@ -307,17 +308,10 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         href={routes.manager.settings.shipping}
                         className="block px-2 py-1 text-base-200"
                       >
-                        Envíos
+                        Embarques
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href={routes.manager.settings.shippingUpload}
-                        className="block px-2 py-1 text-base-200"
-                      >
-                        Cargar tarifas
-                      </Link>
-                    </li>
+                    
                   </ul>
                 )}
               </li>

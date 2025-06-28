@@ -26,11 +26,11 @@ NACHO checklist:
 - FORMULARIO CREAR EMPLEADO ✔
 - MIDDLEWARE ✔
 - CREAR MICROFUNCIONES:
-  ===> SEARCHBAR: ✔
+  ===> SEARCHBAR 
   ===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
-  ===> PROFILE: ADMIN, VENDEDOR, CLIENT 
+  ===> PROFILE: ADMIN, VENDEDOR, CLIENT ✔
   ===> REPORT: ADMIN, VENDEDOR, SUPERADMIN
- ===> MIDDLEWARE
+ ===> SHIPMENTS ✔
   
 
 - QUE LA MARCA NO ESTE RELACIONADA A UNA SUB-CATEGORIA
@@ -47,12 +47,13 @@ FLOR
 
 
 ChatRoom:
-- Hacer prueba con datos reales.
 - El nombre del usuario tiene que aparecer arriba en el globo del mensaje
 - Las conversaciones deben ser unicas para cada chat. Como esta ahora se puede ver el mismo mensaje en todos los chats
+- Harcodear el mensaje de otro usuario para ver viene: El usuario x deberia posicionarse a la izquierda de color lila y el mensaje mio debe aparecer el color blanco a la derecha.
 - Consumir el dato de get employees, para listado de empleados
--
+- Hacer prueba con datos reales.
+
+ACOMODAR  DE DONDE TRAIGO LOS DATOS DEL SEARCHBAR 
 
 
-
-Slug: que figuren los nombres y no el id
+middleware: preparar middleware entre employee admin y employee seller

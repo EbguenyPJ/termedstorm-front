@@ -6,11 +6,12 @@ type ChatMessage = {
   user: string;
   message: string;
   createdAt: string;
+  room: string;
 };
 
 type ChatStore = {
   socket: Socket | null;
-  messages: ChatMessage[];
+  messages: Record<string, ChatMessage[]>;
   connect: (tenantSlug: string, room: string) => void;
   disconnect: () => void;
   sendMessage: (message: string, room: string) => void;
@@ -21,10 +22,9 @@ type ChatStore = {
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   socket: null,
-  messages: [],
+  messages: {},
 
-  connect: (room) => {
-    const tenantSlug = "nivo-a"; // Obtener usuario actual: useAuthStore.getState().user?.tenant?.slug || "nivo-a"
+connect: (tenantSlug, room) => {
     const socket = io("http://localhost:8080", {
       withCredentials: true,
       auth: { tenantSlug },
@@ -36,10 +36,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       socket.emit("event_join", room);
     });
 
-
     socket.on("new_message", (msg: ChatMessage) => {
       set((state) => ({
-        messages: [...state.messages, msg],
+        messages: {
+          ...state.messages,
+          [msg.room]: [...(state.messages[msg.room] || []), msg],
+        },
       }));
     });
 
@@ -47,23 +49,26 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   },
 
 
-  sendMessage: (message, room) => {
+ sendMessage: (message, room) => {
     const socket = get().socket;
     const user = useAuthStore.getState().user;
 
     if (!socket || !message.trim()) return;
 
+    const newMessage: ChatMessage = {
+      user: user?.name || "yo",
+      message,
+      createdAt: new Date().toISOString(),
+      room,
+    };
+
     socket.emit("event_message", { room, message });
 
     set((state) => ({
-      messages: [
+      messages: {
         ...state.messages,
-        {
-          user: user?.name || "yo",
-          message,
-          createdAt: new Date().toISOString(),
-        },
-      ],
+        [room]: [...(state.messages[room] || []), newMessage],
+      },
     }));
   },
 
@@ -71,11 +76,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   disconnect: () => {
     const socket = get().socket;
     if (socket) {
-      socket.emit("event_leave", "general");
+      socket.emit("event_leave", "general"); // Opcional: podrías enviar la room actual
       socket.disconnect();
       set({ socket: null });
     }
   },
 
-  resetMessages: () => set({ messages: [] }),
+  resetMessages: () => set({ messages: {} }),
 }));

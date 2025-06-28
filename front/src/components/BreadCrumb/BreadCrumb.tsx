@@ -25,6 +25,7 @@ export const Breadcrumb = () => {
       "shop",
       "user",
       "manager",
+      "settings"
     ].includes(seg);
 
     const label = capitalize(displayNames[seg] ?? seg.replace(/-/g, " "));

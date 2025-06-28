@@ -22,17 +22,42 @@ export default function ChatRoomLayout() {
 
   const user = useAuthStore((state) => state.user);
   const tenantSlug = "nivo-a"; //user?.tenant?.slug ?? "default-tenant"; desde back = tenant: payload.tenant,
-  const room = user?.name ?? "general";
+  const room = activeRoom ?? "general";
 
   useEffect(() => {
-    if (!tenantSlug || !room) return;
+    if (!tenantSlug || !activeRoom) return;
 
-    connect(tenantSlug, room);
+    connect(tenantSlug, activeRoom);
 
     return () => {
       resetMessages();
     };
-  }, [tenantSlug, room]);
+  }, [tenantSlug, activeRoom]);
+
+  // Simula mensaje inicial del otro usuario
+  useEffect(() => {
+  if (!activeRoom) return;
+
+  const timeout = setTimeout(() => {
+    useChatStore.setState((state) => ({
+      messages: {
+        ...state.messages,
+        [activeRoom]: [
+          ...(state.messages[activeRoom] || []),
+          {
+            user: activeRoom,
+            message: "¡Hola! ¿Cómo estás?",
+            createdAt: new Date().toISOString(),
+            room: activeRoom,
+          },
+        ],
+      },
+    }));
+  }, 1000);
+
+  return () => clearTimeout(timeout);
+}, [activeRoom]);
+
 
   const handleSend = () => {
     if (!message.trim()) return;
@@ -54,25 +79,22 @@ export default function ChatRoomLayout() {
     }
   }, [message]);
 
+  //   useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const res = await api.get("/employees");
+  //     setAvailableUsers(res.data); // guardás en un estado local
+  //   };
 
-//   useEffect(() => {
-//   const fetchUsers = async () => {
-//     const res = await api.get("/employees");
-//     setAvailableUsers(res.data); // guardás en un estado local
-//   };
-
-//   fetchUsers();
-// }, []);
-
-
+  //   fetchUsers();
+  // }, []);
 
   return (
     <div
       className="flex text-[#444141]"
-      style={{ 
+      style={{
         height: "calc(100dvh - 64px)",
-        backgroundColor: "var(--color-background-light, #F4F3F8)"
-       }}
+        backgroundColor: "var(--color-background-light, #F4F3F8)",
+      }}
     >
       {/* Sidebar */}
       <aside className="w-80 flex-shrink-0 bg-white border-r border-[#f0f2f1]">
@@ -115,8 +137,8 @@ export default function ChatRoomLayout() {
 
             {/* Mensajes */}
             <div className="flex-grow p-6 overflow-y-auto">
-              {messages.map((msg, idx) => {
-                const isOwn = msg.user === user?.userId;
+              {(messages[room] || []).map((msg, idx) => {
+                const isOwn = msg.user === user?.name;
 
                 return (
                   <div
@@ -125,11 +147,14 @@ export default function ChatRoomLayout() {
                       isOwn ? "items-end" : "items-start"
                     }`}
                   >
+                    <span className="text-sm text-[#999] mb-1">
+                      {isOwn ? user?.name ?? "Yo" : msg.user}
+                    </span>
                     <div
-                      className={`p-3 rounded-lg max-w-lg shadow-sm ${
+                      className={`p-3 rounded-lg max-w-[70%] shadow-sm ${
                         isOwn
-                          ? "bg-[#6e5cc4] text-white"
-                          : "bg-white text-[#444141]"
+                          ? "bg-[#6e5cc4] text-white rounded-br-none"
+                          : "bg-[#e8e2fa] text-[#444141] rounded-bl-none"
                       }`}
                     >
                       <p>{msg.message}</p>
@@ -144,9 +169,6 @@ export default function ChatRoomLayout() {
                         })}
                       </p>
                     </div>
-                    <span className="text-xs text-[#999] mt-1">
-                      {isOwn ? user?.name ?? "Yo" : msg.user}
-                    </span>
                   </div>
                 );
               })}

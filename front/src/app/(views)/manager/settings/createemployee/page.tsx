@@ -3,7 +3,7 @@ import { CreateEmployeeUI } from "./components/CreateEmployeeUI";
 export default function RegisterPage() {
   return (
     <div>
-      <div className="bg-white shadow-md rounded-xl w-full max-w-md p-8">
+      <div className=" max-w-md mx-auto">
         <div className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             Nuevo Empleado

@@ -7,20 +7,19 @@ import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/stores/authStore";
-// import dynamic from "next/dynamic";
-// import React, { useState, useEffect } from "react";
-// import { getRolesApi } from "@/lib/authBase";
+import dynamic from "next/dynamic";
+import React, { useState } from "react";
 
-// const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select"), { ssr: false });
 
-// type OptionType = {
-//   value: string;
-//   label: string;
-// };
+type OptionType = {
+  value: string;
+  label: string;
+};
 
 export const CreateEmployeeUI = () => {
-  // const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
-  // const [selectedRole, setSelectedRole] = useState<OptionType[]>([]);
+  const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
+  const [selectedRole, setSelectedRole] = useState<OptionType[]>([]);
   const { registerEmployee } = useAuthStore();
 
   const validationSchema = yup.object({
@@ -47,7 +46,7 @@ export const CreateEmployeeUI = () => {
       .required("La contraseña es requerida"),
     role: yup
       .array()
-      .min(1, "Selecciona al menos una Sub-Categoría")
+      .min(1, "Selecciona al menos un rol")
       .of(yup.string().required()),
   });
 
@@ -75,12 +74,12 @@ export const CreateEmployeeUI = () => {
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
     >
-      {({ isSubmitting }) => ( //setFieldValue,
+      {({setFieldValue, isSubmitting }) => (
         <Form>
           <div className="mb-4">
-            <label className="block text-md font-semibold text-[#4e4090]">
-              Rol
-              {/* <Select
+            <label className="block text-md text- text-[#4e4090]">
+              Rol</label>
+              <Select
                 isMulti
                 name="role"
                 options={roleOptions}
@@ -94,13 +93,13 @@ export const CreateEmployeeUI = () => {
                     : [];
                   setFieldValue("role", values);
                 }}
-              /> */}
+              />
               <ErrorMessage
                 name="role"
                 component="div"
                 className="text-red-500 text-sm mt-1"
               />
-            </label>
+            
           </div>
 
           {/* FIRST NAME */}
