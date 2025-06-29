@@ -67,7 +67,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
-import ClientSubscription from "@/app/(views)/user/client-subscription/components/ClientSubscription";
 import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
 import { routes } from "@/app/routes";
 import { useRouter } from "next/navigation";
