@@ -9,6 +9,7 @@ export const routes = {
   client: {
     subscription: "/user/client-subscription",
     profileClient: "/profileclient",
+    clientSubscription: "/user/client-subscription",
   },
 
   // Users
@@ -17,7 +18,7 @@ export const routes = {
     sales: "/user/sales",
     support: "/user/support",
     chat: "/user/chat",
-    companySubscription: "/user/companysubscription",
+    companySubscription: "/user/company-subscription",
   },
 
   // Shop
