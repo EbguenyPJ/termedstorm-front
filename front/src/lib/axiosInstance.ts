@@ -6,6 +6,5 @@ const axiosInstance = axios.create({
 });
 
 // Header fijo (siempre presente)
-axiosInstance.defaults.headers.common['X-Tenant-Id'] = 'nivo-a'; // reemplazá este valor si necesitás otro
-
+axiosInstance.defaults.headers.common['X-Tenant-Id'] = 'nivo-a';
 export default axiosInstance;

@@ -3,13 +3,13 @@
 import { useAuthStore } from '@/stores/authStore';
 import { createCheckoutSession } from '@/lib/subscriptionService';
 import { CheckIcon } from 'lucide-react';
-import { useState } from 'react';
 
 interface Plan {
     id: string;
     name: string;
     stripe_price_id: string;
     description?: string;
+    price: number;
 };
 
 interface Props {
@@ -21,7 +21,6 @@ interface Props {
 
 export function SubscriptionPlans({ plans, title, error, loading }: Props) {
     const user = useAuthStore((state) => state.user);
-    const [isAnnual, setIsAnnual] = useState(false);
 
     const handleSubscribe = async (price_id: string) => {
         if (!user) return alert("Debes iniciar sesión.");
@@ -52,21 +51,6 @@ export function SubscriptionPlans({ plans, title, error, loading }: Props) {
                 {title}
                 </h2>
 
-                <div className="flex items-center justify-center space-x-2">
-                    <span className="text-sm">Mensual</span>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                            type="checkbox"
-                            className="sr-only peer"
-                            checked={isAnnual}
-                            onChange={() => setIsAnnual(!isAnnual)}
-                            />
-                            <div className="w-[40px] h-[20px] bg-neutral-500 peer-checked:bg-[#6e5cc4] rounded-full" />
-                            <div className="absolute top-[2px] left-[2px] h-[16px] w-[16px] bg-white rounded-full shadow-md peer-checked:translate-x-[20px]" />
-                        </label>
-                    <span className="text-sm">Anual</span>
-                </div>
-
                 <div className="grid gap-6 pt-12 lg:grid-cols-3 lg:gap-8">
                 {plans.map((plan) => (
                     <div
@@ -75,7 +59,7 @@ export function SubscriptionPlans({ plans, title, error, loading }: Props) {
                     >
                     <h3 className="text-2xl font-semibold mb-1">{plan.name}</h3>
                     <p className="text-4xl font-bold mt-2">
-                        {isAnnual ? "$990/año" : "$99/mes"}
+                        {plan.price}
                     </p>
                     <p className="text-sm mt-1 text-gray-500">{plan.description}</p>
                     <ul className="space-y-3 mt-4 text-left text-sm w-full">

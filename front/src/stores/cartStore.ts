@@ -8,6 +8,7 @@ export type CartItem = {
   quantity: number;
   stock?: number;
   idVariant: string;
+  sizeId: string;
 };
 
 type CartStore = {
