@@ -8,6 +8,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import api from '@/lib/axiosInstance';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import toast from 'react-hot-toast';
+import { routes } from '@/app/routes';
 
 interface Size {
   _id: string;
@@ -90,7 +91,7 @@ const TableSize: React.FC = () => {
   };
 
   const handleAddSize = () => {
-    router.push('/manager/add/addsize');
+    router.push(routes.manager.add.size);
   };
 
   const handleEdit = (size: Size) => {
@@ -244,7 +245,7 @@ const TableSize: React.FC = () => {
 
   return (
     <section className="p-3 sm:p-5">
-      <div className="div-container">
+      <div>
         <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <div className="w-full md:w-1/2">

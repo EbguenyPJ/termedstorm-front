@@ -11,6 +11,7 @@ import CloudinaryButton from '@/components/UI/Buttons/CloudinaryButton';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
 import toast from 'react-hot-toast';
+import { routes } from '@/app/routes';
 
 interface SubCategory {
   _id: string;
@@ -92,7 +93,7 @@ const TableSubCategory: React.FC = () => {
   };
 
   const handleAddSubCategory = () => {
-    router.push('/manager/add/addsubcategory');
+    router.push(routes.manager.add.subcategory);
   };
 
   const handleEdit = (subCategory: SubCategory) => {
@@ -229,8 +230,8 @@ const TableSubCategory: React.FC = () => {
 
   return (
     <section className="p-3 sm:p-5">
-      <div className="div-container">
-        <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
+      <div>
+        <div className="relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             {/* Título de la tabla */}
             <div className="w-full md:w-1/2">

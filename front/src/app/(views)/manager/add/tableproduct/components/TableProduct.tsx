@@ -9,6 +9,7 @@ import api from '@/lib/axiosInstance';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import { IApiProductExtended } from '@/interfaces/product-extended';
 import ProductDetailsView from './ProductDetailsView';
+import { routes } from '@/app/routes';
 
 const TableProduct: React.FC = () => {
     const [products, setProducts] = useState<IApiProductExtended[]>([]);
@@ -75,7 +76,7 @@ const TableProduct: React.FC = () => {
     };
 
     const handleAddProduct = () => {
-        router.push('/manager/add/addproduct');
+        router.push(routes.manager.add.product);
     };
 
     const handleViewDetails = (product: IApiProductExtended) => {
@@ -131,7 +132,7 @@ const TableProduct: React.FC = () => {
 
     return (
         <section className="p-3 sm:p-5">
-            <div className="div-container">
+            <div>
                 <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <div className="w-full md:w-1/2">

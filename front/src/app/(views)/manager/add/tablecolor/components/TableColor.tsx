@@ -9,6 +9,7 @@ import api from '@/lib/axiosInstance';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
 import toast from 'react-hot-toast';
+import { routes } from '@/app/routes';
 
 interface Color {
   _id: string;
@@ -84,7 +85,7 @@ const TableColor: React.FC = () => {
   };
 
   const handleAddColor = () => {
-    router.push('/manager/add/addcolor');
+    router.push(routes.manager.add.color);
   };
 
   const handleEdit = (color: Color) => {
@@ -205,7 +206,7 @@ const TableColor: React.FC = () => {
 
   return (
     <section className="p-3 sm:p-5">
-      <div className="div-container">
+      <div>
         <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <div className="w-full md:w-1/2">

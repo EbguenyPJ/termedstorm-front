@@ -10,7 +10,6 @@ import {
   ChartColumnIncreasing,
   Sliders,
   Wallet,
-  Settings,
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
@@ -60,14 +59,11 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
     if (loading) return null;
 
     if (isCashierUser || isAdminUser) {
-      menuItems.push(
-        { href: routes.shop.categories, icon: Store, label: "Tienda" },
-        {
-          href: routes.user.reports,
-          icon: ChartColumnIncreasing,
-          label: "Reportes",
-        }
-      );
+      menuItems.push({
+        href: routes.shop.categories,
+        icon: Store,
+        label: "Tienda",
+      });
     }
 
     return (
@@ -210,9 +206,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
                     <li>
                       <Link
-                        href={routes.manager.add.category}
+                        href={routes.manager.add.tablecategory}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.category
+                          pathname === routes.manager.add.tablecategory
                             ? "font-bold"
                             : ""
                         }`}
@@ -222,9 +218,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.manager.add.subcategory}
+                        href={routes.manager.add.tablesubcategory}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.subcategory
+                          pathname === routes.manager.add.tablesubcategory
                             ? "font-bold"
                             : ""
                         }`}
@@ -235,9 +231,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
                     <li>
                       <Link
-                        href={routes.manager.add.brand}
+                        href={routes.manager.add.tablebrand}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.brand
+                          pathname === routes.manager.add.tablebrand
                             ? "font-bold"
                             : ""
                         }`}
@@ -247,9 +243,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.manager.add.color}
+                        href={routes.manager.add.tablecolor}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.color
+                          pathname === routes.manager.add.tablecolor
                             ? "font-bold"
                             : ""
                         }`}
@@ -259,9 +255,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.manager.add.size}
+                        href={routes.manager.add.tablesize}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.size
+                          pathname === routes.manager.add.tablesize
                             ? "font-bold"
                             : ""
                         }`}
@@ -271,9 +267,9 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </li>
                     <li>
                       <Link
-                        href={routes.manager.add.product}
+                        href={routes.manager.add.tableproduct}
                         className={`block px-2 py-1 text-base-200 ${
-                          pathname === routes.manager.add.product
+                          pathname === routes.manager.add.tableproduct
                             ? "font-bold"
                             : ""
                         }`}
@@ -350,7 +346,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               </li>
             )}
 
-            {/* SETTINGS MANAGER */}
+            {/* MANAGMENT MANAGER */}
             {isAdminUser && (
               <li>
                 <button
@@ -367,7 +363,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               : "hover:bg-[#4e4090]"
           }`}
                 >
-                  <Settings
+                  <ChartColumnIncreasing
                     className={`text-base-100 group-hover:text-white ${
                       isCollapsed ? "h-5 w-5" : "h-6 w-6"
                     }`}
@@ -375,7 +371,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   {!isCollapsed && (
                     <>
                       <span className="ms-3 flex-1 text-left">
-                        Configuraciones
+                        Gestión de negocio
                       </span>
                       {isSubmenuOpen === "settings" ? (
                         <ChevronDown className="w-5 h-5" />
@@ -385,8 +381,18 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                     </>
                   )}
                 </button>
+
+
                 {!isCollapsed && isSubmenuOpen === "settings" && (
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href={routes.user.reports}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                       Reportes
+                      </Link>
+                    </li>
                     <li>
                       <Link
                         href={routes.manager.settings.createEmployee}

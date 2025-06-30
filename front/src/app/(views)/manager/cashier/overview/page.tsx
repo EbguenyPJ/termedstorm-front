@@ -7,6 +7,7 @@ import Notiflix from "notiflix";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ButtonAccent, ButtonPrimary } from "@/components/UI/Buttons/Buttons";
+import { routes } from "@/app/routes";
 
 interface Audit {
   id: string;
@@ -88,8 +89,8 @@ const CashierOverview = () => {
           Historial de Arqueos
         </h2>
         <div className="flex gap-2">
-          <ButtonPrimary onClick={() => router.push("/manager/cashier/audits")} textContent="Nuevo Arqueo"/>
-          <ButtonAccent onClick={() => router.push("/manager/cashier/cuts")} textContent="Crear Corte"/>
+          <ButtonPrimary onClick={() => router.push(routes.manager.cashier.audits)} textContent="Nuevo Arqueo"/>
+          <ButtonAccent onClick={() => router.push(routes.manager.cashier.cuts)} textContent="Crear Corte"/>
         </div>
       </div>
       <table className="min-w-full border border-gray-300 text-sm">
@@ -109,10 +110,10 @@ const CashierOverview = () => {
                   {new Date(audit.date).toLocaleDateString()}
                 </td>
                 <td className="py-3 px-4">{audit.note}</td>
-                <td className="py-3 px-4">${audit.total.toFixed(2)}</td>
+                <td className="py-3 px-4">${typeof audit.total === "number" ? audit.total.toFixed(2) : "0.00"}</td>
                 <td className="py-3 px-4 flex justify-center gap-3">
                   <button
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-neutral-700 hover:text-neutral-800 cursor-pointer"
                     onClick={() => {
                       setEditingAudit(audit);
                       setNoteInput(audit.note || "");
@@ -139,7 +140,7 @@ const CashierOverview = () => {
                           cuts[audit.id].map((cut) => (
                             <li key={cut.id}>
                               {new Date(cut.date).toLocaleDateString()} -{" "}
-                              {cut.note} - ${cut.total.toFixed(2)}
+                              {cut.note} - ${typeof cut.total === "number" ? cut.total.toFixed(2) : "0.00"}
                             </li>
                           ))
                         ) : (
@@ -188,3 +189,7 @@ const CashierOverview = () => {
 };
 
 export default CashierOverview;
+
+
+
+

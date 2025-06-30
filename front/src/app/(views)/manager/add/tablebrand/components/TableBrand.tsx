@@ -11,6 +11,7 @@ import CloudinaryButton from '@/components/UI/Buttons/CloudinaryButton';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
 import toast from 'react-hot-toast';
+import { routes } from '@/app/routes';
 
 interface Brand {
   _id: string;
@@ -36,7 +37,7 @@ const TableBrand: React.FC = () => {
 
   //Estados para la paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(2); // Se puede ajustar a x número
+  const [itemsPerPage] = useState(2);
   const [totalBrands, setTotalBrands] = useState(0);
 
   // Función para obtener las marcas con paginación
@@ -92,7 +93,7 @@ const TableBrand: React.FC = () => {
   };
 
   const handleAddBrand = () => {
-    router.push('/manager/add/addbrand');
+    router.push(routes.manager.add.brand);
   };
 
   const handleEdit = (brand: Brand) => {
@@ -229,7 +230,7 @@ const TableBrand: React.FC = () => {
 
   return (
     <section className="p-3 sm:p-5">
-      <div className="div-container">
+      <div>
         <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             {/* Título de la tabla */}
@@ -330,6 +331,7 @@ const TableBrand: React.FC = () => {
               </table>
             )}
           </div>
+          
           {/* Paginación */}
           <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
             <span className="text-sm font-normal text-base-250">

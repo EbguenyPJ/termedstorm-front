@@ -12,7 +12,6 @@ export default function CartPaymentCancelled() {
 
     useEffect(() => {
         if (!user) {
-                
                 router.push(routes.shop.categories);
         }
     }, [user, router]);

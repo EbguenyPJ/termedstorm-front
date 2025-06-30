@@ -13,10 +13,7 @@ export default function PaymentSuccessPage() {
     useEffect(() => {
         if (!user) {
             console.log("usuario de pago exitoso: ", );
-            
-            setTimeout(() => {
-                router.push('http://localhost:4000/');
-            }, 10000);
+                router.push(routes.client.profileClient);
         }
     }, [user, router]);
 

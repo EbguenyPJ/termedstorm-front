@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,7 @@ import CloudinaryButton from '@/components/UI/Buttons/CloudinaryButton';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
 import toast from 'react-hot-toast';
+import { routes } from '@/app/routes';
 
 interface Category {
   _id: string;
@@ -92,7 +94,7 @@ const TableCategory: React.FC = () => {
   };
 
   const handleAddCategory = () => {
-    router.push('/manager/add/addcategory');
+    router.push(routes.manager.add.category);
   };
 
   const handleEdit = (category: Category) => {
@@ -179,7 +181,7 @@ const TableCategory: React.FC = () => {
 
   if (isEditing && currentCategory) {
     return (
-      <div className="div-container bg-base-100 p-8 rounded-lg shadow-lg">
+      <div>
         <h2 className="text-2xl font-bold text-base-300 mb-6">Editar Categoría</h2>
         <div className="space-y-4">
           <div>
@@ -229,7 +231,7 @@ const TableCategory: React.FC = () => {
 
   return (
     <section className="p-3 sm:p-5">
-      <div className="div-container">
+      <div>
         <div className="bg-base-100 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             {/* Título de la tabla */}
