@@ -2,13 +2,7 @@ import React from "react";
 import ProductDetailClient from "@/components/Products/ProductDetailClient";
 import api from "@/lib/axiosInstance";
 import { redirect } from "next/navigation";
-
-
-interface Props {
-  params: {
-    id: string;
-  };
-}
+import { Params } from "@/interfaces/index";
 
 
 async function getSizes() {
@@ -50,8 +44,11 @@ async function getProductById(id: string) {
 }
 
 
-const ProductDetailPage = async ({ params }: Props) => {
-  const { id } = params;
+const ProductDetailPage = async ({ params }: { params: Params }) => {
+  const id = (await params as any)?.id;
+  // const productId = parseInt(id, 10);
+
+  // const product = isNaN(productId) ? null : await getProductById(productId);
 
 
   const [sizes, colors, product] = await Promise.all([

@@ -6,6 +6,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { getTotalAmount } from "@/lib/getTotalAmount";
 import Portal from "./Portal";
 import { CheckoutHandler } from "./Checkout/CheckoutHandler";
+import { PaymentSelector } from "./Checkout/PaymentSelector";
 
 
 export const CartDropdown = () => {
@@ -119,6 +120,7 @@ export const CartDropdown = () => {
                     <span>Total:</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
+                  <PaymentSelector />
                   <CheckoutHandler />
                 </div>
               </>

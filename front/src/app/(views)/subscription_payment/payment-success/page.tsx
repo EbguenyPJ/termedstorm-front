@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
-import { useAuthStore } from '@/app/stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { routes } from '@/app/routes';
 
 export default function PaymentSuccessPage() {
@@ -12,11 +12,7 @@ export default function PaymentSuccessPage() {
 
     useEffect(() => {
         if (!user) {
-            console.log("usuario de pago exitoso: ", );
-            
-            setTimeout(() => {
                 router.push('http://localhost:4000/');
-            }, 10000);
         }
     }, [user, router]);
 
