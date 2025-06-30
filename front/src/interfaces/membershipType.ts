@@ -3,4 +3,5 @@ export default interface IMembershipType {
     name: string;
     stripe_price_id: string;
     description?: string;
+    price:number
 };

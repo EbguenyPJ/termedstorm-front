@@ -10,6 +10,7 @@
     "postinstall": "flowbite-react patch"
   },
   "dependencies": {
+    "apexcharts": "^4.7.0",
     "axios": "^1.9.0",
     "cookies-next": "^6.0.0",
     "flowbite-react": "^0.11.8",
@@ -21,6 +22,7 @@
     "notiflix": "^3.2.8",
     "papaparse": "^5.5.3",
     "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
     "react-color-palette": "^7.3.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
