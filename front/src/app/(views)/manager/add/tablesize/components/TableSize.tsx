@@ -7,6 +7,7 @@ import { CgSpinner } from "react-icons/cg";
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import api from '@/lib/axiosInstance';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
+import toast from 'react-hot-toast';
 
 interface Size {
   _id: string;
@@ -103,8 +104,8 @@ const TableSize: React.FC = () => {
 
     // Validación antes de enviar
     if (isNaN(editForm.size_us) || isNaN(editForm.size_eur) || isNaN(editForm.size_cm)) {
-        setError('Error: Los valores de las tallas deben ser números válidos.');
-        return;
+      setError('Error: Los valores de las tallas deben ser números válidos.');
+      return;
     }
 
     const sizeId = currentSize._id || (currentSize as any).id;
@@ -120,6 +121,7 @@ const TableSize: React.FC = () => {
         size_eur: editForm.size_eur,
         size_cm: editForm.size_cm,
       });
+      toast.success('¡Cambios realizados!');
       await fetchSizes();
       setIsEditing(false);
       setCurrentSize(null);

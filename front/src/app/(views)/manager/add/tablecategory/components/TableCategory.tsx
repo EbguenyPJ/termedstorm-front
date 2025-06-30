@@ -10,6 +10,7 @@ import api from '@/lib/axiosInstance';
 import CloudinaryButton from '@/components/UI/Buttons/CloudinaryButton';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
+import toast from 'react-hot-toast';
 
 interface Category {
   _id: string;
@@ -115,6 +116,7 @@ const TableCategory: React.FC = () => {
         name: editForm.name,
         image: editForm.image,
       });
+      toast.success('¡Cambios realizados!');
       await fetchCategories();
       setIsEditing(false);
       setCurrentCategory(null);
@@ -182,13 +184,13 @@ const TableCategory: React.FC = () => {
         <div className="space-y-4">
           <div>
             <Input
-            label="Nombre"
-            name="name"
-            type="text"
-            value={editForm.name}
-            onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-            placeholder="Introduce el nombre de la categoría"
-          />
+              label="Nombre"
+              name="name"
+              type="text"
+              value={editForm.name}
+              onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+              placeholder="Introduce el nombre de la categoría"
+            />
           </div>
           <div className="mb-4">
             <label className="block text-md font-semibold text-base-250 mb-2">

@@ -10,6 +10,7 @@ import api from '@/lib/axiosInstance';
 import CloudinaryButton from '@/components/UI/Buttons/CloudinaryButton';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
+import toast from 'react-hot-toast';
 
 interface Brand {
   _id: string;
@@ -115,6 +116,7 @@ const TableBrand: React.FC = () => {
         name: editForm.name,
         image: editForm.image,
       });
+      toast.success('¡Cambios realizados!');
       await fetchBrands();
       setIsEditing(false);
       setCurrentBrand(null);

@@ -8,6 +8,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import api from '@/lib/axiosInstance';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
+import toast from 'react-hot-toast';
 
 interface Color {
   _id: string;
@@ -112,6 +113,7 @@ const TableColor: React.FC = () => {
         color: editForm.color,
         hexCode: currentColor.hexCode,
       });
+      toast.success('¡Cambios realizados!');
       await fetchColors();
       setIsEditing(false);
       setCurrentColor(null);
