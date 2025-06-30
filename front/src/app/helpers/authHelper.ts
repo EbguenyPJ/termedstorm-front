@@ -25,5 +25,5 @@ export const isSuperAdmin = (user: IAuthMeUser | null): boolean =>
 export const isAdmin = (user: IAuthMeUser | null): boolean =>
   hasRole(user, "ADMIN");
 
-export const isSeller = (user: IAuthMeUser | null): boolean =>
-  hasRole(user, "SELLER");
+export const isCashier = (user: IAuthMeUser | null): boolean =>
+  hasRole(user, "CASHIER");

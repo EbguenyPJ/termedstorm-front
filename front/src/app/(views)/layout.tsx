@@ -12,6 +12,8 @@ export default function ViewsLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   const isChatRoom = pathname === "/user/chat";
+  const isDetailProduct = pathname.startsWith("/shop/products/");
+
 
   return (
     <>
@@ -21,8 +23,7 @@ export default function ViewsLayout({ children }: { children: React.ReactNode })
           Cargando...
         </div>
       ) : (
-        <LayoutManager showBreadcrumb={!isChatRoom} showContainer={!isChatRoom ? true : false}>
-
+        <LayoutManager showBreadcrumb={!isChatRoom && !isDetailProduct} showContainer={!isChatRoom ? true : false}>
             {children}
           <div id="portal-root" />
         </LayoutManager>

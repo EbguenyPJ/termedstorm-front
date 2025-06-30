@@ -3,7 +3,7 @@ import SalesDashboard from "./components/SalesDashboardUI";
 
 const SalesPage = () => {
   return (
-    <div className="">
+    <div>
       <SalesDashboard />
     </div>
   );

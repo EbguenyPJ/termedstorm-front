@@ -14,7 +14,7 @@ export const routes = {
   // Users
   user: {
     profile: "/user/profile",
-    sales: "/user/sales",
+    reports: "/user/reports",
     support: "/user/support",
     chat: "/user/chat",
     companySubscription: "/user/companysubscription",
@@ -50,8 +50,8 @@ export const routes = {
 
   // Cashier
   cashier: {
-      newCash: "/manager/cashier/newcash",
-      newShift: "/manager/cashier/newshift",
+      cuts: "/manager/cashier/cuts",
+      audits: "/manager/cashier/audits",
       overview: "/manager/cashier/overview",
     },
   },

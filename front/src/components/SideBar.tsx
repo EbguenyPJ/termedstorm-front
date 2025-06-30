@@ -22,9 +22,11 @@ import { useAuthStore } from "@/stores/authStore";
 import {
   isAdmin,
   isSuperAdmin,
-  isSeller,
+  isCashier,
   isClient,
 } from "@/app/helpers/authHelper";
+import { Inbox } from "./UI/Inbox";
+import { useCompany } from "@/hooks/useCompany";
 
 interface SideBarProps {
   isCollapsed: boolean;
@@ -33,21 +35,20 @@ interface SideBarProps {
 
 const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
   ({ isCollapsed, toggleCollapse }, ref) => {
+    const { company, loading } = useCompany();
+
     const pathname = usePathname();
     const [isSubmenuOpen, setIsSubmenuOpen] = useState<
       "edit" | "settings" | "cashier" | null
     >(null);
-
     const user = useAuthStore((s) => s.user);
-
     const isInitialized = useAuthStore((s) => s.isInitialized);
-    if (!isInitialized) return null;
 
-    // Ocultamos Sidebar si es cliente o no hay sesión aún
+    if (!isInitialized) return null;
     if (!user || isClient(user)) return null;
 
     const isAdminUser = isAdmin(user) || isSuperAdmin(user);
-    const isSellerUser = isSeller(user);
+    const isCashierUser = isCashier(user);
 
     const isEditingActive =
       pathname === routes.manager.add.category ||
@@ -56,11 +57,13 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
     const menuItems = [];
 
-    if (isSellerUser || isAdminUser) {
+    if (loading) return null;
+
+    if (isCashierUser || isAdminUser) {
       menuItems.push(
         { href: routes.shop.categories, icon: Store, label: "Tienda" },
         {
-          href: routes.user.sales,
+          href: routes.user.reports,
           icon: ChartColumnIncreasing,
           label: "Reportes",
         }
@@ -102,23 +105,18 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
 
         {/* COMPANY INFO */}
         <div className={`py-3 border-b  ${isCollapsed ? "mx-auto" : "px-4"}`}>
-          <div
-            className={`bg-black hover:bg-[#4e4090] rounded-lg ${
-              isCollapsed ? "h-6 w-6 rounded-md" : "w-16 h-16 rounded-lg"
-            }`}
-          ></div>
-          {!isCollapsed && (
+          {!isCollapsed && company && (
             <div className="flex flex-col gap-2 text-sm">
-              <h2 className="font-semibold text-base-100 mt-2">
-                NOMBRE-EMPRESA
+              <h2 className="text-lg font-semibold text-base-100 mt-2">
+                {company.name}
               </h2>
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-base-100" />
-                <span className="text-base-100">Calle Falsa 1234</span>
+                <span className="text-base-100">{company.address}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-base-100" />
-                <span className="text-base-100">+54 11 5470 1111</span>
+                <span className="text-base-100">{company.phone_number}</span>
               </div>
             </div>
           )}
@@ -131,6 +129,52 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
           }`}
         >
           <ul className="space-y-2 font-medium">
+            {/* MENSAJERIA */}
+            {(isAdminUser || isCashierUser) && (
+              <li>
+                <Link
+                  href={routes.user.chat}
+                  className={`flex items-center rounded-lg hover:bg-[#4e4090] transition group text-base-100 ${
+                    isCollapsed ? "justify-center p-0.5" : "p-2"
+                  } ${
+                    pathname === routes.user.chat
+                      ? "bg-[#4e4090] font-bold"
+                      : ""
+                  }`}
+                >
+                  <Inbox />
+                  {!isCollapsed && (
+                    <span className="ms-3 whitespace-nowrap overflow-hidden">
+                      Mensajería
+                    </span>
+                  )}
+                </Link>
+              </li>
+            )}
+
+            {/* MENÚ GENERAL */}
+            {menuItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`flex items-center rounded-lg hover:bg-[#4e4090] transition group text-base-100 ${
+                    isCollapsed ? "justify-center p-0.5" : "p-2"
+                  } ${pathname === item.href ? "bg-[#4e4090] font-bold" : ""}`}
+                >
+                  <item.icon
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ms-3 whitespace-nowrap overflow-hidden">
+                      {item.label}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            ))}
+
             {/* EDITAR LISTAS */}
             {isAdminUser && (
               <li>
@@ -188,7 +232,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         Subcategorías
                       </Link>
                     </li>
-                    
+
                     <li>
                       <Link
                         href={routes.manager.add.brand}
@@ -235,6 +279,70 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         }`}
                       >
                         Productos
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
+            {/* CASHIER */}
+            {isAdminUser && (
+              <li>
+                <button
+                  onClick={() =>
+                    setIsSubmenuOpen((prev) =>
+                      prev === "cashier" ? null : "cashier"
+                    )
+                  }
+                  className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
+          ${isCollapsed ? "justify-center" : ""}
+          ${
+            pathname.startsWith("/manager/cashier")
+              ? "bg-[#4e4090]"
+              : "hover:bg-[#4e4090]"
+          }`}
+                >
+                  <Wallet
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <>
+                      <span className="ms-3 flex-1 text-left">Caja</span>
+                      {isSubmenuOpen === "cashier" ? (
+                        <ChevronDown className="w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5" />
+                      )}
+                    </>
+                  )}
+                </button>
+                {!isCollapsed && isSubmenuOpen === "cashier" && (
+                  <ul className="ml-10 mt-2 space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href={routes.manager.cashier.overview}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Vista general
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.cashier.audits}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Nuevo Arqueo
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={routes.manager.cashier.cuts}
+                        className="block px-2 py-1 text-base-200"
+                      >
+                        Crear Corte
                       </Link>
                     </li>
                   </ul>
@@ -311,98 +419,10 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         Embarques
                       </Link>
                     </li>
-                    
                   </ul>
                 )}
               </li>
             )}
-
-            {/* CASHIER */}
-            {isAdminUser && (
-              <li>
-                <button
-                  onClick={() =>
-                    setIsSubmenuOpen((prev) =>
-                      prev === "cashier" ? null : "cashier"
-                    )
-                  }
-                  className={`group flex items-center p-2 w-full text-base-100 rounded-lg transition-colors cursor-pointer
-          ${isCollapsed ? "justify-center" : ""}
-          ${
-            pathname.startsWith("/manager/cashier")
-              ? "bg-[#4e4090]"
-              : "hover:bg-[#4e4090]"
-          }`}
-                >
-                  <Wallet
-                    className={`text-base-100 group-hover:text-white ${
-                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <>
-                      <span className="ms-3 flex-1 text-left">Caja</span>
-                      {isSubmenuOpen === "cashier" ? (
-                        <ChevronDown className="w-5 h-5" />
-                      ) : (
-                        <ChevronRight className="w-5 h-5" />
-                      )}
-                    </>
-                  )}
-                </button>
-                {!isCollapsed && isSubmenuOpen === "cashier" && (
-                  <ul className="ml-10 mt-2 space-y-1 text-sm">
-                    <li>
-                      <Link
-                        href={routes.manager.cashier.newCash}
-                        className="block px-2 py-1 text-base-200"
-                      >
-                        Nueva caja
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={routes.manager.cashier.newShift}
-                        className="block px-2 py-1 text-base-200"
-                      >
-                        Nuevo turno
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={routes.manager.cashier.overview}
-                        className="block px-2 py-1 text-base-200"
-                      >
-                        Vista general
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            )}
-
-            {/* MENÚ GENERAL */}
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center rounded-lg hover:bg-[#4e4090] transition group text-base-100 ${
-                    isCollapsed ? "justify-center p-0.5" : "p-2"
-                  } ${pathname === item.href ? "bg-[#4e4090] font-bold" : ""}`}
-                >
-                  <item.icon
-                    className={`text-base-100 group-hover:text-white ${
-                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ms-3 whitespace-nowrap overflow-hidden">
-                      {item.label}
-                    </span>
-                  )}
-                </Link>
-              </li>
-            ))}
           </ul>
         </nav>
       </aside>

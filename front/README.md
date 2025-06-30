@@ -12,48 +12,18 @@ b. Admin/manager: podra vender y ademas configurar todo en la aplicacion.
 - Podran navegar en todos los modulos.
 - Logicamente como cualquier otro usuario si esta logueado no puede ir a ningun login ni register.
 
-la ruta "/reguster" NO existe. Me olvide de preguntarte si en base a como viste como estan ordenadas mis carpetas de front seria optimo hacer un reordenamiento. Y si ademas queres que te pase el guardian de rutas del back, entiendo que podria facilitar.
-const publicRoutes = ["/loginclient", "/registerclient", "/login", "/register"];
-const clientRoutes = ["/views/user/client-subscription"];
-const sellerRoutes = ["/views/shop", "/views/user/profile", "/views/user/sales", "/views/user/support"];
-const adminRoutes = ["/views/add", "/views/settingsmanager", "/views/cashier", "views/shop"];
-
 
 
 NACHO checklist:
-
-- API ROL ✔
 - FORMULARIO CREAR EMPLEADO ✔
 - MIDDLEWARE ✔
 - CREAR MICROFUNCIONES:
-  ===> SEARCHBAR 
+  ===> SEARCHBAR. ACOMODAR  DE DONDE TRAIGO LOS DATOS DEL SEARCHBAR
   ===> FILTERBAR (PAGINA CATEGORIAS, SUBCATEGORIAS, PRODUCTOS)
   ===> PROFILE: ADMIN, VENDEDOR, CLIENT ✔
-  ===> REPORT: ADMIN, VENDEDOR, SUPERADMIN
- ===> SHIPMENTS ✔
-  
-
-- QUE LA MARCA NO ESTE RELACIONADA A UNA SUB-CATEGORIA
-QUE EL PRODUCTO NO ESTE RELACIONADO A UNA CATEGORIA Y SUBCATEGORIA
-
-Precio de compra. Para que? Dejar uno solo. En todo caso dejar disponible un icono signo de pregunta y un toolkit para que haya informacion de que debe poner en cada lugar.
-
-En el momento de crear la variante del producto hay un alert que no debe existir.
-- Endpoint de fecha: 7 dias, 30 dias, 3 meses, 12 meses
-
-FLOR
-- Para recibir una notificacion de mensajeria tengo que estar dentro de la sala. O desde la aplicacion nivo ya puedo recibir notificaciones?
-
-
-
-ChatRoom:
-- El nombre del usuario tiene que aparecer arriba en el globo del mensaje
-- Las conversaciones deben ser unicas para cada chat. Como esta ahora se puede ver el mismo mensaje en todos los chats
-- Harcodear el mensaje de otro usuario para ver viene: El usuario x deberia posicionarse a la izquierda de color lila y el mensaje mio debe aparecer el color blanco a la derecha.
-- Consumir el dato de get employees, para listado de empleados
-- Hacer prueba con datos reales.
-
-ACOMODAR  DE DONDE TRAIGO LOS DATOS DEL SEARCHBAR 
+  ===> REPORT: ADMIN, VENDEDOR
 
 
 middleware: preparar middleware entre employee admin y employee seller
+
+NO SE DEBERIA RENDERIZAR LOS BOTONES DE NOTIFICACIONES Y CARRITO EN CLIENT ✔ Si pero falta corroborar cuando funcione las cookies.

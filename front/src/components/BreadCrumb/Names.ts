@@ -28,5 +28,9 @@ export const displayNames: Record<string, string> = {
   cashregister: "Corte de caja",
   orders: "Órdenes",
   settingsmanager: "Configuraciones",
-  settings: "Configuraciones"
+  settings: "Configuraciones",
+  overview: "Vista General",
+  cashier: "Caja",
+  audits: "Arqueo de caja",
+  cuts: "Corte de caja",
 };

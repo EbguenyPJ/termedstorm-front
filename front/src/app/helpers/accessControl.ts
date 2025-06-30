@@ -3,10 +3,11 @@ import { IAuthMeUser } from "@/interfaces";
 
 export const accessByRole: Record<string, string[]> = {
   CLIENT: [routes.client.subscription, routes.user.profile],
-  SELLER: [
+  CASHIER: [
     routes.user.profile,
-    routes.user.sales,
+    routes.user.reports,
     routes.user.support,
+    routes.user.chat,
     ...Object.values(routes.shop),
   ],
   ADMIN: [

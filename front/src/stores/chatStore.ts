@@ -1,3 +1,131 @@
+// import { create } from "zustand";
+// import { io, Socket } from "socket.io-client";
+// import { useAuthStore } from "./authStore";
+
+// type ChatMessage = {
+//   user: string;
+//   message: string;
+//   createdAt: string;
+//   room: string;
+// };
+
+// type ChatStore = {
+//   socket: Socket | null;
+//   messages: Record<string, ChatMessage[]>;
+//   connect: (tenantSlug: string) => void;
+//   disconnect: () => void;
+//   joinRoom: (room: string) => void;
+//   leaveRoom: (room: string) => void;
+//   sendMessage: (message: string, room: string) => void;
+//   resetMessages: (roomToReset?: string) => void;
+// };
+
+
+// let socket: Socket | null = null;
+
+// export const useChatStore = create<ChatStore>((set) => ({ //get
+//   socket: null,
+//   messages: {},
+
+// connect: (tenantSlug) => {
+//     if (socket?.connected) {
+//       console.log("🔌 Socket ya está conectado.");
+//       return;
+//     }
+    
+//     if (socket) {
+//       socket.removeAllListeners();
+//       socket.disconnect();
+//     }
+
+//     socket = io("http://localhost:8080", {
+//       withCredentials: true,
+//       auth: { tenantSlug },
+//       transports: ["websocket", "polling"],
+//     });
+
+//     socket.on("connect", () => {
+//       console.log("🟢 Conectado al socket:", socket?.id);
+//       set({ socket });
+//     });
+
+//         socket.on("disconnect", () => {
+//         console.log("🔴 Desconectado del socket.");
+//         // Limpiamos la referencia para permitir la reconexión.
+//         socket = null; 
+//         set({ socket: null });
+//     });
+
+//     socket.on("new_message", (msg: ChatMessage) => {
+//       set((state) => ({
+//         messages: {
+//           ...state.messages,
+//           [msg.room]: [...(state.messages[msg.room] || []), msg],
+//         },
+//       }));
+//     });
+//   },
+
+//   // 2. DESCONECTAR (Al desmontar el componente)
+//   disconnect: () => {
+//     if (socket) {
+//       socket.disconnect();
+//       socket = null;
+//       set({ socket: null, messages: {} });
+//     }
+//   },
+
+//   // 3. UNIRSE A UNA SALA
+//   joinRoom: (room) => {
+//     // Esta función ahora funcionará porque `socket` ya no es null
+//     socket?.emit("event_join", room);
+//     console.log(`✅ Cliente uniéndose a la sala: ${room}`);
+//   },
+
+//   // 4. ABANDONAR UNA SALA
+//   leaveRoom: (room) => {
+//     // Esta también funcionará
+//     socket?.emit("event_leave", room);
+//     console.log(`👋 Cliente abandonando la sala: ${room}`);
+//   },
+
+//   sendMessage: (message, room) => {
+//     // Para consistencia, usamos la instancia global aquí también
+//     if (!socket || !message.trim()) return;
+
+//     const user = useAuthStore.getState().user;
+//     const newMessage: ChatMessage = {
+//       user: user?.name || "yo",
+//       message,
+//       createdAt: new Date().toISOString(),
+//       room,
+//     };
+    
+//     socket.emit("event_message", { room, message });
+    
+//     set((state) => ({
+//       messages: {
+//         ...state.messages,
+//         [room]: [...(state.messages[room] || []), newMessage],
+//       },
+//     }));
+//   },
+  
+//   resetMessages: (roomToReset?: string) => {
+//       if (!roomToReset) {
+//         set({ messages: {} });
+//       } else {
+//         set((state) => {
+//           const newMessages = { ...state.messages };
+//           delete newMessages[roomToReset];
+//           return { messages: newMessages };
+//         });
+//       } 
+//   }
+// }));
+
+
+// RUTA: src/stores/chatStore.ts
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 import { useAuthStore } from "./authStore";
@@ -12,28 +140,48 @@ type ChatMessage = {
 type ChatStore = {
   socket: Socket | null;
   messages: Record<string, ChatMessage[]>;
-  connect: (tenantSlug: string, room: string) => void;
+  connect: (tenantSlug: string) => void;
   disconnect: () => void;
+  joinRoom: (room: string) => void;
+  leaveRoom: (room: string) => void;
   sendMessage: (message: string, room: string) => void;
-  resetMessages: () => void;
+  resetMessages: (roomToReset?: string) => void;
 };
 
+// Instancia única del socket. La definimos afuera para que no se reinicie.
+let socket: Socket | null = null;
 
-
-export const useChatStore = create<ChatStore>((set, get) => ({
+export const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: {},
 
-connect: (tenantSlug, room) => {
-    const socket = io("http://localhost:8080", {
+  connect: (tenantSlug) => {
+    if (socket?.connected) {
+      console.log("🔌 Socket ya estaba conectado.");
+      return;
+    }
+    
+    if (socket) {
+      socket.removeAllListeners();
+      socket.disconnect();
+    }
+
+    // Asignamos a la variable externa, SIN 'const'
+    socket = io("http://localhost:8080", {
       withCredentials: true,
       auth: { tenantSlug },
       transports: ["websocket", "polling"],
     });
-
+    
     socket.on("connect", () => {
-      console.log("🟢 Conectado al socket:", socket.id);
-      socket.emit("event_join", room);
+      console.log("🟢 Conectado al socket:", socket?.id);
+      set({ socket });
+    });
+
+    socket.on("disconnect", () => {
+        console.log("🔴 Desconectado del socket.");
+        socket = null; 
+        set({ socket: null });
     });
 
     socket.on("new_message", (msg: ChatMessage) => {
@@ -44,26 +192,39 @@ connect: (tenantSlug, room) => {
         },
       }));
     });
-
-    set({ socket });
   },
 
+  disconnect: () => {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+      set({ socket: null, messages: {} });
+    }
+  },
 
- sendMessage: (message, room) => {
-    const socket = get().socket;
-    const user = useAuthStore.getState().user;
+  joinRoom: (room) => {
+    socket?.emit("event_join", room);
+    console.log(`✅ Cliente uniéndose a la sala: ${room}`);
+  },
 
+  leaveRoom: (room) => {
+    socket?.emit("event_leave", room);
+    console.log(`👋 Cliente abandonando la sala: ${room}`);
+  },
+
+  sendMessage: (message, room) => {
     if (!socket || !message.trim()) return;
 
+    const user = useAuthStore.getState().user;
     const newMessage: ChatMessage = {
       user: user?.name || "yo",
       message,
       createdAt: new Date().toISOString(),
       room,
     };
-
+    
     socket.emit("event_message", { room, message });
-
+    
     set((state) => ({
       messages: {
         ...state.messages,
@@ -72,15 +233,15 @@ connect: (tenantSlug, room) => {
     }));
   },
 
-
-  disconnect: () => {
-    const socket = get().socket;
-    if (socket) {
-      socket.emit("event_leave", "general"); // Opcional: podrías enviar la room actual
-      socket.disconnect();
-      set({ socket: null });
+  resetMessages: (roomToReset?: string) => {
+    if (!roomToReset) {
+      set({ messages: {} });
+    } else {
+      set((state) => {
+        const newMessages = { ...state.messages };
+        delete newMessages[roomToReset];
+        return { messages: newMessages };
+      });
     }
   },
-
-  resetMessages: () => set({ messages: {} }),
 }));

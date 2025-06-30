@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ILogin, IRegister, IAuthMeUser } from "@/interfaces";
+import { ILogin, IRegister, IAuthMeUser, IRegisterEmployee } from "@/interfaces";
 import {
   getUserApi,
   logoutApi,
@@ -13,6 +13,7 @@ type UserType = "client" | "employee";
 
 interface AuthState {
   user: IAuthMeUser | null;
+  token: string | null;
   loading: boolean;
   isInitialized: boolean;
   setInitialized: (value: boolean) => void;
@@ -22,7 +23,7 @@ interface AuthState {
   login: (type: UserType, credentials: ILogin) => Promise<void>;
   logout: () => Promise<void>;
   registerClient: (data: IRegister) => Promise<void>;
-  registerEmployee: (data: IRegister) => Promise<void>;
+  registerEmployee: (data: IRegisterEmployee) => Promise<void>;
 
   // helpers
   hasRole: (role: string) => boolean;
@@ -32,6 +33,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
+  token: null,
   loading: false,
   isInitialized: false,
 

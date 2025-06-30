@@ -1,4 +1,4 @@
-import { ILogin, IRegister, IAuthMeUser } from "@/interfaces";
+import { ILogin, IRegister,IRegisterEmployee, IAuthMeUser, IRole } from "@/interfaces";
 import api from "@/lib/axiosInstance";
 
 // AUTH/ME
@@ -23,16 +23,16 @@ export const logoutApi = async () => {
   }
 };
 
-// // ROLES
-// export const getRolesApi = async (): Promise<IRole[]> => {
-//   try {
-//     const res = await api.get("/roles");
-//     return res.data; // [{ id: "1", name: "SUPERADMIN" }, ...]
-//   } catch (error) {
-//     console.error("Error al obtener los roles", error);
-//     throw new Error("No se pudieron cargar los roles");
-//   }
-// };
+// ROLES
+export const getRolesApi = async (): Promise<IRole[]> => {
+  try {
+    const res = await api.get("/roles");
+    return res.data;
+  } catch (error) {
+    console.error("Error al obtener los roles", error);
+    throw new Error("No se pudieron cargar los roles.");
+  }
+};
 
 // CLIENT
 export const loginClientApi = async (values: ILogin) => {
@@ -51,7 +51,7 @@ export const loginApi = async (values: ILogin) => {
   return res.data;
 };
 
-export const registerApi = async (values: IRegister) => {
+export const registerApi = async (values: IRegisterEmployee) => {
   const res = await api.post("/auth/employee/register", values);
   return res.data;
 };

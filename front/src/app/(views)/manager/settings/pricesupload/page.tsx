@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "@/lib/axiosInstance";
 import Image from "next/image";
 
 interface ProductCSV {
@@ -43,7 +43,7 @@ const PriceUploadTable = () => {
 
   const handleSave = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/bulk`, products);
+      await api.post(`/products/bulk`, products);
       toast.success("Precios guardados en base de datos");
     } catch (error) {
       console.error(error);

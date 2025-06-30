@@ -1,72 +1,463 @@
+// "use client";
+
+// // import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
+// import { useRef, useEffect, useState, useMemo } from "react";
+// import { Send } from "lucide-react";
+// import { useChatStore } from "@/stores/chatStore";
+// import { useAuthStore } from "@/stores/authStore";
+// import api from "@/lib/axiosInstance";
+// import { IAuthMeUser } from "@/interfaces/index";
+
+// function getRoomId(userId1: string, userId2: string): string {
+//   const [a, b] = [userId1, userId2].sort(); // siempre mismo orden
+//   return `${a}__${b}`;
+// }
+
+// export default function ChatRoomLayout() {
+//   const {
+//     messages,
+//     connect,
+//     disconnect,
+//     joinRoom,
+//     leaveRoom,
+//     sendMessage,
+//     resetMessages,
+//   } = useChatStore();
+//   const user = useAuthStore((state) => state.user);
+//   const user = useAuthStore((state) => state.user);
+
+//   const [chatUsers, setChatUsers] = useState<IAuthMeUser[]>([]);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   const [message, setMessage] = useState("");
+//   const [activeRoom, setActiveRoom] = useState<string | null>(null);
+//   const textareaRef = useRef<HTMLTextAreaElement>(null);
+//   const previousRoomRef = useRef<string | null>(null);
+
+//   const tenantSlug = "nivo-a";
+//   const room =
+//     activeRoom && user?.userId ? getRoomId(user.userId, activeRoom) : "general";
+
+//   // useEffect para obtener la lista de empleados
+//   useEffect(() => {
+//     const fetchEmployees = async () => {
+//       try {
+//         setIsLoading(true);
+//         const response = await api.get("/employees/list");
+//         console.log(
+//           "Employee IDs",
+//           chatUsers.map((e) => e.userId)
+//         );
+//         setChatUsers(response.data);
+//         console.log("Empleados recibidos:", response.data);
+//         if (!Array.isArray(response.data)) {
+//           console.error("La respuesta no es un array:", response.data);
+//         }
+
+//         setError(null);
+//       } catch (err) {
+//         console.error("Error al obtener la lista de empleados:", err);
+//         setError("No se pudo cargar la lista de chats.");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchEmployees();
+//   }, []);
+
+//   // Efecto para CONECTAR y DESCONECTAR el socket UNA SOLA VEZ
+//   useEffect(() => {
+//     if (tenantSlug) {
+//       connect(tenantSlug);
+//     }
+//     return () => {
+//       disconnect();
+//     };
+//   }, [tenantSlug, connect, disconnect]);
+
+//   // Efecto para UNIRSE y ABANDONAR salas cuando cambia el chat activo
+// useEffect(() => {
+//     if (!activeRoom || !user?.userId) return;
+
+//     const newRoom = getRoomId(user.userId, activeRoom);
+
+//     // 1. Si estábamos en una sala anterior, la abandonamos
+//     if (previousRoomRef.current && previousRoomRef.current !== newRoom) {
+//       leaveRoom(previousRoomRef.current);
+//       resetMessages(previousRoomRef.current); // Limpiar mensajes de la sala anterior
+//     }
+
+//     // 2. Nos unimos a la nueva sala
+//     joinRoom(newRoom);
+
+//     // 3. Guardamos la sala actual para la próxima vez
+//     previousRoomRef.current = newRoom;
+    
+//   }, [activeRoom, user?.userId, joinRoom, leaveRoom, resetMessages]);
+
+//     // La sala para enviar mensajes ahora se calcula directamente
+//   const currentRoomName = useMemo(() => {
+//     if (activeRoom && user?.userId) {
+//       return getRoomId(user.userId, activeRoom);
+//     }
+//     return null;
+//   }, [activeRoom, user?.userId]);
+
+
+//   const handleSend = () => {
+//     if (!message.trim()) return;
+//     sendMessage(message, room);
+//     setMessage("");
+//     console.log("Sending message to room:", room);
+//     console.log("From:", user?.userId, "To:", activeRoom);
+//   };
+
+// "use client";
+
+// import { useRef, useEffect, useState, useMemo } from "react";
+// import { Send } from "lucide-react";
+// import { useChatStore } from "@/stores/chatStore";
+// import { useAuthStore } from "@/stores/authStore";
+// import api from "@/lib/axiosInstance";
+// import { IAuthMeUser } from "@/interfaces/index";
+
+// // Esta función es correcta, ¡la mantenemos!
+// function getRoomId(userId1: string, userId2: string): string {
+//   const [a, b] = [userId1, userId2].sort();
+//   return `${a}__${b}`;
+// }
+
+// export default function ChatRoomLayout() {
+//   // Obtenemos las nuevas funciones del store
+//   const { messages, connect, disconnect, joinRoom, leaveRoom, sendMessage, resetMessages } = useChatStore();
+//   const user = useAuthStore((state) => state.user);
+  
+//   const [chatUsers, setChatUsers] = useState<IAuthMeUser[]>([]);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   const [message, setMessage] = useState("");
+//   const [activeRoom, setActiveRoom] = useState<string | null>(null);
+//   const textareaRef = useRef<HTMLTextAreaElement>(null);
+//   const previousRoomRef = useRef<string | null>(null); // Para saber de qué sala salir
+
+//   const tenantSlug = "nivo-a";
+
+//   // Efecto para obtener la lista de empleados (sin cambios)
+//   useEffect(() => {
+//     const fetchEmployees = async () => {
+//       try {
+//         setIsLoading(true);
+//         const response = await api.get("/employees/list");
+//         setChatUsers(response.data);
+//         setError(null);
+//       } catch (err) {
+//         console.error("Error al obtener la lista de empleados:", err);
+//         setError("No se pudo cargar la lista de chats.");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+//     fetchEmployees();
+//   }, []);
+
+//   // Efecto para CONECTAR y DESCONECTAR el socket UNA SOLA VEZ
+//   useEffect(() => {
+//     if (tenantSlug) {
+//       connect(tenantSlug);
+//     }
+//     // La función de limpieza se ejecuta cuando el componente se desmonta
+//     return () => {
+//       disconnect();
+//     };
+//   }, [tenantSlug, connect, disconnect]);
+
+//   // Efecto para UNIRSE y ABANDONAR salas cuando cambia el chat activo
+//   useEffect(() => {
+//     if (!activeRoom || !user?.userId) return;
+
+//     const newRoom = getRoomId(user.userId, activeRoom);
+
+//     // 1. Si estábamos en una sala anterior, la abandonamos
+//     if (previousRoomRef.current && previousRoomRef.current !== newRoom) {
+//       leaveRoom(previousRoomRef.current);
+//       resetMessages(previousRoomRef.current); // Limpiar mensajes de la sala anterior
+//     }
+
+//     // 2. Nos unimos a la nueva sala
+//     joinRoom(newRoom);
+
+//     // 3. Guardamos la sala actual para la próxima vez
+//     previousRoomRef.current = newRoom;
+    
+//   }, [activeRoom, user?.userId, joinRoom, leaveRoom, resetMessages]);
+
+//   // La sala para enviar mensajes ahora se calcula directamente
+//   const currentRoomName = useMemo(() => {
+//     if (activeRoom && user?.userId) {
+//       return getRoomId(user.userId, activeRoom);
+//     }
+//     return null;
+//   }, [activeRoom, user?.userId]);
+
+//   const handleSend = () => {
+//     if (!message.trim() || !activeRoom || !user?.userId) return;
+
+//     const currentRoomName = getRoomId(user.userId, activeRoom);
+
+//     sendMessage(message, currentRoomName);
+//     setMessage("");
+//     console.log(`Enviando mensaje a la sala: ${currentRoomName}`);
+//   };
+
+  
+//     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+//     if (e.key === "Enter" && !e.shiftKey) {
+//       e.preventDefault();
+//       handleSend();
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (textareaRef.current) {
+//       textareaRef.current.style.height = "27px";
+//       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+//     }
+//   }, [message]);
+
+//   const filteredEmployees = useMemo(
+//     () => chatUsers.filter((employee) => employee.userId !== user?.userId),
+//     [chatUsers, user]
+//   );
+
+//   return (
+//     <div
+//       className="flex text-[#444141]"
+//       style={{
+//         height: "calc(100dvh - 64px)",
+//         backgroundColor: "var(--color-background-light, #F4F3F8)",
+//       }}
+//     >
+//       {/* Sidebar */}
+//       <aside className="w-80 flex-shrink-0 bg-white border-r border-[#f0f2f1]">
+//         <div className="p-4 border-b border-[#f0f2f1]">
+//           <h2 className="text-xl font-semibold text-[#0d0d0d]">Chats</h2>
+//         </div>
+//         <div className="overflow-y-auto">
+//           {/* 5. Renderizado con los datos de IUser */}
+//           {isLoading ? (
+//             <p className="p-4 text-gray-500">Cargando contactos...</p>
+//           ) : error ? (
+//             <p className="p-4 text-red-500">{error}</p>
+//           ) : (
+//             filteredEmployees.map((employee) => {
+//               if (!employee.userId) return null;
+
+//               const fullName = employee.name;
+
+
+
+//               console.log(`Renderizando contacto: ${employee.name} con ID: ${employee.userId}`);
+
+
+
+//               return (
+//                 <div
+//                   key={employee.userId}
+//                   onClick={() => {
+//                     console.log(`Clic en ${employee.name}. Estableciendo activeRoom a: ${employee.userId}`);
+//                     setActiveRoom(employee.userId)
+//                   }}
+//                   className={`p-4 cursor-pointer hover:bg-[#f0f2f1] flex items-center gap-4 ${
+//                     activeRoom === employee.userId
+//                       ? "bg-[#6d5cc42d] border-r-4 border-[#6e5cc4]"
+//                       : ""
+//                   }`}
+//                 >
+//                   <div>
+//                     <p className="font-semibold text-[#0d0d0d]">{fullName}</p>
+//                     <p className="text-sm text-[#777] truncate">
+//                       {employee.email}
+//                     </p>
+//                   </div>
+//                 </div>
+//               );
+//             })
+//           )}
+//         </div>
+//       </aside>
+
+//       {/* Chat principal (sin cambios) */}
+//       <main className="flex-1 flex flex-col">
+//         {activeRoom ? (
+//           <>
+//             <header className="p-4 bg-white border-b border-[#f0f2f1]">
+//               <p className="text-lg font-semibold text-[#0d0d0d]">
+//                 {chatUsers.find((u) => u.userId === activeRoom)?.name ??
+//                   "Conversación"}
+//               </p>
+//             </header>
+
+//             <div className="flex-grow p-6 overflow-y-auto">
+//               {/* .map((msg, idx) => */}
+//               {(currentRoomName && messages[currentRoomName] || []).map((msg, idx) => {
+//                 const isOwn = msg.user === user?.name;
+//                 return (
+//                   <div
+//                     key={idx}
+//                     className={`flex flex-col mb-4 ${
+//                       isOwn ? "items-end" : "items-start"
+//                     }`}
+//                   >
+//                     <span className="text-sm text-[#999] mb-1">
+//                       {isOwn ? "Yo" : msg.user}
+//                     </span>
+//                     <div
+//                       className={`p-3 rounded-lg max-w-[70%] shadow-sm ${
+//                         isOwn
+//                           ? "bg-[#6e5cc4] text-white rounded-br-none"
+//                           : "bg-[#e8e2fa] text-[#444141] rounded-bl-none"
+//                       }`}
+//                     >
+//                       <p>{msg.message}</p>
+//                       <p
+//                         className={`text-xs mt-1 text-right ${
+//                           isOwn ? "text-white/80" : "text-[#777]"
+//                         }`}
+//                       >
+//                         {new Date(msg.createdAt).toLocaleTimeString([], {
+//                           hour: "2-digit",
+//                           minute: "2-digit",
+//                         })}
+//                       </p>
+//                     </div>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+//             <footer className="p-4 bg-[#ffffff] border-t border-[#f0f2f1]">
+//               <div className="flex items-end gap-2 rounded-xl bg-[#f0f2f1] p-2 relative">
+//                 <textarea
+//                   ref={textareaRef}
+//                   value={message}
+//                   onChange={(e) => setMessage(e.target.value)}
+//                   onKeyDown={handleKeyDown}
+//                   placeholder="Escribe un mensaje..."
+//                   rows={1}
+//                   className="flex-1 resize-none bg-transparent text-[#444141] outline-none max-h-32 overflow-y-auto pr-10"
+//                   style={{ height: "27px" }}
+//                 />
+//                 <button
+//                   onClick={handleSend}
+//                   className="absolute right-2 bottom-2 text-[#6e5cc4] hover:text-[#4e4090] cursor-pointer"
+//                 >
+//                   <Send size={25} />
+//                 </button>
+//               </div>
+//             </footer>
+//           </>
+//         ) : (
+//           <div className="flex flex-1 items-center justify-center text-center text-[#888] px-4">
+//             <div>
+//               <h2 className="text-2xl font-semibold mb-2">Bienvenido a NIVO</h2>
+//               <p>Seleccioná una conversación para comenzar a chatear</p>
+//             </div>
+//           </div>
+//         )}
+//       </main>
+//     </div>
+//   );
+// }
+
+
+// RUTA: src/app/(views)/user/chat/components/Chatroom.tsx
 "use client";
 
-import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { Send } from "lucide-react";
 import { useChatStore } from "@/stores/chatStore";
 import { useAuthStore } from "@/stores/authStore";
+import api from "@/lib/axiosInstance";
+import { IAuthMeUser } from "@/interfaces/index";
 
-const fakeUsers = [
-  { id: "user1", name: "Lucía Gómez" },
-  { id: "user2", name: "Martín Pérez" },
-  { id: "user3", name: "Valentina Ruiz" },
-  { id: "user4", name: "Facundo López" },
-  { id: "user5", name: "Sofía Torres" },
-];
+function getRoomId(userId1: string, userId2: string): string {
+  const [a, b] = [userId1, userId2].sort();
+  return `${a}__${b}`;
+}
 
 export default function ChatRoomLayout() {
-  const { messages, connect, sendMessage, resetMessages } = useChatStore();
-  const [message, setMessage] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [activeRoom, setActiveRoom] = useState<string | null>(null);
-
+  const { messages, connect, disconnect, joinRoom, leaveRoom, sendMessage, resetMessages } = useChatStore();
   const user = useAuthStore((state) => state.user);
-  const tenantSlug = "nivo-a"; //user?.tenant?.slug ?? "default-tenant"; desde back = tenant: payload.tenant,
-  const room = activeRoom ?? "general";
+  
+  const [chatUsers, setChatUsers] = useState<IAuthMeUser[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [message, setMessage] = useState("");
+  const [activeRoom, setActiveRoom] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const previousRoomRef = useRef<string | null>(null);
+
+  const tenantSlug = "nivo-a";
 
   useEffect(() => {
-    if (!tenantSlug || !activeRoom) return;
-
-    connect(tenantSlug, activeRoom);
-
-    return () => {
-      resetMessages();
+    const fetchEmployees = async () => {
+      try {
+        setIsLoading(true);
+        const response = await api.get("/employees/list");
+        setChatUsers(response.data);
+        setError(null);
+      } catch (err) {
+        console.error("Error al obtener la lista de empleados:", err);
+        setError("No se pudo cargar la lista de chats.");
+      } finally {
+        setIsLoading(false);
+      }
     };
-  }, [tenantSlug, activeRoom]);
+    fetchEmployees();
+  }, []);
 
-  // Simula mensaje inicial del otro usuario
   useEffect(() => {
-  if (!activeRoom) return;
+    if (tenantSlug) {
+      connect(tenantSlug);
+    }
+    return () => {
+      disconnect();
+    };
+  }, [tenantSlug, connect, disconnect]);
 
-  const timeout = setTimeout(() => {
-    useChatStore.setState((state) => ({
-      messages: {
-        ...state.messages,
-        [activeRoom]: [
-          ...(state.messages[activeRoom] || []),
-          {
-            user: activeRoom,
-            message: "¡Hola! ¿Cómo estás?",
-            createdAt: new Date().toISOString(),
-            room: activeRoom,
-          },
-        ],
-      },
-    }));
-  }, 1000);
+  useEffect(() => {
+    if (!activeRoom || !user?.userId) return;
 
-  return () => clearTimeout(timeout);
-}, [activeRoom]);
+    const newRoom = getRoomId(user.userId, activeRoom);
 
+    if (previousRoomRef.current && previousRoomRef.current !== newRoom) {
+      leaveRoom(previousRoomRef.current);
+      resetMessages(previousRoomRef.current);
+    }
+
+    joinRoom(newRoom);
+    previousRoomRef.current = newRoom;
+    
+  }, [activeRoom, user?.userId, joinRoom, leaveRoom, resetMessages]);
+
+  const currentRoomName = useMemo(() => {
+    if (activeRoom && user?.userId) {
+      return getRoomId(user.userId, activeRoom);
+    }
+    return null;
+  }, [activeRoom, user?.userId]);
 
   const handleSend = () => {
-    if (!message.trim()) return;
-    sendMessage(message, room); // Usás la misma room que en connect()
+    if (!message.trim() || !currentRoomName) return;
+    sendMessage(message, currentRoomName);
     setMessage("");
   };
-
+  
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
@@ -74,19 +465,15 @@ export default function ChatRoomLayout() {
 
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "27px";
+      textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [message]);
 
-  //   useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const res = await api.get("/employees");
-  //     setAvailableUsers(res.data); // guardás en un estado local
-  //   };
-
-  //   fetchUsers();
-  // }, []);
+  const filteredEmployees = useMemo(
+    () => chatUsers.filter((employee) => employee.userId !== user?.userId),
+    [chatUsers, user?.userId]
+  );
 
   return (
     <div
@@ -96,60 +483,57 @@ export default function ChatRoomLayout() {
         backgroundColor: "var(--color-background-light, #F4F3F8)",
       }}
     >
-      {/* Sidebar */}
       <aside className="w-80 flex-shrink-0 bg-white border-r border-[#f0f2f1]">
         <div className="p-4 border-b border-[#f0f2f1]">
           <h2 className="text-xl font-semibold text-[#0d0d0d]">Chats</h2>
         </div>
         <div className="overflow-y-auto">
-          {fakeUsers.map((userChat) => (
-            <div
-              key={userChat.id}
-              onClick={() => setActiveRoom(userChat.name)}
-              className={`p-4 cursor-pointer hover:bg-[#f0f2f1] flex items-center gap-4 ${
-                activeRoom === userChat.name
-                  ? "bg-[#6d5cc42d] border-r-4 border-[#6e5cc4]"
-                  : ""
-              }`}
-            >
-              <div>
-                <p className="font-semibold text-[#0d0d0d]">{userChat.name}</p>
-                <p className="text-sm text-[#777] truncate">
-                  Último mensaje...
-                </p>
-              </div>
-            </div>
-          ))}
+          {isLoading ? (
+            <p className="p-4 text-gray-500">Cargando contactos...</p>
+          ) : error ? (
+            <p className="p-4 text-red-500">{error}</p>
+          ) : (
+            filteredEmployees.map((employee) => {
+              if (!employee.userId) return null;
+              return (
+                <div
+                  key={employee.userId}
+                  onClick={() => setActiveRoom(employee.userId)}
+                  className={`p-4 cursor-pointer hover:bg-[#f0f2f1] flex items-center gap-4 ${
+                    activeRoom === employee.userId
+                      ? "bg-[#6d5cc42d] border-r-4 border-[#6e5cc4]"
+                      : ""
+                  }`}
+                >
+                  <div>
+                    <p className="font-semibold text-[#0d0d0d]">{employee.name}</p>
+                    <p className="text-sm text-[#777] truncate">{employee.email}</p>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </aside>
 
-      {/* Chat principal */}
       <main className="flex-1 flex flex-col">
-        {/* Header */}
         {activeRoom ? (
           <>
-            {/* Header */}
             <header className="p-4 bg-white border-b border-[#f0f2f1]">
               <p className="text-lg font-semibold text-[#0d0d0d]">
-                {activeRoom}
+                {chatUsers.find((u) => u.userId === activeRoom)?.name ?? "Conversación"}
               </p>
             </header>
 
-            {/* Mensajes */}
             <div className="flex-grow p-6 overflow-y-auto">
-              {(messages[room] || []).map((msg, idx) => {
+              {(currentRoomName && messages[currentRoomName] || []).map((msg, idx) => {
                 const isOwn = msg.user === user?.name;
-
                 return (
                   <div
                     key={idx}
-                    className={`flex flex-col mb-4 ${
-                      isOwn ? "items-end" : "items-start"
-                    }`}
+                    className={`flex flex-col mb-4 ${isOwn ? "items-end" : "items-start"}`}
                   >
-                    <span className="text-sm text-[#999] mb-1">
-                      {isOwn ? user?.name ?? "Yo" : msg.user}
-                    </span>
+                    <span className="text-sm text-[#999] mb-1">{isOwn ? "Yo" : msg.user}</span>
                     <div
                       className={`p-3 rounded-lg max-w-[70%] shadow-sm ${
                         isOwn
@@ -157,7 +541,7 @@ export default function ChatRoomLayout() {
                           : "bg-[#e8e2fa] text-[#444141] rounded-bl-none"
                       }`}
                     >
-                      <p>{msg.message}</p>
+                      <p className="whitespace-pre-wrap break-words">{msg.message}</p>
                       <p
                         className={`text-xs mt-1 text-right ${
                           isOwn ? "text-white/80" : "text-[#777]"
@@ -174,7 +558,6 @@ export default function ChatRoomLayout() {
               })}
             </div>
 
-            {/* Input */}
             <footer className="p-4 bg-[#ffffff] border-t border-[#f0f2f1]">
               <div className="flex items-end gap-2 rounded-xl bg-[#f0f2f1] p-2 relative">
                 <textarea
@@ -185,25 +568,13 @@ export default function ChatRoomLayout() {
                   placeholder="Escribe un mensaje..."
                   rows={1}
                   className="flex-1 resize-none bg-transparent text-[#444141] outline-none max-h-32 overflow-y-auto pr-10"
-                  style={{ height: "27px" }}
                 />
-
-                {/* Desktop send */}
                 <button
                   onClick={handleSend}
-                  className="absolute right-2 bottom-2 hidden lg:block text-[#6e5cc4] hover:text-[#4e4090] cursor-pointer"
+                  className="absolute right-2 bottom-2 text-[#6e5cc4] hover:text-[#4e4090] cursor-pointer"
                 >
                   <Send size={25} />
                 </button>
-
-                {/* Mobile send */}
-                <div className="lg:hidden ml-2">
-                  <ButtonPrimary
-                    onClick={handleSend}
-                    className="px-4 py-2 bg-[#6e5cc4] text-white rounded-lg hover:bg-[#4e4090]"
-                    textContent="Enviar"
-                  />
-                </div>
               </div>
             </footer>
           </>

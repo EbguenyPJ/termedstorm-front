@@ -33,12 +33,9 @@ export default function CategoriesPage() {
 
   return (
     <>
-
-
       <div className="flex flex-wrap justify-center gap-y-10">
         {categories.length > 0 ? (
           categories.map((category, index) => (
-            // Cada categoría lleva a /shop/categories/[slug]
             <Link
               href={`/shop/categories/${category.slug}`}
               key={index}

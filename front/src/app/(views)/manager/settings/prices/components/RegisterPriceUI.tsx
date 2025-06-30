@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "@/lib/axiosInstance";
 import Image from "next/image";
 // import api from '@/lib/axiosInstance'
 
@@ -60,8 +60,8 @@ const PriceTable = () => {
 
           try {
             // const response =
-            await axios.post(
-              `${process.env.NEXT_PUBLIC_API_URL}/products/bulk`,
+            await api.post(
+              `/products/bulk`,
               parsedData
             );
             toast.success("Productos cargados correctamente");

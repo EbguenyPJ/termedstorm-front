@@ -9,7 +9,7 @@ import BreadcrumbClient from "@/components/UI/Breadcrumb";
 
 interface LayoutManagerProps {
   children: React.ReactNode;
-  showBreadcrumb?: boolean;
+  showBreadcrumb?: boolean | React.ReactNode;
   showContainer?: boolean;
 }
 
@@ -87,26 +87,27 @@ export default function LayoutManager({
             />
           </div>
         </ExcludedWrapper>
-
         {showBreadcrumb || showContainer ? (
-          <div className="p-4 sm:p-6 lg:p-8">
-            {showBreadcrumb && (
-              <div className="mb-4">
+        <div className="p-4 sm:p-6 lg:p-8">
+          {showBreadcrumb && (
+            <div className="mb-4">
+              {typeof showBreadcrumb === "boolean" ? (
                 <BreadcrumbClient />
-              </div>
-            )}
+              ) : (
+                showBreadcrumb
+              )}
+            </div>
+          )}
 
-            {showContainer ? (
-              <main className="bg-white rounded-lg shadow-md p-6 min-h-[75vh]">
-                {children}
-              </main>
-            ) : (
-              children
-            )}
-          </div>
-        ) : (
-          children
-        )}
+          {showContainer ? (
+            <main className="bg-white rounded-lg shadow-md p-6 min-h-[75vh]">
+              {children}
+            </main>
+          ) : (
+            children
+          )}
+        </div>
+        ) : ( children )}
       </div>
     </>
   );
