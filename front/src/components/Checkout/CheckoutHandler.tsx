@@ -5,6 +5,8 @@ import { useCartStore } from '@/stores/cartStore';
 import { ButtonSecondary } from '@/components/UI/Buttons/Buttons';
 import api from '@/lib/axiosInstance';
 import { useAuthStore } from '@/stores/authStore';
+import { routes } from '@/app/routes';
+import toast from 'react-hot-toast';
 
 export const CheckoutHandler = () => {
     const { items, clearCart } = useCartStore();
@@ -15,7 +17,7 @@ export const CheckoutHandler = () => {
         if (!user) {
             alert('Iniciá sesión para continuar');
             return setTimeout(() => {
-                router.push('/login');
+                router.push(routes.public.login);
             }, 3000);
         }
 
@@ -60,7 +62,7 @@ export const CheckoutHandler = () => {
             }
         } catch (err: any) {
             console.error('Error en el checkout:', err);
-            alert('Error al iniciar el pago. Intentalo más tarde');
+            toast.error('Error al iniciar el pago. Intentalo más tarde')
         }
     };
 

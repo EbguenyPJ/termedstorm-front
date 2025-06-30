@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { IProductVariant, IProductSize, IApiProductExtended, IColor, ISize } from '@/interfaces/product-extended';
+import { IProductVariant, IProductSize, IApiProductExtended, ISize } from '@/interfaces/product-extended';
 import { ButtonAccent } from '@/components/UI/Buttons/Buttons';
 import Input from '@/components/UI/Inputs/Input';
 import Select from '@/components/UI/Inputs/InputFormik'
@@ -46,8 +46,8 @@ const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ product, onClos
     const [error, setError] = useState<string | null>(null);
     const [editedVariants, setEditedVariants] = useState<IProductVariant[]>(product.variants || []);
     const [openModal, setOpenModal] = useState<string | undefined>();
-    const [variantToDelete, setVariantToDelete] = useState<IProductVariant | null>(null);
-    const [sizeToDelete, setSizeToDelete] = useState<IProductSize | null>(null);
+    // const [variantToDelete, setVariantToDelete] = useState<IProductVariant | null>(null);
+    // const [sizeToDelete, setSizeToDelete] = useState<IProductSize | null>(null);
     const [currentEditingSize, setCurrentEditingSize] = useState<IProductSize | null>(null);
     const [currentVariantId, setCurrentVariantId] = useState<string | null>(null);
 
@@ -127,30 +127,30 @@ const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ product, onClos
         }
     };
 
-    const handleDeleteVariantClick = (variant: IProductVariant) => {
-        setVariantToDelete(variant);
-        setOpenModal('delete-variant');
-    };
+    // const handleDeleteVariantClick = (variant: IProductVariant) => {
+    //     setVariantToDelete(variant);
+    //     setOpenModal('delete-variant');
+    // };
 
-    const handleDeleteVariantConfirmed = async () => {
-        if (!variantToDelete) return;
-        setLoading(true);
-        setError(null);
-        setOpenModal(undefined);
-        try {
-            await api.delete(`/product-variants/${variantToDelete.id}`);
-            setEditedVariants(prevVariants =>
-                prevVariants.filter(v => v.id !== variantToDelete.id)
-            );
-            console.log(`Variante eliminada con éxito.`);
-        } catch (err: any) {
-            console.error("Error al eliminar la variante:", err);
-            setError('Error al eliminar la variante. Intenta de nuevo.');
-        } finally {
-            setLoading(false);
-            setVariantToDelete(null);
-        }
-    };
+    // const handleDeleteVariantConfirmed = async () => {
+    //     if (!variantToDelete) return;
+    //     setLoading(true);
+    //     setError(null);
+    //     setOpenModal(undefined);
+    //     try {
+    //         await api.delete(`/product-variants/${variantToDelete.id}`);
+    //         setEditedVariants(prevVariants =>
+    //             prevVariants.filter(v => v.id !== variantToDelete.id)
+    //         );
+    //         console.log(`Variante eliminada con éxito.`);
+    //     } catch (err: any) {
+    //         console.error("Error al eliminar la variante:", err);
+    //         setError('Error al eliminar la variante. Intenta de nuevo.');
+    //     } finally {
+    //         setLoading(false);
+    //         setVariantToDelete(null);
+    //     }
+    // };
 
     const handleEditSize = (size: IProductSize, variantIndex: number) => {
         setCurrentEditingSize(size);
@@ -192,33 +192,33 @@ const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ product, onClos
         }
     };
 
-    const handleDeleteSizeClick = (size: IProductSize) => {
-        setSizeToDelete(size);
-        setOpenModal('delete-size');
-    };
+    // const handleDeleteSizeClick = (size: IProductSize) => {
+    //     setSizeToDelete(size);
+    //     setOpenModal('delete-size');
+    // };
 
-    const handleDeleteSizeConfirmed = async () => {
-        if (!sizeToDelete) return;
-        setLoading(true);
-        setError(null);
-        setOpenModal(undefined);
-        try {
-            await api.delete(`/variant-sizes/${sizeToDelete.id}`);
-            setEditedVariants(prevVariants =>
-                prevVariants.map(v => ({
-                    ...v,
-                    variantSizes: v.variantSizes?.filter(s => s.id !== sizeToDelete.id)
-                }))
-            );
-            console.log(`Talla eliminada con éxito.`);
-        } catch (err: any) {
-            console.error("Error al eliminar la talla:", err);
-            setError('Error al eliminar la talla. Intenta de nuevo.');
-        } finally {
-            setLoading(false);
-            setSizeToDelete(null);
-        }
-    };
+    // const handleDeleteSizeConfirmed = async () => {
+    //     if (!sizeToDelete) return;
+    //     setLoading(true);
+    //     setError(null);
+    //     setOpenModal(undefined);
+    //     try {
+    //         await api.delete(`/variant-sizes/${sizeToDelete.id}`);
+    //         setEditedVariants(prevVariants =>
+    //             prevVariants.map(v => ({
+    //                 ...v,
+    //                 variantSizes: v.variantSizes?.filter(s => s.id !== sizeToDelete.id)
+    //             }))
+    //         );
+    //         console.log(`Talla eliminada con éxito.`);
+    //     } catch (err: any) {
+    //         console.error("Error al eliminar la talla:", err);
+    //         setError('Error al eliminar la talla. Intenta de nuevo.');
+    //     } finally {
+    //         setLoading(false);
+    //         setSizeToDelete(null);
+    //     }
+    // };
 
     return (
         <div className="div-container bg-base-100 p-8 rounded-lg shadow-lg">
@@ -323,7 +323,7 @@ const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ product, onClos
                         <div className="flex justify-between items-start mb-4">
                             <h4 className="font-bold text-base-300">Variante: <span className="font-normal text-base-250">{variant.description}</span></h4>
                             <button
-                                onClick={() => handleDeleteVariantClick(variant)}
+                                // onClick={() => handleDeleteVariantClick(variant)}
                                 className="text-accent hover:text-red-700 text-sm font-medium"
                             >
                                 Eliminar Variante
@@ -413,7 +413,11 @@ const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ product, onClos
                                                 <button onClick={() => handleEditSize(size, variantIndex)} className="text-primary hover:underline text-sm font-medium">
                                                     Editar Talla
                                                 </button>
-                                                <button onClick={() => handleDeleteSizeClick(size)} className="text-accent hover:underline text-sm font-medium">
+                                                <button onClick={() => console.log()
+                                                    // handleDeleteSizeClick(size)
+                                                }
+                                                    className="text-accent hover:underline text-sm font-medium"
+                                                    >
                                                     Eliminar Talla
                                                 </button>
                                             </div>

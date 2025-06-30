@@ -1,6 +1,6 @@
 "use client";
 
-import { IRegister } from "@/interfaces";
+import { IRegisterEmployee } from "@/interfaces";
 import { Formik, Form } from "formik";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import * as yup from "yup";
@@ -33,7 +33,7 @@ export const RegisterForm = () => {
       ),
   });
 
-  const handleSubmit = async (values: IRegister) => {
+  const handleSubmit = async (values: IRegisterEmployee) => {
     try {
       await registerEmployee(values);
       toast.success("Se ha creado un nuevo empleado");
@@ -52,6 +52,7 @@ export const RegisterForm = () => {
         last_name: "",
         email: "",
         password: "",
+        roles: []
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}

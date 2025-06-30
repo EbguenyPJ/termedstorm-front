@@ -6,17 +6,13 @@ import { CheckCircle } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { routes } from '@/app/routes';
 
-export default function PaymentSuccessPage() {
+export default function CartPaymentSuccessPage() {
     const router = useRouter();
     const user = useAuthStore((state) => state.user);
 
     useEffect(() => {
         if (!user) {
-            console.log("usuario de pago exitoso: ", );
-            
-            setTimeout(() => {
-                router.push('http://localhost:4000/');
-            }, 10000);
+                router.push(routes.shop.categories);
         }
     }, [user, router]);
 
@@ -27,12 +23,12 @@ export default function PaymentSuccessPage() {
             <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg text-center space-y-6">
                 <CheckCircle className="h-16 w-16 text-green-600 mx-auto" />
                 <h1 className="text-3xl font-bold text-gray-800">¡Pago exitoso!</h1>
-                <p className="text-gray-600">Tu suscripción ha sido activada correctamente. 🎉</p>
+                <p className="text-gray-600">La compra se ha completado correctamente. 🎉</p>
                 <button
-                onClick={() => router.push(routes.client.profileClient)}
-                className="mt-4 bg-primary text-white px-6 py-2 rounded-2xl hover:bg-primary/90 transition-all"
+                    onClick={() => router.push(routes.shop.products)}
+                    className="mt-4 bg-primary text-white px-6 py-2 rounded-2xl hover:bg-primary/90 transition-all"
                 >
-                    Ir al Dashboard
+                    Continuar Comprando
                 </button>
             </div>
         </div>

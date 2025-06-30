@@ -4,12 +4,8 @@ import api from "@/lib/axiosInstance";
 import { redirect } from "next/navigation";
 import { Breadcrumb } from "@/components/BreadCrumb/BreadCrumb";
 import { routes } from "@/app/routes";
+import { Params } from "@/interfaces/index";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
 
 async function getSizes() {
   try {
@@ -47,8 +43,8 @@ async function getProductById(id: string) {
   }
 }
 
-const ProductDetailPage = async ({ params }: Props) => {
-  const { id } = params;
+const ProductDetailPage = async ({ params }: { params: Params }) => {
+  const id = (await params as any)?.id;
 
   const [sizes, colors, product] = await Promise.all([
     getSizes(),
