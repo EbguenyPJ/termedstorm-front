@@ -71,7 +71,7 @@ const RegisterBrand = () => {
   return (
     <div>
       <section >
-      <h2 className="text-2xl font-bold mb-10 text-[#4e4090] text-center sm:text-left sm:pl-10">
+        <h2 className="text-2xl font-bold mb-10 text-[#4e4090] text-center sm:text-left sm:pl-10">
           Registrar nueva Marca
         </h2>
 
@@ -102,18 +102,15 @@ const RegisterBrand = () => {
                 fileInputRef.current.value = "";
               }
             } catch (error: any) {
-              console.error(
-                "Error al registrar la marca:",
-                error.response?.data || error.message
-              );
-              toast.error("Ocurrió un error al registrar la marca");
+              const errorMessage = error.response?.data?.message || "Ocurrió un error al registrar la marca";
+              toast.error(errorMessage);
             }
           }}
         >
           {({ setFieldValue, values }) => (
             <Form>
-            <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
-              <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
+              <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+                <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
                   <div className="mb-4">
                     <InputFormik
                       name="nombreMarca"
@@ -142,7 +139,7 @@ const RegisterBrand = () => {
                       }
                     />
                     {values.image && (
-                    <div className="w-40 h-40 relative border rounded overflow-hidden mt-4 mx-auto lg:mx-0">
+                      <div className="w-40 h-40 relative border rounded overflow-hidden mt-4 mx-auto lg:mx-0">
                         <Image
                           src={values.image}
                           alt="Preview"
@@ -159,7 +156,7 @@ const RegisterBrand = () => {
                   </div>
                 </div>
 
-              <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
+                <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
                   <div className="mb-4">
                     <label className="block text-md font-semibold text-[#4e4090] mb-2">
                       Sub-Categoría
@@ -188,7 +185,7 @@ const RegisterBrand = () => {
                 </div>
               </div>
 
-            <div className="flex justify-center lg:justify-end mt-6 mr-10">
+              <div className="flex justify-center lg:justify-end mt-6 mr-10">
                 <ButtonAccent type="submit" textContent="GUARDAR" />
               </div>
             </Form>

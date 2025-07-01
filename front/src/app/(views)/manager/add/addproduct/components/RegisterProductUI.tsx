@@ -8,7 +8,7 @@ import VariantProduct from "./VariantProduct";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import api from '@/lib/axiosInstance'
 
-const productoSchema = yup.object().shape({
+const productoSchemaParcial  = yup.object().shape({
   nombre: yup
     .string()
     .required("El nombre es obligatorio")
@@ -57,6 +57,35 @@ const productoSchema = yup.object().shape({
     .min(1, "La marca no puede estar vacía"),
 });
 
+const productoSchemaCompleto = productoSchemaParcial.shape({
+  variantes: yup
+    .array()
+    .of(
+      yup.object().shape({
+        color_id: yup.string().required("El color es obligatorio"),
+        descripcion: yup.string().required("La descripción es obligatoria"),
+        images: yup
+          .array()
+          .of(yup.string().required("La imagen es obligatoria"))
+          .min(1, "Debe agregar al menos una imagen"),
+        variants2: yup
+          .array()
+          .of(
+            yup.object().shape({
+              talle: yup.string().required("El talle es obligatorio"),
+              stock: yup
+                .number()
+                .typeError("El stock debe ser un número")
+                .required("El stock es obligatorio")
+                .min(1, "El stock debe ser mayor a 0"),
+            })
+          )
+          .min(1, "Debe agregar al menos un talle y stock"),
+      })
+    )
+    .min(1, "Debe agregar al menos una variante"),
+});
+
 const RegisterProduct = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [productoAceptado, setProductoAceptado] = useState(false);
@@ -102,7 +131,7 @@ const RegisterProduct = () => {
           marca: "",
           variantes: [],
         }}
-        validationSchema={productoSchema}
+validationSchema={productoSchemaCompleto}
         onSubmit={async (values, { resetForm }) => {
           try {
             const productToSend = {
@@ -137,14 +166,14 @@ const RegisterProduct = () => {
                 fileInputRef.current.value = "";
               }
             }
-          } catch (error) {
-            console.error("Error al registrar producto:", error);
-            toast.error("Error al registrar el producto");
+          } catch (error: any) {
+            const errorMessage = error.response?.data?.message || "Ocurrió un error al registrar la categoría";
+            toast.error(errorMessage);
           }
         }}
 
       >
-        {({ values }) => (
+        {({ values, isValid, validateForm  }) => (
           <Form>
             <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
               <div className="border border-gray-300 flex-1 p-6 sm:p-8 bg-white rounded-lg">
@@ -256,7 +285,7 @@ const RegisterProduct = () => {
                   type="button"
                   textContent="ACEPTAR"
                   onClick={() => {
-                    productoSchema.validate(values, { abortEarly: true })
+                    productoSchemaParcial.validate(values, { abortEarly: true })
                       .then(() => {
                         setProductoAceptado(true);
                         toast.success("Producto aceptado. Ahora agrega las variantes");
@@ -274,7 +303,18 @@ const RegisterProduct = () => {
 
             {productoAceptado && (
               <div className="flex justify-center md:justify-end mt-6 px-4 sm:px-6 lg:px-10">
-                <ButtonAccent type="submit" textContent="GUARDAR" />
+                <ButtonAccent type="submit" textContent="GUARDAR" onClick={async (e) => {
+            e.preventDefault(); // Evitás que envíe el form sin control
+            const errors = await validateForm();
+
+            if (!isValid) {
+              toast.error("Por favor, completá todos los campos obligatorios, incluyendo las variantes.");
+              return;
+            }
+
+            // Si todo está bien, enviamos el form
+            (e.target as HTMLButtonElement).closest('form')?.requestSubmit();
+          }}/>
               </div>
             )}
           </Form>
