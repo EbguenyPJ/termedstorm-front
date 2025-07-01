@@ -12,10 +12,7 @@ export default function CartPaymentCancelled() {
 
     useEffect(() => {
         if (!user) {
-            setTimeout(() => {
-                
-                router.push('http://localhost:4000/');
-            }, 10000);
+                router.push(routes.shop.categories);
         }
     }, [user, router]);
 

@@ -47,7 +47,8 @@ export type { IBrand };
 
 export interface IRole {
   id: string;
-  name: "SUPERADMIN" | "ADMIN" | "SELLER";
+  name: string;
+  description: string;
 }
 
 export interface IUser {
@@ -59,7 +60,7 @@ export interface IUser {
   image?: string;
 
   employee?: {
-    roles: string[]; // Ej: [{ name: "SUPERADMIN" }]
+    roles: string[];
   };
   client?: {
     is_premium: boolean;
@@ -74,6 +75,14 @@ export interface IAuthMeUser {
   roles: string[];
 }
 
+export interface IEmployee {
+  userId: string;
+  email: string;
+  name: string;
+  roles: string[];
+}
+
+
 export interface ILogin {
   email: string;
   password: string;
@@ -84,7 +93,14 @@ export interface IRegister {
   password: string;
   first_name: string;
   last_name: string;
-  role?: string[];
+}
+
+export interface IRegisterEmployee {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  roles: string[];
 }
 
 type RecordSearchParams = { [key: string]: string | string[] | undefined };

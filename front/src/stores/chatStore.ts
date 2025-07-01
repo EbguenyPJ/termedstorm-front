@@ -1,3 +1,4 @@
+// RUTA: src/stores/chatStore.ts
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 import { useAuthStore } from "./authStore";
@@ -6,76 +7,114 @@ type ChatMessage = {
   user: string;
   message: string;
   createdAt: string;
+  room: string;
 };
 
 type ChatStore = {
   socket: Socket | null;
-  messages: ChatMessage[];
-  connect: (tenantSlug: string, room: string) => void;
+  messages: Record<string, ChatMessage[]>;
+  connect: (tenantSlug: string) => void;
   disconnect: () => void;
+  joinRoom: (room: string) => void;
+  leaveRoom: (room: string) => void;
   sendMessage: (message: string, room: string) => void;
-  resetMessages: () => void;
+  resetMessages: (roomToReset?: string) => void;
 };
 
+// Instancia única del socket. La definimos afuera para que no se reinicie.
+let socket: Socket | null = null;
 
-
-export const useChatStore = create<ChatStore>((set, get) => ({
+export const useChatStore = create<ChatStore>((set) => ({
   socket: null,
-  messages: [],
+  messages: {},
 
-  connect: (room) => {
-    const tenantSlug = "nivo-a"; // Obtener usuario actual: useAuthStore.getState().user?.tenant?.slug || "nivo-a"
-    const socket = io("http://localhost:8080", {
+  connect: (tenantSlug) => {
+    if (socket?.connected) {
+      console.log("🔌 Socket ya estaba conectado.");
+      return;
+    }
+    
+    if (socket) {
+      socket.removeAllListeners();
+      socket.disconnect();
+    }
+
+    // Asignamos a la variable externa, SIN 'const'
+    socket = io("http://localhost:8080", {
       withCredentials: true,
       auth: { tenantSlug },
       transports: ["websocket", "polling"],
     });
-
+    
     socket.on("connect", () => {
-      console.log("🟢 Conectado al socket:", socket.id);
-      socket.emit("event_join", room);
+      console.log("🟢 Conectado al socket:", socket?.id);
+      set({ socket });
     });
 
+    socket.on("disconnect", () => {
+        console.log("🔴 Desconectado del socket.");
+        socket = null; 
+        set({ socket: null });
+    });
 
     socket.on("new_message", (msg: ChatMessage) => {
       set((state) => ({
-        messages: [...state.messages, msg],
+        messages: {
+          ...state.messages,
+          [msg.room]: [...(state.messages[msg.room] || []), msg],
+        },
       }));
     });
-
-    set({ socket });
   },
-
-
-  sendMessage: (message, room) => {
-    const socket = get().socket;
-    const user = useAuthStore.getState().user;
-
-    if (!socket || !message.trim()) return;
-
-    socket.emit("event_message", { room, message });
-
-    set((state) => ({
-      messages: [
-        ...state.messages,
-        {
-          user: user?.name || "yo",
-          message,
-          createdAt: new Date().toISOString(),
-        },
-      ],
-    }));
-  },
-
 
   disconnect: () => {
-    const socket = get().socket;
     if (socket) {
-      socket.emit("event_leave", "general");
       socket.disconnect();
-      set({ socket: null });
+      socket = null;
+      set({ socket: null, messages: {} });
     }
   },
 
-  resetMessages: () => set({ messages: [] }),
+  joinRoom: (room) => {
+    socket?.emit("event_join", room);
+    console.log(`✅ Cliente uniéndose a la sala: ${room}`);
+  },
+
+  leaveRoom: (room) => {
+    socket?.emit("event_leave", room);
+    console.log(`👋 Cliente abandonando la sala: ${room}`);
+  },
+
+  sendMessage: (message, room) => {
+    if (!socket || !message.trim()) return;
+
+    const user = useAuthStore.getState().user;
+    const newMessage: ChatMessage = {
+      user: user?.name || "yo",
+      message,
+      createdAt: new Date().toISOString(),
+      room,
+    };
+    
+    socket.emit("event_message", { room, message });
+    
+    set((state) => ({
+      messages: {
+        ...state.messages,
+        [room]: [...(state.messages[room] || []), newMessage],
+      },
+    }));
+  },
+
+  resetMessages: (roomToReset?: string) => {
+    if (!roomToReset) {
+      set({ messages: {} });
+    } else {
+      set((state) => {
+        const newMessages = { ...state.messages };
+        delete newMessages[roomToReset];
+        return { messages: newMessages };
+      });
+    }
+  },
 }));

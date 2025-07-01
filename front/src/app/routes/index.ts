@@ -15,7 +15,8 @@ export const routes = {
   // Users
   user: {
     profile: "/user/profile",
-    sales: "/user/sales",
+    reports: "/user/reports",
+    reportsemployee: "/user/reportsemployee",
     support: "/user/support",
     chat: "/user/chat",
     companySubscription: "/user/company-subscription",
@@ -32,12 +33,19 @@ export const routes = {
   manager: {
     // Add
     add: {
+      tablecategory: "/manager/add/tablecategory",
       category: "/manager/add/addcategory",
+      tablesubcategory: "/manager/add/tablesubcategory",
       subcategory: "/manager/add/addsubcategory",
+      tableproduct: "/manager/add/tableproduct",
       product: "/manager/add/addproduct",
+      tablebrand: "/manager/add/tablebrand",
       brand: "/manager/add/addbrand",
+      tablesize: "/manager/add/tablesize",
       size: "/manager/add/addsize",
+      tablecolor: "/manager/add/tablecolor",
       color: "/manager/add/addcolor",
+      
     },
 
   // Settings manager
@@ -51,8 +59,8 @@ export const routes = {
 
   // Cashier
   cashier: {
-      newCash: "/manager/cashier/newcash",
-      newShift: "/manager/cashier/newshift",
+      cuts: "/manager/cashier/cuts",
+      audits: "/manager/cashier/audits",
       overview: "/manager/cashier/overview",
     },
   },

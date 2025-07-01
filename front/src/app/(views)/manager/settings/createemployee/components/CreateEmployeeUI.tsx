@@ -1,27 +1,51 @@
 "use client";
 
-import { IRegister } from "@/interfaces";
+import { IRegisterEmployee } from "@/interfaces";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import InputFormik from "@/components/UI/Inputs/InputFormik";
 import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/stores/authStore";
-// import dynamic from "next/dynamic";
-// import React, { useState, useEffect } from "react";
-// import { getRolesApi } from "@/lib/authBase";
+import dynamic from "next/dynamic";
+import React, { useState, useEffect } from "react";
+import { getRolesApi } from "@/lib/authBase";
+import type { Props as SelectProps } from "react-select";
+import PasswordInputFormik from "@/components/UI/Inputs/InputPassword";
 
-// const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select"), { ssr: false });
 
-// type OptionType = {
-//   value: string;
-//   label: string;
-// };
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+const TypedSelect = Select as unknown as React.ComponentType<
+  SelectProps<OptionType, true>
+>;
 
 export const CreateEmployeeUI = () => {
-  // const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
-  // const [selectedRole, setSelectedRole] = useState<OptionType[]>([]);
+  const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
   const { registerEmployee } = useAuthStore();
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      try {
+        const rolesFromApi = await getRolesApi();
+        const options = rolesFromApi.map((role) => ({
+          value: role.id,
+          label: role.name,
+        }));
+        setRoleOptions(options);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Error desconocido"
+        );
+      }
+    };
+
+    loadRoles();
+  }, []);
 
   const validationSchema = yup.object({
     first_name: yup
@@ -45,62 +69,73 @@ export const CreateEmployeeUI = () => {
         "La contraseña debe contener al menos un carácter especial"
       )
       .required("La contraseña es requerida"),
-    role: yup
+    roles: yup
       .array()
-      .min(1, "Selecciona al menos una Sub-Categoría")
-      .of(yup.string().required()),
+      .min(1, "Selecciona al menos un rol")
+      .of(yup.string().required())
+      .required("Debes asignar al menos un rol"),
   });
 
-  const handleSubmit = async (values: IRegister) => {
+  const handleSubmit = async (
+    values: IRegisterEmployee,
+    { resetForm }: { resetForm: () => void }
+  ) => {
     try {
       await registerEmployee(values);
       toast.success("El usuario se ha creado exitosamente");
-    } catch (error) {
-      console.error(error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Error al crear el usuario";
-      toast.error(errorMessage);
+      resetForm();
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        toast.error(
+          error.response.data?.message ?? "Ese correo ya está registrado"
+        );
+      } else {
+        toast.error("Ocurrió un error inesperado");
+      }
     }
   };
 
   return (
-    <Formik
+    <Formik<IRegisterEmployee>
       initialValues={{
         first_name: "",
         last_name: "",
         email: "",
         password: "",
-        role: [],
+        roles: [],
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
     >
-      {({ isSubmitting }) => ( //setFieldValue,
+      {({ setFieldValue, isSubmitting, values }) => (
         <Form>
           <div className="mb-4">
-            <label className="block text-md font-semibold text-[#4e4090]">
+            <label className="block text-md font-bold text-[#4e4090]">
               Rol
-              {/* <Select
-                isMulti
-                name="role"
-                options={roleOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                value={selectedRole}
-                onChange={(newValue: any) => {
-                  setSelectedRole(newValue);
-                  const values = newValue
-                    ? newValue.map((option: OptionType) => option.value)
-                    : [];
-                  setFieldValue("role", values);
-                }}
-              /> */}
-              <ErrorMessage
-                name="role"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
             </label>
+            <TypedSelect
+              isMulti
+              name="roles"
+              options={roleOptions}
+              placeholder="Selecciona uno o más roles"
+              className="basic-multi-select"
+              classNamePrefix="select"
+              isLoading={roleOptions.length === 0}
+              value={roleOptions.filter((option) =>
+                values.roles.includes(option.value)
+              )}
+              onChange={(selectedOptions) => {
+                const roleValues = (selectedOptions as OptionType[]).map(
+                  (opt) => opt.value
+                );
+                setFieldValue("roles", roleValues);
+              }}
+            />
+            <ErrorMessage
+              name="roles"
+              component="div"
+              className="text-red-500 text-sm mt-1"
+            />
           </div>
 
           {/* FIRST NAME */}
@@ -128,12 +163,11 @@ export const CreateEmployeeUI = () => {
           />
 
           {/* PASSWORD */}
-          <InputFormik
-            name="password"
-            label="Contraseña"
-            type="password"
-            placeholder="contraseña"
-          />
+            <PasswordInputFormik
+              name="password"
+              label="Contraseña"
+              placeholder="Ingresá tu contraseña"
+            />
 
           <div className="flex items-center justify-end mt-4">
             <ButtonSecondary

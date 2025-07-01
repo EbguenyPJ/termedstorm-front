@@ -193,9 +193,9 @@ const ProductViewerClient: React.FC<Props> = ({
                 price: product.sale_price,
                 quantity: 1,
                 stock: stockObj.stock,
+                sizeId: "",
                 idVariant: currentVariant.id, // <- este campo es clave para Stripe
                 // variant_product_id: "",
-                sizeId: ""
               });
             });
 

@@ -10,6 +10,7 @@ import GoogleLoginButton from "../../UI/Buttons/GoogleButton";
 import { ButtonSecondary } from "../../UI/Buttons/Buttons";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../../stores/authStore";
+import PasswordInputFormik from "@/components/UI/Inputs/InputPassword";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -65,11 +66,10 @@ const LoginForm = () => {
             />
 
             {/* PASSWORD */}
-            <InputFormik
+            <PasswordInputFormik
               name="password"
               label="Contraseña"
-              type="password"
-              placeholder="contraseña"
+              placeholder="Ingresá tu contraseña"
             />
 
             <div className="flex items-center justify-end mt-4">

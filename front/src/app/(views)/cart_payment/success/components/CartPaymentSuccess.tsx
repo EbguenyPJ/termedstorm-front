@@ -12,7 +12,7 @@ export default function CartPaymentSuccessPage() {
 
     useEffect(() => {
         if (!user) {
-                router.push('http://localhost:4000/');
+                router.push(routes.shop.categories);
         }
     }, [user, router]);
 

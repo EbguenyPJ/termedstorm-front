@@ -6,6 +6,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import { IProduct } from "../interfaces/index";
 import { Search } from "lucide-react";
 import api from "@/lib/axiosInstance";
+import { routes } from "@/app/routes";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -50,7 +51,7 @@ const SearchBar = () => {
   }, [debouncedSearch]);
 
   const handleSelect = (id: string) => {
-    router.push(`/products/${id}`);
+    router.push(`${routes.shop.products}/${id}`);
     setSearch("");
     setResults([]);
     setShowSuggestions(false);

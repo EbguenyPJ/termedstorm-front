@@ -9,6 +9,7 @@ import { routes } from "@/app/routes";
 import toast from "react-hot-toast";
 import { ButtonSecondary } from "@/components/UI/Buttons/Buttons";
 import { useAuthStore } from "@/stores/authStore";
+import PasswordInputFormik from "@/components/UI/Inputs/InputPassword";
 
 export const RegisterFormClient = () => {
   const { registerClient } = useAuthStore();
@@ -93,12 +94,11 @@ export const RegisterFormClient = () => {
           />
 
           {/* PASSWORD */}
-          <InputFormik
-            name="password"
-            label="Contraseña"
-            type="password"
-            placeholder="Contraseña"
-          />
+            <PasswordInputFormik
+              name="password"
+              label="Contraseña"
+              placeholder="Ingresá tu contraseña"
+            />
 
           <div className="flex justify-end mt-4">
             <ButtonSecondary

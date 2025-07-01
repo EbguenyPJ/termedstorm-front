@@ -35,36 +35,36 @@ export async function middleware(req: NextRequest) {
   const user = await verifyToken(token);
 
   // CASO 2.1: El token es inválido (user es null)
-if (!user) {
+  if (!user) {
     const response = isPublic
       ? NextResponse.next() // Si ya está en pública, solo limpia la cookie
       : NextResponse.redirect(new URL(routes.public.login, req.url)); // Si no, redirige al login y limpia cookie
-    response.cookies.set("access_token", "", { maxAge: -1 }); // Siempre limpia la cookie si es inválido
+    response.cookies.set("access_token", "", { maxAge: -1 });
     return response;
   }
-  
 
-    const isClient = user.roles?.includes("CLIENT");
+  // Helper
+  const isClient = user.roles?.length === 0;
 
-    if (isPublic) {
-     if (
+  // CASO 3: El usuario ya está logueado e intenta entrar a login
+  if (isPublic) {
+    if (
       pathname === routes.public.login ||
       pathname === routes.public.loginClient
     ) {
-    const fallback = isClient
-    ? routes.client.profileClient // o subscription, según el caso
-    : routes.user.profile;
+      const fallback = isClient
+        ? routes.client.profileClient // o subscription, según el caso
+        : routes.shop.categories;
 
-  return NextResponse.redirect(new URL(fallback, req.url));
-}
+      return NextResponse.redirect(new URL(fallback, req.url));
+    }
   }
 
-// CASO 4: Token válido, pero el usuario no tiene permisos para la ruta
-if (!accessControl.canAccessPath(user, pathname)) {
-    const fallback =
-      user.roles?.length === 0
-        ? routes.client.subscription
-        : routes.user.profile;
+  // CASO 4: Token válido, pero el usuario no tiene permisos para la ruta
+  if (!accessControl.canAccessPath(user, pathname)) {
+    const fallback = isClient
+      ? routes.client.subscription
+      : routes.shop.categories;
 
     return NextResponse.redirect(new URL(fallback, req.url));
   }

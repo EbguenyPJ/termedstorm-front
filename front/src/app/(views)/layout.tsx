@@ -5,25 +5,44 @@ import LayoutManager from "@/components/LayoutManager";
 import ClientWrapper from "@/components/ClientWrapper";
 import { useAuthStore } from "@/stores/authStore";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Loader from "@/components/UI/Loader";
 
-
-export default function ViewsLayout({ children }: { children: React.ReactNode }) {
+export default function ViewsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const isInitialized = useAuthStore((s) => s.isInitialized);
   const pathname = usePathname();
+  const [isRouting, setIsRouting] = useState(false);
+
 
   const isChatRoom = pathname === "/user/chat";
+  const isDetailProduct = pathname.startsWith("/shop/products/");
+
+
+  useEffect(() => {
+  setIsRouting(true);
+
+  const timeout = setTimeout(() => {
+    setIsRouting(false);
+  }, 500);
+
+  return () => clearTimeout(timeout);
+}, [pathname]);
 
   return (
     <>
       {!isInitialized && <ClientWrapper />}
-      {!isInitialized ? (
-        <div className="p-10 text-center text-lg text-gray-500">
-          Cargando...
-        </div>
-      ) : (
-        <LayoutManager showBreadcrumb={!isChatRoom} showContainer={!isChatRoom ? true : false}>
+      {(!isInitialized || isRouting) && <Loader />}
 
-            {children}
+      {isInitialized && !isRouting && (
+        <LayoutManager
+          showBreadcrumb={!isChatRoom && !isDetailProduct}
+          showContainer={!isChatRoom}
+        >
+          {children}
           <div id="portal-root" />
         </LayoutManager>
       )}
