@@ -84,7 +84,8 @@ const ProductViewerClient: React.FC<Props> = ({
       addItem({
         id: itemId,
         idVariant: currentVariant.id,
-        sizeId: sizeId,
+        // variant_product_id: currentVariant.id,
+        sizeId: sizeId, // ""
         name: `${product.name} - ${getColorLabel(currentVariant.color_id)} - ${getSizeLabel(sizeId)}`,
         price: product.sale_price,
         quantity: 1,

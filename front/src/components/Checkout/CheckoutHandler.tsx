@@ -12,6 +12,7 @@ export const CheckoutHandler = () => {
     const { items, clearCart } = useCartStore();
     const { user } = useAuthStore();
     const router = useRouter();
+    const paymentMethod = useCartStore((state) => state.paymentMethod);
 
     const handleCheckout = async () => {
         if (!user) {
@@ -21,9 +22,7 @@ export const CheckoutHandler = () => {
             }, 3000);
         }
 
-        if (items.length === 0) {
-            return;
-        }
+        if (items.length === 0) return;
 
         const invalidItem = items.find(
             (item) => !item.sizeId || !/^[0-9a-fA-F-]{36}$/.test(item.sizeId)
@@ -31,21 +30,19 @@ export const CheckoutHandler = () => {
         if (invalidItem) {
             alert('Uno de los productos no tiene un talle seleccionado.');
             return;
-        };
+        }
 
         const orderItems = items.map((item) => ({
-            variant_id: item.idVariant,
+            // 👇 Hacemos explícito que este es el variant_product_id
+            variant_id: item.idVariant, // 👈 este es el campo uuid de la tabla tw_variant_product
             quantity: item.quantity,
             size_id: item.sizeId,
         }));
 
-        console.log('Items del carrito:', items);
-        console.log('OrderItems transformados:', orderItems);
-
         const payload = {
             email: user.email,
             employee_id: user.userId,
-            payment_method: 'Tarjeta',
+            payment_method: paymentMethod,
             products: orderItems,
         };
 

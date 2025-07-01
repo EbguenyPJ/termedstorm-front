@@ -13,6 +13,7 @@ export default function ReportsSlider() {
         <IncomeVsExpenseChart />
         <EmployeeComparisonChart />
       </div>
+      
     </div>
   );
 };
