@@ -5,7 +5,6 @@ import api from "@/lib/axiosInstance"
 import { SquarePen, Trash2 } from "lucide-react";
 import Notiflix from "notiflix";
 
-
 interface Sale {
   id: string;
   client: string;

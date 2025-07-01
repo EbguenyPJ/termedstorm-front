@@ -8,6 +8,7 @@ export const accessByRole: Record<string, string[]> = {
     routes.user.reports,
     routes.user.support,
     routes.user.chat,
+    routes.user.reportsemployee,
     ...Object.values(routes.shop),
   ],
   ADMIN: [

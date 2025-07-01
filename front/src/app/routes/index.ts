@@ -16,6 +16,7 @@ export const routes = {
   user: {
     profile: "/user/profile",
     reports: "/user/reports",
+    reportsemployee: "/user/reportsemployee",
     support: "/user/support",
     chat: "/user/chat",
     companySubscription: "/user/company-subscription",

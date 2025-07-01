@@ -47,7 +47,8 @@ export type { IBrand };
 
 export interface IRole {
   id: string;
-  name: "SUPERADMIN" | "ADMIN" | "MANAGER" |"CASHIER";
+  name: string;
+  description: string;
 }
 
 export interface IUser {
@@ -73,6 +74,14 @@ export interface IAuthMeUser {
   name: string;
   roles: string[];
 }
+
+export interface IEmployee {
+  userId: string;
+  email: string;
+  name: string;
+  roles: string[];
+}
+
 
 export interface ILogin {
   email: string;

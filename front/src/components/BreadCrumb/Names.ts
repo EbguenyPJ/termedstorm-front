@@ -33,4 +33,5 @@ export const displayNames: Record<string, string> = {
   cashier: "Caja",
   audits: "Arqueo de caja",
   cuts: "Corte de caja",
+  reportsemployee: "Reporte de Ventas"
 };

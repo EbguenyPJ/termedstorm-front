@@ -38,6 +38,10 @@
     border: 2px solid var(--color-secondary);
   }
 
+  .border-secondary {
+    border: 1px solid var(--color-secondary);
+  }
+
   .border-base-200 {
     color: var(--color-base-2);
   }

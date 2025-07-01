@@ -4,6 +4,7 @@
 import React, { useEffect } from 'react';
 import ReportsSlider from './components/ReportsSlider';
 import { useAuthStore } from '@/stores/authStore';
+import TableEmployee from './components/TableEmployee';
 //import { useRouter } from 'next/navigation';
 
 export default function ReportsPage() {
@@ -32,6 +33,8 @@ export default function ReportsPage() {
         <main className="p-6">
             <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Dashboard</h1>
             <ReportsSlider />
+            <TableEmployee />
+            
         </main>
     );
 };

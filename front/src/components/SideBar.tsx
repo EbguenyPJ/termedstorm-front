@@ -171,6 +171,33 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               </li>
             ))}
 
+            {/* CASHIER */}
+            {isCashierUser && (
+              <li>
+                <Link
+                  href={routes.user.reportsemployee}
+                  className={`flex items-center rounded-lg hover:bg-[#4e4090] transition group text-base-100 ${
+                    isCollapsed ? "justify-center p-0.5" : "p-2"
+                  } ${
+                    pathname === routes.user.reportsemployee
+                      ? "bg-[#4e4090] font-bold"
+                      : ""
+                  }`}
+                >
+                  <ChartColumnIncreasing
+                    className={`text-base-100 group-hover:text-white ${
+                      isCollapsed ? "h-5 w-5" : "h-6 w-6"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ms-3 whitespace-nowrap overflow-hidden">
+                      Mis Ventas
+                    </span>
+                  )}
+                </Link>
+              </li>
+            )}
+
             {/* EDITAR LISTAS */}
             {isAdminUser && (
               <li>
@@ -382,7 +409,6 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                   )}
                 </button>
 
-
                 {!isCollapsed && isSubmenuOpen === "settings" && (
                   <ul className="ml-10 mt-2 space-y-1 text-sm">
                     <li>
@@ -390,7 +416,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         href={routes.user.reports}
                         className="block px-2 py-1 text-base-200"
                       >
-                       Reportes
+                        Reportes
                       </Link>
                     </li>
                     <li>

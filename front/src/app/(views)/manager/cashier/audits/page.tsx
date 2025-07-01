@@ -12,7 +12,7 @@ const CreateAudit = () => {
   const router = useRouter();
   const { user } = useAuthStore();
   const [description, setDescription] = useState("");
-  const [totalCash, setTotalCash] = useState("");
+  const [total_cash, setTotalCash] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ const CreateAudit = () => {
       return;
     }
 
-    if (!description || !totalCash) {
+    if (!description || !total_cash) {
         toast.error("Por favor, completa todos los campos.");
         return;
     }
@@ -30,7 +30,7 @@ const CreateAudit = () => {
     try {
       await api.post("/audits", {
         description,
-        totalCash: parseFloat(totalCash),
+        total_cash: parseFloat(total_cash),
         employeeId: user.userId,
       });
       
@@ -73,7 +73,7 @@ const CreateAudit = () => {
             type="number"
             className="w-full border px-3 py-2 rounded"
             placeholder="0.00"
-            value={totalCash}
+            value={total_cash}
             onChange={(e) => setTotalCash(e.target.value)}
             required
           />

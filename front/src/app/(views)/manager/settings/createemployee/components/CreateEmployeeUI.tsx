@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import { getRolesApi } from "@/lib/authBase";
 import type { Props as SelectProps } from "react-select";
+import PasswordInputFormik from "@/components/UI/Inputs/InputPassword";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -162,12 +163,11 @@ export const CreateEmployeeUI = () => {
           />
 
           {/* PASSWORD */}
-          <InputFormik
-            name="password"
-            label="Contraseña"
-            type="password"
-            placeholder="contraseña"
-          />
+            <PasswordInputFormik
+              name="password"
+              label="Contraseña"
+              placeholder="Ingresá tu contraseña"
+            />
 
           <div className="flex items-center justify-end mt-4">
             <ButtonSecondary

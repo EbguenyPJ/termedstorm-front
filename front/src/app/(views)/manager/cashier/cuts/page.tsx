@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import api from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
-import Notiflix from "notiflix";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
+import toast from "react-hot-toast";
 
 const CreateCut = () => {
   const router = useRouter();
@@ -30,16 +30,16 @@ const CreateCut = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!latestAuditId) {
-      Notiflix.Notify.failure("No se encontró un arqueo para asociar el corte.");
+      toast.error("No se encontró un arqueo para asociar el corte.");
       return;
     }
     try {
-      await api.post("/cuts", { note, auditId: latestAuditId });
-      Notiflix.Notify.success("Corte de caja registrado correctamente.");
+      await api.post("/cuts", { description: note });
+      toast.success("Corte de caja registrado correctamente.");
       router.push("/manager/cashier/overview");
     } catch (err) {
       console.error("Error al registrar corte:", err);
-      Notiflix.Notify.failure("No se pudo registrar el corte de caja.");
+      toast.error("No se pudo registrar el corte de caja.");
     }
   };
 
@@ -47,7 +47,7 @@ const CreateCut = () => {
     <div className="max-w-md mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-4">Registrar Nuevo Corte</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="bg-red-100 text-red-800 text-sm p-2 rounded">
+        <div className="bg-yellow-200 text-yellow-900 text-sm p-2 rounded">
           El registro del corte incluirá todas las ventas y arqueos registrados hasta el momento.<br />
           Se requiere por lo menos un arqueo, en caso de no tener flujo de efectivo, registrar arqueo en ceros.
         </div>

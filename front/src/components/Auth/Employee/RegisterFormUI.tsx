@@ -6,6 +6,7 @@ import InputFormik from "@/components/UI/Inputs/InputFormik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../../stores/authStore";
+import PasswordInputFormik from "@/components/UI/Inputs/InputPassword";
 
 export const RegisterForm = () => {
   const { registerEmployee } = useAuthStore();
@@ -84,12 +85,11 @@ export const RegisterForm = () => {
           />
 
           {/* PASSWORD */}
-          <InputFormik
-            name="password"
-            label="Contraseña"
-            type="password"
-            placeholder="contraseña"
-          />
+            <PasswordInputFormik
+              name="password"
+              label="Contraseña"
+              placeholder="Ingresá tu contraseña"
+            />
 
           <button
             type="submit"

@@ -62,8 +62,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    await logoutApi();
-    set({ user: null });
+    set({ loading: true }); 
+    try {
+      await logoutApi();
+      set({ user: null });
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      set({ loading: false });
+    }
   },
 
   registerClient: async (data) => {
