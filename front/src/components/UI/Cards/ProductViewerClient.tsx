@@ -194,6 +194,7 @@ const ProductViewerClient: React.FC<Props> = ({
                 price: product.sale_price,
                 quantity: 1,
                 stock: stockObj.stock,
+                sizeId: ""
               });
             });
 
