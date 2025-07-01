@@ -56,8 +56,8 @@ const RegisterCategory = () => {
               fileInputRef.current.value = "";
             }
           } catch (error: any) {
-            console.error("Error al registrar la categoría:", error.response?.data || error.message);
-            toast.error("Ocurrió un error al registrar la categoría");
+            const errorMessage = error.response?.data?.message || "Ocurrió un error al registrar la categoría";
+            toast.error(errorMessage);
           }
 
         }}

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik"; 
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import toast from "react-hot-toast";
@@ -42,7 +42,7 @@ const RegisterColor = ({ onColorRegistered }: RegisterColorProps) => {
       <Formik
         initialValues={{
           hex: initialColorForReset ? initialColorForReset.hex : "#102e3a",
-          name: '', 
+          name: '',
         }}
         enableReinitialize={true}
         validationSchema={colorSchema}
@@ -60,21 +60,18 @@ const RegisterColor = ({ onColorRegistered }: RegisterColorProps) => {
             }
             onColorRegistered();
           } catch (error: any) {
-            console.error(
-              "Error al registrar el color:",
-              error.response?.data || error.message
-            );
-            toast.error("Ocurrió un error al registrar el color");
+            const errorMessage = error.response?.data?.message || "Ocurrió un error al registrar el color";
+            toast.error(errorMessage);
           }
         }}
       >
         {({ setFieldValue }) => (
           <Form>
-          <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-10">
-            <h2 className="text-2xl font-bold mb-6 sm:mb-10 text-[#4e4090] text-center sm:text-left">
+            <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-10">
+              <h2 className="text-2xl font-bold mb-6 sm:mb-10 text-[#4e4090] text-center sm:text-left">
                 Registrar nuevo Color
               </h2>
-            <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
+              <div className="border border-gray-300 flex-1 p-6 bg-white rounded-lg">
                 <div className="mb-4">
                   <label className="block text-md font-semibold text-[#4e4090] mb-1">
                     Seleccioná un color
@@ -93,7 +90,7 @@ const RegisterColor = ({ onColorRegistered }: RegisterColorProps) => {
                         color={color}
                         onChange={(newColor) => {
                           setColor(newColor);
-                          setFieldValue("hex", newColor.hex); 
+                          setFieldValue("hex", newColor.hex);
                         }}
                       />
                     </div>
