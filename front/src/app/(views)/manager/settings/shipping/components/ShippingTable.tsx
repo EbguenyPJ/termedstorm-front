@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import api from "@/lib/axiosInstance"
+import api from "@/lib/axiosInstance";
 import { ButtonAccent } from "@/components/UI/Buttons/Buttons";
 import Notiflix from "notiflix";
 import { SquarePen, Trash2 } from "lucide-react";
-
+import toast from "react-hot-toast";
 
 type Shipping = {
   id: number;
@@ -13,26 +13,6 @@ type Shipping = {
   date: string;
   totalProducts: number;
 };
-
-
-// const fakeShippings: Shipping[] = [
-//   { id: 1, name: "Entrada Inicial", date: "2024-06-01", totalProducts: 100 },
-//   { id: 2, name: "Reposición Semanal", date: "2024-06-05", totalProducts: 50 },
-//   { id: 3, name: "Ingreso Especial", date: "2024-06-08", totalProducts: 75 },
-//   { id: 4, name: "Promo Invierno", date: "2024-06-10", totalProducts: 120 },
-//   { id: 5, name: "Stock Nuevo", date: "2024-06-12", totalProducts: 60 },
-//   { id: 6, name: "Reabastecimiento", date: "2024-06-14", totalProducts: 90 },
-//   { id: 7, name: "Lote Extra", date: "2024-06-17", totalProducts: 30 },
-//   { id: 8, name: "Entrega Urgente", date: "2024-06-20", totalProducts: 40 },
-//   { id: 9, name: "Entrada Mensual", date: "2024-06-22", totalProducts: 110 },
-//   { id: 10, name: "Ingreso Especial 2", date: "2024-06-24", totalProducts: 85 },
-//   { id: 11, name: "Refuerzo Stock", date: "2024-06-26", totalProducts: 70 },
-// ];
-
-
-// CARGAR ENTRADA. POST CSV: 
-// DESCRIPCION, 
-// UPDATE: MISMO MODAL
 
 const EntriesPage = () => {
   const [shippings, setShippings] = useState<Shipping[]>([]);
@@ -42,7 +22,6 @@ const EntriesPage = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formData, setFormData] = useState<Partial<Shipping>>({});
   const itemsPerPage = 10;
-
 
   useEffect(() => {
     fetchShippings();
@@ -59,27 +38,32 @@ const EntriesPage = () => {
 
   const handleCsvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
-    if (uploadedFile) setFile(uploadedFile);
+    if (uploadedFile?.type !== "text/csv") {
+      toast.error("El archivo debe ser un CSV.");
+      return;
+    }
+    setFile(uploadedFile);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (editingId) {
       try {
         await api.put(`/shipments/${editingId}`, formData);
-        Notiflix.Notify.success("Entrada actualizada correctamente.");
+        toast.success("Entrada actualizada correctamente.");
         setEditingId(null);
         setShowForm(false);
         setFormData({});
         fetchShippings();
       } catch (err) {
         console.error("Error al actualizar entrada:", err);
-        Notiflix.Notify.failure("No se pudo actualizar la entrada.");
+        toast.error("No se pudo actualizar la entrada.");
       }
       return;
     }
 
-    if (!file) return Notiflix.Notify.failure("Debés subir un archivo CSV válido.");
+    if (!file) return toast.error("Debés subir un archivo CSV válido.");
 
     const csvData = new FormData();
     csvData.append("file", file);
@@ -88,13 +72,32 @@ const EntriesPage = () => {
       await api.post("/shipments", csvData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      Notiflix.Notify.success("Entrada cargada exitosamente.");
+      toast.success("Entrada cargada exitosamente.");
       setFile(null);
       setShowForm(false);
       fetchShippings();
     } catch (err) {
       console.error("Error al cargar entrada:", err);
-      Notiflix.Notify.failure("No se pudo cargar la entrada.");
+      toast.error("No se pudo cargar la entrada.");
+    }
+  };
+
+  const handleDownloadCsv = async () => {
+    try {
+      const res = await api.get("/csv/from-db", {
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "productos_desde_db.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Error al descargar CSV:", err);
+      toast.error("No se pudo descargar el archivo.");
     }
   };
 
@@ -106,29 +109,32 @@ const EntriesPage = () => {
       setShowForm(true);
     } catch (err) {
       console.error("Error al obtener embarque:", err);
-      Notiflix.Notify.failure("No se pudo cargar el embarque para edición.");
+      toast.error("No se pudo cargar el embarque para edición.");
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: name === "totalProducts" ? Number(value) : value });
+    setFormData({
+      ...formData,
+      [name]: name === "totalProducts" ? Number(value) : value,
+    });
   };
 
   const deleteShipping = async (id: number) => {
     Notiflix.Confirm.show(
-      'Eliminar embarque',
-      '¿Estás seguro de que querés eliminar este embarque?',
-      'Sí, eliminar',
-      'Cancelar',
+      "Eliminar embarque",
+      "¿Estás seguro de que querés eliminar este embarque?",
+      "Sí, eliminar",
+      "Cancelar",
       async () => {
         try {
           await api.delete(`/shipments/${id}`);
           fetchShippings();
-          Notiflix.Notify.success("Embarque eliminado correctamente.");
+          toast.success("Embarque eliminado correctamente.");
         } catch (err) {
           console.error("Error al eliminar embarque:", err);
-          Notiflix.Notify.failure("No se pudo eliminar el embarque.");
+          toast.error("No se pudo eliminar el embarque.");
         }
       },
       () => {
@@ -153,13 +159,20 @@ const EntriesPage = () => {
       <div className="flex items-center justify-between mb-4">
         <ButtonAccent
           className="bg-accent hover:bg-[#0d0d0d] text-white px-4 py-2 rounded"
-          textContent="Cargar Entrada"
+          textContent="Cargar Entrada con CSV"
           onClick={() => {
             setShowForm(true);
             setEditingId(null);
             setFormData({});
           }}
         />
+
+        <button
+          onClick={handleDownloadCsv}
+          className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-600"
+        >
+          Descargar CSV de Productos
+        </button>
       </div>
 
       {showForm && (
@@ -207,6 +220,7 @@ const EntriesPage = () => {
               />
             </div>
           )}
+
           <div className="mt-4 flex justify-end space-x-2">
             <button
               type="button"
@@ -258,13 +272,13 @@ const EntriesPage = () => {
                       className="text-blue-600 hover:underline mr-2"
                       onClick={() => editShipping(ship.id)}
                     >
-                      <SquarePen size={18}/>
+                      <SquarePen size={18} />
                     </button>
                     <button
                       className="text-red-600 hover:underline"
                       onClick={() => deleteShipping(ship.id)}
                     >
-                      <Trash2 size={18}/>
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>

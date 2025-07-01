@@ -52,7 +52,6 @@ export const routes = {
   settings: {
       createEmployee: "/manager/settings/createemployee",
       prices: "/manager/settings/prices",
-      pricesUpload: "/manager/settings/pricesupload",
       shipping: "/manager/settings/shipping",
       shippingUpload: "/manager/settings/shippingupload",
     },

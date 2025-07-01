@@ -432,17 +432,10 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
                         href={routes.manager.settings.prices}
                         className="block px-2 py-1 text-base-200"
                       >
-                        Editar precios
+                        Precios
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href={routes.manager.settings.pricesUpload}
-                        className="block px-2 py-1 text-base-200"
-                      >
-                        Subir lista de precios
-                      </Link>
-                    </li>
+                    
                     <li>
                       <Link
                         href={routes.manager.settings.shipping}
