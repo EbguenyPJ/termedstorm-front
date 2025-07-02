@@ -53,4 +53,4 @@ export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
       </nav>
     </>
   );
-}
+};
