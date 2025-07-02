@@ -81,4 +81,8 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
       )}
     </>
   );
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> f78a19f9baee923c22b0db37e4d28df1596224ca

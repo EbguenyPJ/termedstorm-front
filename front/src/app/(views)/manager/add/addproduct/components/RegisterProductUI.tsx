@@ -278,6 +278,7 @@ validationSchema={productoSchemaCompleto}
                 />
               </div>
             </div>
+            
             {/* Botón aceptar, que habilita las variantes */}
             {!productoAceptado && (
               <div className="flex justify-center md:justify-end mt-6 px-4 sm:px-6 lg:px-10">
@@ -304,8 +305,8 @@ validationSchema={productoSchemaCompleto}
             {productoAceptado && (
               <div className="flex justify-center md:justify-end mt-6 px-4 sm:px-6 lg:px-10">
                 <ButtonAccent type="submit" textContent="GUARDAR" onClick={async (e) => {
-            e.preventDefault(); // Evitás que envíe el form sin control
-            const errors = await validateForm();
+            e.preventDefault();
+            await validateForm(); //const errors = 
 
             if (!isValid) {
               toast.error("Por favor, completá todos los campos obligatorios, incluyendo las variantes.");

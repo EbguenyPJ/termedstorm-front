@@ -13,6 +13,9 @@ type ChatMessage = {
 type ChatStore = {
   socket: Socket | null;
   messages: Record<string, ChatMessage[]>;
+  // 1. Añadimos el estado para los no leídos y la acción para limpiarlos
+  unreadMessagesCount: number;
+  clearUnread: () => void;
   connect: (tenantSlug: string) => void;
   disconnect: () => void;
   joinRoom: (room: string) => void;
@@ -21,26 +24,22 @@ type ChatStore = {
   resetMessages: (roomToReset?: string) => void;
 };
 
-// Instancia única del socket. La definimos afuera para que no se reinicie.
 let socket: Socket | null = null;
 
-export const useChatStore = create<ChatStore>((set) => ({
+export const useChatStore = create<ChatStore>((set, get) => ({
   socket: null,
   messages: {},
+  unreadMessagesCount: 0, // Valor inicial
+
+  clearUnread: () => set({ unreadMessagesCount: 0 }),
 
   connect: (tenantSlug) => {
-    if (socket?.connected) {
-      console.log("🔌 Socket ya estaba conectado.");
-      return;
-    }
+    if (get().socket?.connected) return;
     
-    if (socket) {
-      socket.removeAllListeners();
-      socket.disconnect();
-    }
+    // 2. Usamos una variable de entorno para la URL del socket
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:8080";
 
-    // Asignamos a la variable externa, SIN 'const'
-    socket = io("http://localhost:8080", {
+    socket = io(socketUrl, {
       withCredentials: true,
       auth: { tenantSlug },
       transports: ["websocket", "polling"],
@@ -53,16 +52,17 @@ export const useChatStore = create<ChatStore>((set) => ({
 
     socket.on("disconnect", () => {
         console.log("🔴 Desconectado del socket.");
-        socket = null; 
         set({ socket: null });
     });
 
     socket.on("new_message", (msg: ChatMessage) => {
+      // 3. Incrementamos el contador al recibir un nuevo mensaje
       set((state) => ({
         messages: {
           ...state.messages,
           [msg.room]: [...(state.messages[msg.room] || []), msg],
         },
+        unreadMessagesCount: state.unreadMessagesCount + 1,
       }));
     });
   },
@@ -71,23 +71,19 @@ export const useChatStore = create<ChatStore>((set) => ({
     if (socket) {
       socket.disconnect();
       socket = null;
-      set({ socket: null, messages: {} });
+      set({ socket: null, messages: {}, unreadMessagesCount: 0 }); // También reseteamos el contador
     }
   },
 
+  // ... (el resto de tus funciones: joinRoom, leaveRoom, etc. se quedan igual)
   joinRoom: (room) => {
     socket?.emit("event_join", room);
-    console.log(`✅ Cliente uniéndose a la sala: ${room}`);
   },
-
   leaveRoom: (room) => {
     socket?.emit("event_leave", room);
-    console.log(`👋 Cliente abandonando la sala: ${room}`);
   },
-
   sendMessage: (message, room) => {
     if (!socket || !message.trim()) return;
-
     const user = useAuthStore.getState().user;
     const newMessage: ChatMessage = {
       user: user?.name || "yo",
@@ -95,9 +91,7 @@ export const useChatStore = create<ChatStore>((set) => ({
       createdAt: new Date().toISOString(),
       room,
     };
-    
     socket.emit("event_message", { room, message });
-    
     set((state) => ({
       messages: {
         ...state.messages,
@@ -105,7 +99,6 @@ export const useChatStore = create<ChatStore>((set) => ({
       },
     }));
   },
-
   resetMessages: (roomToReset?: string) => {
     if (!roomToReset) {
       set({ messages: {} });

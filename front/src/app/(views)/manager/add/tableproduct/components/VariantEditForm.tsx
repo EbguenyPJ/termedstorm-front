@@ -136,21 +136,21 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
         }
     };
 
-    const handleDeleteCurrentVariant = async () => {
-        if (!onDeleteVariant || !safeCurrentVariant.id) {
-            toast.error('No se puede eliminar una variante sin ID o la función de eliminación no está disponible.');
-            return;
-        }
-        setIsDeleting(true);
-        try {
-            await onDeleteVariant(safeCurrentVariant.id);
-        } catch (error) {
-            console.error("Error al eliminar variante:", error);
-            toast.error('Error al eliminar la variante.');
-        } finally {
-            setIsDeleting(false);
-        }
-    };
+    // const handleDeleteCurrentVariant = async () => {
+    //     if (!onDeleteVariant || !safeCurrentVariant.id) {
+    //         toast.error('No se puede eliminar una variante sin ID o la función de eliminación no está disponible.');
+    //         return;
+    //     }
+    //     setIsDeleting(true);
+    //     try {
+    //         await onDeleteVariant(safeCurrentVariant.id);
+    //     } catch (error) {
+    //         console.error("Error al eliminar variante:", error);
+    //         toast.error('Error al eliminar la variante.');
+    //     } finally {
+    //         setIsDeleting(false);
+    //     }
+    // };
 
     // NUEVA FUNCIÓN PARA ABRIR EL MODAL
     const handleOpenDeleteModal = (variantId: string) => {

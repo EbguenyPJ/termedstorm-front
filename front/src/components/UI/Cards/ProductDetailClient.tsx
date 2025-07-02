@@ -1,6 +1,5 @@
 "use client";
 
-
 import ProductViewerClient from "../../Products/ProductViewerClient";
 import { Variant } from "../../Products/ProductViewerClient";
 
@@ -16,9 +15,11 @@ interface Size {
     size_eur?: number;
     size_cm?: number;
 }
+// 1. Asegúrate de que la interfaz Color incluya el código hexadecimal
 interface Color {
     id: string;
     name: string;
+    hexCode: string; // Propiedad añadida
 }
 interface Props {
     product: Product;
@@ -28,7 +29,6 @@ interface Props {
 
 
 const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
-
 
     const getSizeLabel = (id: string): string => {
         const size = sizes.find((s) => s.id === id);
@@ -42,17 +42,21 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
             .join(" - ");
     };
 
-
     const getColorLabel = (id: string): string => {
         const color = colors.find((c) => c.id === id);
         return color ? color.name : id;
     };
 
+    // 2. Crea la función que busca y devuelve el código hexadecimal
+    const getColorHexCode = (id: string): string => {
+        const color = colors.find((c) => c.id === id);
+        // Devuelve el código hex o un color por defecto (blanco) si no lo encuentra
+        return color ? color.hexCode : '#FFFFFF';
+    };
 
     if (!product || !product.variants || product.variants.length === 0) {
         return <p className="text-center text-red-500 font-semibold">No hay productos disponibles.</p>;
     }
-
 
     return (
         <div>
@@ -66,11 +70,12 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
                     variants={product?.variants ?? []}
                     getColorLabel={getColorLabel}
                     getSizeLabel={getSizeLabel}
+                    // 3. Pasa la nueva función como prop
+                    getColorHexCode={getColorHexCode}
                 />
             </div>
         </div>
     );
 };
-
 
 export default ProductDetailClient;

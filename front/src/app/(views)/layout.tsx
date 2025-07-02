@@ -4,6 +4,8 @@ import Script from "next/script";
 import LayoutManager from "@/components/LayoutManager";
 import ClientWrapper from "@/components/ClientWrapper";
 import { useAuthStore } from "@/stores/authStore";
+import { useChatStore } from "@/stores/chatStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "@/components/UI/Loader";
@@ -13,24 +15,40 @@ export default function ViewsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isInitialized = useAuthStore((s) => s.isInitialized);
+  const { isInitialized, fetchUser, setInitialized } = useAuthStore();
   const pathname = usePathname();
   const [isRouting, setIsRouting] = useState(false);
 
+  const socket = useChatStore((s) => s.socket);
+  const listenForNotifications = useNotificationStore(
+    (s) => s.listenForNotifications
+  );
+
+  useEffect(() => {
+    if (socket) {
+      listenForNotifications(socket);
+    }
+  }, [socket, listenForNotifications]);
 
   const isChatRoom = pathname === "/user/chat";
   const isDetailProduct = pathname.startsWith("/shop/products/");
 
+  useEffect(() => {
+    const init = async () => {
+      if (!isInitialized) {
+        await fetchUser();
+        setInitialized(true);
+      }
+    };
+    init();
+  }, [isInitialized, fetchUser, setInitialized]);
+
 
   useEffect(() => {
-  setIsRouting(true);
-
-  const timeout = setTimeout(() => {
-    setIsRouting(false);
-  }, 500);
-
-  return () => clearTimeout(timeout);
-}, [pathname]);
+    setIsRouting(true);
+    const timeout = setTimeout(() => setIsRouting(false), 500);
+    return () => clearTimeout(timeout);
+  }, [pathname]);
 
   return (
     <>

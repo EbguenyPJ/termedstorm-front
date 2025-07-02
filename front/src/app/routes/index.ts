@@ -20,6 +20,7 @@ export const routes = {
     support: "/user/support",
     chat: "/user/chat",
     companySubscription: "/user/company-subscription",
+    companyUnsubscribe: "/user/unsubscribe"
   },
 
   // Shop
