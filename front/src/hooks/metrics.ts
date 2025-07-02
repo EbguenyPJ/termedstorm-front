@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/dashboard';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 export const fetchSalesByEmployee = async (startDate: string, endDate: string) => {
     const res = await fetch(`${API_URL}/sales-by-employee?startDate=${startDate}&endDate=${endDate}`, {

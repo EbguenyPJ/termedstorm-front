@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/products/:path*",
-        destination: "http://localhost:3000/:path*", // o el puerto real de tu backend
+        destination: "https://nivoapp.netlify.app/:path*", // o el puerto real de tu backend
       },
     ];
   },

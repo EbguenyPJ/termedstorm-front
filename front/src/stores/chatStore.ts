@@ -47,7 +47,7 @@ export const useChatStore = create<ChatStore>((set) => ({
       socket.disconnect();
     }
 
-    socket = io("http://localhost:8080", {
+    socket = io("https://nivo-app.onrender.com", {
       withCredentials: true,
       auth: { tenantSlug },
       transports: ["websocket", "polling"],
