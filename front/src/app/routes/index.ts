@@ -11,7 +11,7 @@ export const routes = {
     profileClient: "/profileclient",
     clientSubscription: "/user/client-subscription",
   },
-
+  
   // Users
   user: {
     profile: "/user/profile",
@@ -19,17 +19,19 @@ export const routes = {
     reportsemployee: "/user/reportsemployee",
     support: "/user/support",
     chat: "/user/chat",
-    companySubscription: "/user/company-subscription",
-    companyUnsubscribe: "/user/unsubscribe"
-  },
+    companysubscription: "/user/company-subscription",
+    ordercancel: "/user/ordercancel",
 
+  },
+  
   payment: {
     cartPaymentSuccess: "/payment/cart/success",
     cartPaymentCancelled: "/payment/cart/cancelled",
     subscriptioPaymentSuccess: "/payment/subscription/success",
     subscriptioPaymentCancelled: "/payment/subscription/cancelled",
+    unsubscribe: "/payment/subscription/unsubscribe",
   },
-
+  
   // Shop
   shop: {
     categories: "/shop/categories",
@@ -60,7 +62,6 @@ export const routes = {
   settings: {
       createEmployee: "/manager/settings/createemployee",
       prices: "/manager/settings/prices",
-      pricesUpload: "/manager/settings/pricesupload",
       shipping: "/manager/settings/shipping",
       shippingUpload: "/manager/settings/shippingupload",
     },

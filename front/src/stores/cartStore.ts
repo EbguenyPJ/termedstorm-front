@@ -8,7 +8,6 @@ export type CartItem = {
   quantity: number;
   stock?: number;
   idVariant: string;
-  // variant_product_id: string;
   sizeId: string;
 };
 
@@ -29,6 +28,8 @@ export const useCartStore = create<CartStore>()(
       items: [],
       paymentMethod: "Tarjeta",
       setPaymentMethod: (method) => set({ paymentMethod: method }),
+      
+      clearCart: () => set({ items: [] }),
 
       addItem: (item) =>
         set((state) => ({
@@ -86,7 +87,6 @@ export const useCartStore = create<CartStore>()(
           items: state.items.filter((item) => item.id !== id),
         })),
 
-      clearCart: () => set({ items: [] }),
     }),
     { name: "cart-storage" }
   )

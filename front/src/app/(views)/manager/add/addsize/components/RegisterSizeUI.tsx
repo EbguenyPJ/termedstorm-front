@@ -50,8 +50,8 @@ const RegisterSize = ({ onSizeRegistered }: RegisterSizeProps) => {
             resetForm();
             onSizeRegistered();
           } catch (error: any) {
-            console.error("Error al registrar el talle:", error.response?.data || error.message);
-            toast.error("Ocurrió un error al registrar el talle");
+            const errorMessage = error.response?.data?.message || "Ocurrió un error al registrar la talla";
+            toast.error(errorMessage);
           }
         }}
       >

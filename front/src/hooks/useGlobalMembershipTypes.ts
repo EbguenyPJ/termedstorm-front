@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '@/lib/axiosInstance'; // ✅ nueva instancia
+import api from '@/lib/axiosInstance';
 import IMembershipType from '@/interfaces/membershipType';
 
 export function useGlobalMembershipTypes() {

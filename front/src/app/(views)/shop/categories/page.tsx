@@ -33,13 +33,12 @@ export default function CategoriesPage() {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-y-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto px-4">
         {categories.length > 0 ? (
           categories.map((category, index) => (
             <Link
               href={`/shop/categories/${category.slug}`}
               key={index}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4"
             >
               <CardCategory
                 name={category.name}

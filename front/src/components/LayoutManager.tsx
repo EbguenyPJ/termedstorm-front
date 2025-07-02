@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import SideBar from "@/components/SideBar";
-import ExcludedWrapper from "@/components/ExcludedWrapper";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import BreadcrumbClient from "@/components/UI/Breadcrumb";
 
@@ -20,20 +19,20 @@ export default function LayoutManager({
 }: LayoutManagerProps) {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [isMobileOverlay, setIsMobileOverlay] = useState(false);
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const navbarRef = useRef<HTMLDivElement>(null);
 
-  const toggleSidebarCollapse = () => {
+  const toggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };
 
   useEffect(() => {
     const handleResize = () => {
+      // Por defecto, la sidebar está colapsada en móvil y expandida en desktop.
       if (window.innerWidth < 1024) {
         setSidebarCollapsed(true);
-        setIsNavbarOpen(false);
+      } else {
+        setSidebarCollapsed(false);
       }
     };
     handleResize();
@@ -42,72 +41,63 @@ export default function LayoutManager({
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isMobile = window.innerWidth < 1024;
-      setIsMobileOverlay(!isSidebarCollapsed && isMobile);
-    }
+    // El overlay oscuro solo aparece en móvil cuando la sidebar está abierta
+    const isMobile = window.innerWidth < 1024;
+    setIsMobileOverlay(!isSidebarCollapsed && isMobile);
   }, [isSidebarCollapsed]);
 
   useOutsideClick(sidebarRef, () => {
+    // Si haces clic afuera en móvil, la sidebar se cierra
     if (window.innerWidth < 1024 && !isSidebarCollapsed) {
       setSidebarCollapsed(true);
     }
   });
 
-  useOutsideClick(navbarRef, () => {
-    if (window.innerWidth < 1024 && isNavbarOpen) {
-      setIsNavbarOpen(false);
-    }
-  });
-
   return (
     <>
+      {/* Overlay para el modo móvil */}
       {isMobileOverlay && (
-        <div className="fixed inset-0 bg-base-400-op50 z-30"></div>
+        <div className="fixed inset-0 bg-black/50 z-30 lg:hidden"></div>
       )}
+      
+      {/* El ExcludedWrapper no es necesario si la sidebar es global */}
+      <SideBar
+        ref={sidebarRef}
+        isCollapsed={isSidebarCollapsed}
+        toggleCollapse={toggleSidebar}
+      />
 
-      <ExcludedWrapper>
-        <SideBar
-          ref={sidebarRef}
-          isCollapsed={isSidebarCollapsed}
-          toggleCollapse={toggleSidebarCollapse}
-        />
-      </ExcludedWrapper>
-
+      {/* --- CONTENEDOR PRINCIPAL DEL CONTENIDO --- */}
       <div
-        className={`transition-none duration-0 ${
-          isSidebarCollapsed ? "sm:ml-20" : "sm:ml-64"
+        className={`relative min-h-screen transition-all duration-300 ${
+          isSidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
         }`}
       >
-        <ExcludedWrapper>
-          <div ref={navbarRef}>
-            <Navbar
-              isOpen={isNavbarOpen}
-              toggleMenu={() => setIsNavbarOpen(!isNavbarOpen)}
-            />
-          </div>
-        </ExcludedWrapper>
+        <Navbar toggleSidebar={toggleSidebar} />
+        
+        {/* El resto del contenido */}
         {showBreadcrumb || showContainer ? (
-        <div className="p-4 sm:p-6 lg:p-8">
-          {showBreadcrumb && (
-            <div className="mb-4">
-              {typeof showBreadcrumb === "boolean" ? (
-                <BreadcrumbClient />
-              ) : (
-                showBreadcrumb
-              )}
-            </div>
-          )}
-
-          {showContainer ? (
-            <main className="bg-white rounded-lg shadow-md p-6 min-h-[75vh]">
-              {children}
-            </main>
-          ) : (
-            children
-          )}
-        </div>
-        ) : ( children )}
+          <div className="pt-4 px-4 sm:px-6 lg:px-8">
+            {showBreadcrumb && (
+              <div className="mb-4">
+                {typeof showBreadcrumb === "boolean" ? (
+                  <BreadcrumbClient />
+                ) : (
+                  showBreadcrumb
+                )}
+              </div>
+            )}
+            {showContainer ? (
+              <main className="w-full bg-white rounded-lg shadow-md p-4 md:p-6 min-h-[75vh]">
+                {children}
+              </main>
+            ) : (
+              children
+            )}
+          </div>
+        ) : (
+          children
+        )}
       </div>
     </>
   );

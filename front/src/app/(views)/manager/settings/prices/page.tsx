@@ -1,11 +1,11 @@
-import RegisterPriceUI from "./components/RegisterPriceUI";
+import PriceTable from "./components/PriceTable";
 
 const addProductPage = () => {
   return (
     <div>
-      <RegisterPriceUI />;
+      <PriceTable />
     </div>
   );
-};
+}
 
 export default addProductPage;

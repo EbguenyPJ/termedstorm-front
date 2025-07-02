@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { ILogin, IRegister, IAuthMeUser, IRegisterEmployee } from "@/interfaces";
+import {
+  ILogin,
+  IRegister,
+  IAuthMeUser,
+  IRegisterEmployee,
+} from "@/interfaces";
 import {
   getUserApi,
   logoutApi,
@@ -8,6 +13,7 @@ import {
   loginClientApi,
   registerClientApi,
 } from "@/lib/authBase";
+import { useCartStore } from "./cartStore";
 
 type UserType = "client" | "employee";
 
@@ -62,10 +68,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    set({ loading: true }); 
+    set({ loading: true });
     try {
       await logoutApi();
-      set({ user: null });
+      set({ user: null, token: null });
+      useCartStore.getState().clearCart();
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     } finally {

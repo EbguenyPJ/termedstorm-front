@@ -58,7 +58,7 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-8">
+        <div className="min-h-screen py-10 px-4 sm:px-8">
             <div className="max-w-6xl mx-auto">
                 <ProductViewerClient
                     product={{

@@ -85,7 +85,7 @@ const ProductViewerClient: React.FC<Props> = ({
         id: itemId,
         idVariant: currentVariant.id,
         // variant_product_id: currentVariant.id,
-        sizeId: sizeId,
+        sizeId: sizeId, // ""
         name: `${product.name} - ${getColorLabel(currentVariant.color_id)} - ${getSizeLabel(sizeId)}`,
         price: product.sale_price,
         quantity: 1,
@@ -155,8 +155,9 @@ const ProductViewerClient: React.FC<Props> = ({
               const isSelected = selectedSizes.includes(vs.size_id);
 
               return (
-                <label
+                <button
                   key={vs.size_id}
+                  type="button"
                   onClick={() => !isOutOfStock && toggleSize(vs.size_id)}
                   className={`px-4 py-2 rounded-lg border-2 font-medium transition-all duration-200
                     ${isSelected
@@ -165,17 +166,11 @@ const ProductViewerClient: React.FC<Props> = ({
                         ? "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200 line-through"
                         : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100 cursor-pointer"
                     }`}
+                  disabled={isOutOfStock}
                 >
-                  <input
-                    type="checkbox"
-                    className="hidden"
-                    checked={isSelected}
-                    readOnly
-                    disabled={isOutOfStock}
-                  />
                   {getSizeLabel(vs.size_id)}{" "}
                   <span className="ml-1 text-sm opacity-80">(Stock: {vs.stock})</span>
-                </label>
+                </button>
               );
             })}
           </div>

@@ -1,56 +1,84 @@
 "use client";
 
+import { useState } from "react";
 import { CartDropdown } from "../CartDropdown";
-import { Bell } from "../UI/Bell";
 import { UserWidget } from "./UserWidget/UserWidget";
 import SearchBar from "../SearchBar";
-import { Menu, X } from "lucide-react";
-import { useAuthStore } from "@/stores/authStore";
+import { Menu, Search, X } from "lucide-react";
+import { Bell } from "../UI/Bell";
 
 type NavbarProps = {
-  isOpen: boolean;
-  toggleMenu: () => void;
+  toggleSidebar: () => void;
 };
 
-export default function Navbar({ isOpen, toggleMenu }: NavbarProps) {
-  const isEmployee = useAuthStore((s) => s.isEmployee());
+export default function Navbar({ toggleSidebar }: NavbarProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <>
-      <div className="fixed top-2 right-2 z-50 md:hidden">
-        <button
-          onClick={toggleMenu}
-          className="bg-primary p-2 rounded-lg cursor-pointer hover:bg-secondary transition-colors"
-        >
-          {isOpen ? (
-            <X className="w-8 text-base-100" />
-          ) : (
-            <Menu className="w-8 text-base-100" />
-          )}
-        </button>
-      </div>
+      <header className="sticky top-0 z-30 w-full h-16 bg-secondary text-white shadow-md">
+        <div className="flex h-full items-center justify-between px-4">
+          
+          {/* --- VISTA DESKTOP (lg y superior) --- */}
+          <div className="hidden lg:flex items-center w-full">
+            {/* Búsqueda a la izquierda */}
+            <div className="w-1/3">
+              <SearchBar />
+            </div>
+            {/* Espacio central (puedes poner un logo si quieres) */}
+            <div className="flex-grow"></div>
+            {/* Acciones a la derecha */}
+            <div className="flex items-center gap-6">
+              <Bell />
+              <CartDropdown />
+              <UserWidget />
+            </div>
+          </div>
 
-      <nav
-        className={`fixed top-0 right-0 h-full w-3/4 sm:w-2/4 md:static md:h-16 md:w-full md:flex md:items-center md:justify-between z-[999] bg-secondary text-base shadow-md transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } md:translate-x-0`}
-      >
-        <div className="flex flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between w-full px-4 py-4 md:px-8 md:py-0">
-          {/* Búsqueda */}
-          <div className="w-full md:w-1/2">{isEmployee && <SearchBar />}</div>
-
-          {/* Íconos */}
-          <div className="flex items-center justify-center gap-4 md:gap-6">
-            {isEmployee && (
-              <>
-                <Bell />
-                <CartDropdown />
-              </>
-            )}
-            <UserWidget />
+          {/* --- VISTA MÓVIL (inferior a lg) --- */}
+          <div className="flex lg:hidden items-center justify-between w-full">
+            {/* Botón para abrir la Sidebar principal */}
+            <button
+              onClick={toggleSidebar}
+              className="text-white hover:bg-[#6e5cc4] p-2 rounded-md -ml-2 cursor-pointer"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            
+            {/* Barra de íconos de acción a la derecha */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="text-white hover:bg-[#6e5cc4] p-2 rounded-md cursor-pointer"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+              <Bell />
+              <CartDropdown />
+              <UserWidget />
+            </div>
           </div>
         </div>
-      </nav>
+      </header>
+
+      {/* Overlay de Búsqueda (sin cambios, ya funciona bien) */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/70 backdrop-blur-sm">
+          <div className="bg-white p-4">
+            <div className="flex items-center gap-4">
+              <div className="flex-grow">
+                <SearchBar />
+              </div>
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
-};
+}
