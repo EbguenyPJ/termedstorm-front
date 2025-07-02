@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { Breadcrumb } from "@/components/BreadCrumb/BreadCrumb";
 import { routes } from "@/app/routes";
 import { Params } from "@/interfaces/index";
-import { Params } from "@/interfaces/index";
 
 
 async function getSizes() {
@@ -46,12 +45,6 @@ async function getProductById(id: string) {
 
 const ProductDetailPage = async ({ params }: { params: Params }) => {
   const id = (await params as any)?.id;
-
-const ProductDetailPage = async ({ params }: { params: Params }) => {
-  const id = (await params as any)?.id;
-  // const productId = parseInt(id, 10);
-
-  // const product = isNaN(productId) ? null : await getProductById(productId);
 
 
   const [sizes, colors, product] = await Promise.all([

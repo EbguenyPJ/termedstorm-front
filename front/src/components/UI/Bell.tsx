@@ -9,7 +9,7 @@ export const Bell = () => {
   return (
     <div className="relative mx-2 flex justify-center items-center">
       <button
-        className="relative text-white p-2 rounded-lg hover:bg-[#6e5cc4] transition-colors cursor-pointer"
+        className="relative text-white p-2 rounded-lg hover:bg-[#6e5cc4] transition-colors"
         aria-label="Notificaciones"
       >
         <BellIcon className="w-6 h-6" />

@@ -79,7 +79,7 @@ const SearchBar = () => {
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           aria-autocomplete="list"
           aria-controls="search-suggestions"
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none rounded-lg bg-white placeholder-gray-400 text-sm transition duration-200"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none rounded-lg bg-white text-gray-900 placeholder-gray-500 text-sm transition duration-200"
         />
       </div>
 
@@ -96,7 +96,7 @@ const SearchBar = () => {
               role="option"
               aria-selected={false}
               onClick={() => handleSelect(product.id)}
-              className="px-4 py-2 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer transition text-sm"
+              className="px-4 py-2 text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer transition text-sm"
             >
               {getHighlightedParts(product.name, search).map((part, idx) => (
                 <span

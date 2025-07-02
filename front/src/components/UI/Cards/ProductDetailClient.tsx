@@ -1,11 +1,8 @@
 "use client";
 
 
-import ProductViewerClient from "./ProductViewerClient";
-import { Variant } from "./ProductViewerClient";
-
-
-
+import ProductViewerClient from "../../Products/ProductViewerClient";
+import { Variant } from "../../Products/ProductViewerClient";
 
 interface Product {
   name: string;
@@ -58,7 +55,7 @@ const ProductDetailClient: React.FC<Props> = ({ product, sizes, colors }) => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-8">
+        <div>
             <div className="max-w-6xl mx-auto">
                 <ProductViewerClient
                     product={{

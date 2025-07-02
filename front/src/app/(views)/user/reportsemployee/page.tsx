@@ -91,7 +91,7 @@ return (
       <h2 className="text-2xl font-bold text-primary mb-6">Mis Ventas</h2>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border text-sm">
+        <table className="min-w-full border border-secondary text-sm">
           <thead className="bg-secondary text-white">
             <tr>
               <th className="py-2 px-4">Fecha</th>

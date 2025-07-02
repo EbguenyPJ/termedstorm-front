@@ -8,7 +8,6 @@ export type CartItem = {
   quantity: number;
   stock?: number;
   idVariant: string;
-  // variant_product_id: string;
   sizeId: string;
 };
 

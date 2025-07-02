@@ -16,7 +16,7 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
 
   useEffect(() => {
     api
-      .get(`/categories/slug/${categorySlug}`) // ✅ Asegurate de que exista este endpoint
+      .get(`/categories/slug/${categorySlug}`)
       .then((res) => setSubcategories(res.data.subcategories || []))
       .catch((err) => {
         console.error("Error al obtener subcategorías:", err);
@@ -29,14 +29,13 @@ const SubcategoryList: React.FC<Props> = ({ categorySlug }) => {
     return <p className="text-center mt-10">Cargando subcategorías...</p>;
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-10">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto px-4">
       <div className="w-full mb-2"></div>
       {subcategories.length > 0 ? (
         subcategories.map((subcat, index) => (
           <Link
             href={`/shop/categories/${categorySlug}/${subcat.slug}`}
             key={index}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4"
           >
             <CardCategory
               name={subcat.name}
