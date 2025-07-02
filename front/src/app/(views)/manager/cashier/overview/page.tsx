@@ -140,7 +140,7 @@ const CashierOverview = () => {
     <div>
       <div className="flex justify-between mb-6">
         <h2 className="text-2xl font-bold text-primary">
-          Historial de Arqueos
+          Historial de Cortes
         </h2>
         <div className="flex gap-2">
           <ButtonPrimary

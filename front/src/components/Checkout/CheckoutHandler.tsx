@@ -33,7 +33,6 @@ export const CheckoutHandler = () => {
         }
 
         const orderItems = items.map((item) => ({
-            // 👇 Hacemos explícito que este es el variant_product_id
             variant_id: item.idVariant, // 👈 este es el campo uuid de la tabla tw_variant_product
             quantity: item.quantity,
             size_id: item.sizeId,

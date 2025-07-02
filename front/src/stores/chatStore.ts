@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 import { useAuthStore } from "./authStore";
 
+// --- Tipos de Datos ---
 type ChatMessage = {
   user: string;
   message: string;
@@ -13,33 +14,40 @@ type ChatMessage = {
 type ChatStore = {
   socket: Socket | null;
   messages: Record<string, ChatMessage[]>;
-  // 1. Añadimos el estado para los no leídos y la acción para limpiarlos
   unreadMessagesCount: number;
-  clearUnread: () => void;
   connect: (tenantSlug: string) => void;
   disconnect: () => void;
   joinRoom: (room: string) => void;
   leaveRoom: (room: string) => void;
   sendMessage: (message: string, room: string) => void;
   resetMessages: (roomToReset?: string) => void;
+  resetUnreadCount: () => void;
 };
 
+// --- Instancia única del Socket ---
 let socket: Socket | null = null;
 
-export const useChatStore = create<ChatStore>((set, get) => ({
+// --- Creación del Store ---
+export const useChatStore = create<ChatStore>((set) => ({
+
+  // --- Estado inicial del store ---
   socket: null,
   messages: {},
-  unreadMessagesCount: 0, // Valor inicial
+  unreadMessagesCount: 0, // Se inicializa el contador aquí, correctamente.
 
-  clearUnread: () => set({ unreadMessagesCount: 0 }),
-
+  // --- Métodos del store ---
   connect: (tenantSlug) => {
-    if (get().socket?.connected) return;
+    if (socket?.connected) {
+      console.log("🔌 Socket ya estaba conectado.");
+      return;
+    }
     
-    // 2. Usamos una variable de entorno para la URL del socket
-    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:8080";
+    if (socket) {
+      socket.removeAllListeners();
+      socket.disconnect();
+    }
 
-    socket = io(socketUrl, {
+    socket = io("http://localhost:8080", {
       withCredentials: true,
       auth: { tenantSlug },
       transports: ["websocket", "polling"],
@@ -51,12 +59,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     });
 
     socket.on("disconnect", () => {
-        console.log("🔴 Desconectado del socket.");
-        set({ socket: null });
+      console.log("🔴 Desconectado del socket.");
+      socket = null; 
+      set({ socket: null });
     });
 
     socket.on("new_message", (msg: ChatMessage) => {
-      // 3. Incrementamos el contador al recibir un nuevo mensaje
       set((state) => ({
         messages: {
           ...state.messages,
@@ -71,19 +79,23 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (socket) {
       socket.disconnect();
       socket = null;
-      set({ socket: null, messages: {}, unreadMessagesCount: 0 }); // También reseteamos el contador
+      set({ socket: null, messages: {} });
     }
   },
 
-  // ... (el resto de tus funciones: joinRoom, leaveRoom, etc. se quedan igual)
   joinRoom: (room) => {
     socket?.emit("event_join", room);
+    console.log(`✅ Cliente uniéndose a la sala: ${room}`);
   },
+
   leaveRoom: (room) => {
     socket?.emit("event_leave", room);
+    console.log(`👋 Cliente abandonando la sala: ${room}`);
   },
+
   sendMessage: (message, room) => {
     if (!socket || !message.trim()) return;
+
     const user = useAuthStore.getState().user;
     const newMessage: ChatMessage = {
       user: user?.name || "yo",
@@ -91,7 +103,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       createdAt: new Date().toISOString(),
       room,
     };
+    
     socket.emit("event_message", { room, message });
+    
     set((state) => ({
       messages: {
         ...state.messages,
@@ -99,6 +113,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       },
     }));
   },
+
   resetMessages: (roomToReset?: string) => {
     if (!roomToReset) {
       set({ messages: {} });
@@ -109,5 +124,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         return { messages: newMessages };
       });
     }
+  }, // <--- La coma aquí separa los métodos
+
+  resetUnreadCount: () => { // <-- Este método va aquí, al mismo nivel que los otros
+    set({ unreadMessagesCount: 0 });
   },
+
 }));
