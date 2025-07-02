@@ -22,7 +22,7 @@ export default function CancelOrderPage() {
 
     useEffect(() => {
         api
-        .get('/catalogues/cancellation-reasons') // <- CORREGIDO
+        .get('/cancellation-reasons') // <- CORREGIDO
         .then((res) => setReasons(res.data))
         .catch(() => toast.error('No se pudieron cargar los motivos.'));
     }, []);

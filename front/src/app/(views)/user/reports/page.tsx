@@ -9,6 +9,7 @@ import api from '@/lib/axiosInstance';
 import toast from 'react-hot-toast';
 import { IEmployee, IRole } from '@/interfaces/index';
 import { UserX, Users } from 'lucide-react';
+import Notiflix from 'notiflix';
 
 export default function ReportsPage() {
     const { user, fetchUser, isInitialized, setInitialized, loading: authLoading, hasRole } = useAuthStore();
@@ -82,27 +83,44 @@ export default function ReportsPage() {
 
     // --- Lógica de acciones ---
     const handleDelete = async (employeeId: string) => {
-        if (window.confirm("¿Estás seguro de que deseas eliminar a este empleado?")) {
-            try {
-                await api.delete(`/users/${employeeId}`);
-                toast.success("Empleado eliminado.");
-                fetchActiveEmployees(); // Refrescamos la lista actual
-            } catch (err: any) {
-                toast.error(err?.response?.data?.message || "Error al eliminar.");
+        Notiflix.Confirm.show(
+            'Confirmar eliminación',
+            '¿Estás seguro de que deseas eliminar a este empleado?',
+            'Sí, eliminar',
+            'Cancelar',
+            async () => {
+                try {
+                    await api.delete(`/users/${employeeId}`);
+                    toast.success("Empleado eliminado.");
+                    fetchActiveEmployees(); // Refrescamos la lista actual
+                } catch (err: any) {
+                    toast.error(err?.response?.data?.message || "Error al eliminar.");
+                }
+            },
+            () => {
             }
-        }
+        );
     };
 
     const handleRestore = async (userId: string) => {
-        if (window.confirm("¿Seguro que deseas restaurar a este empleado?")) {
-            try {
-                await api.patch(`/users/${userId}/restore`);
-                toast.success("Empleado restaurado.");
-                fetchDeletedEmployees(); // Refrescamos la lista actual
-            } catch (err: any) {
-                toast.error(err?.response?.data?.message || "Error al restaurar.");
+        Notiflix.Confirm.show(
+            'Confirmar restauración',
+            "¿Seguro que deseas restaurar a este empleado?",
+            "Sí, restaurar",
+            "Cancelar",
+            async () => {
+                try {
+                    await api.patch(`/users/${userId}/restore`);
+                    toast.success("Empleado restaurado.");
+                    fetchDeletedEmployees(); 
+                } catch (err: any) {
+                    toast.error(err?.response?.data?.message || "Error al restaurar.");
+                }
+            },
+            () => {
+
             }
-        }
+        );
     };
 
     const toggleView = () => {

@@ -14,7 +14,8 @@ export const CartDropdown = () => {
   const increaseItem = useCartStore((state) => state.increaseItem);
   const decreaseItem = useCartStore((state) => state.decreaseItem);
   const removeItem = useCartStore((state) => state.removeItem);
-  
+  const clearCart = useCartStore((state) => state.clearCart);
+
   const total = getTotalAmount(items);
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -22,9 +23,13 @@ export const CartDropdown = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOutsideClick(dropdownRef, () => setIsOpen(false));
 
+  const handleCheckoutSuccess = () => {
+    clearCart();
+    setIsOpen(false);
+  };
+
+
   return (
-    // 1. Contenedor principal ahora es 'relative'
-    //    Esto sirve como ancla para el dropdown absoluto.
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -39,8 +44,6 @@ export const CartDropdown = () => {
       </button>
 
       {isOpen && (
-        // 2. El dropdown ahora usa clases de posicionamiento de Tailwind.
-        //    'absolute top-full right-0' lo alinea perfectamente.
         <div
           className="absolute top-full right-0 mt-3 w-80 max-w-sm bg-white border border-gray-200 rounded-xl shadow-lg p-4 text-sm z-50 transition-all duration-200 ease-in-out"
         >
@@ -103,7 +106,8 @@ export const CartDropdown = () => {
                   <span>${total.toFixed(2)}</span>
                 </div>
                 <PaymentSelector />
-                <CheckoutHandler />
+                <CheckoutHandler onSuccess={handleCheckoutSuccess} />
+
               </div>
             </>
           )}

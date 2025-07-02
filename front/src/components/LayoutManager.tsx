@@ -69,12 +69,10 @@ export default function LayoutManager({
 
       {/* --- CONTENEDOR PRINCIPAL DEL CONTENIDO --- */}
       <div
-        // 👇 PROBLEMA 1 SOLUCIONADO AQUÍ: El margen solo se aplica en 'lg' y superior
-        className={`relative min-h-screen bg-gray-50 transition-all duration-300 ${
+        className={`relative min-h-screen transition-all duration-300 ${
           isSidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
         }`}
       >
-        {/* 👇 PROBLEMA 2 SOLUCIONADO AQUÍ: Pasamos la función correcta al Navbar */}
         <Navbar toggleSidebar={toggleSidebar} />
         
         {/* El resto del contenido */}

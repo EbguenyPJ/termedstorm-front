@@ -136,21 +136,21 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
         }
     };
 
-    const handleDeleteCurrentVariant = async () => {
-        if (!onDeleteVariant || !safeCurrentVariant.id) {
-            toast.error('No se puede eliminar una variante sin ID o la función de eliminación no está disponible.');
-            return;
-        }
-        setIsDeleting(true);
-        try {
-            await onDeleteVariant(safeCurrentVariant.id);
-        } catch (error) {
-            console.error("Error al eliminar variante:", error);
-            toast.error('Error al eliminar la variante.');
-        } finally {
-            setIsDeleting(false);
-        }
-    };
+    // const handleDeleteCurrentVariant = async () => {
+    //     if (!onDeleteVariant || !safeCurrentVariant.id) {
+    //         toast.error('No se puede eliminar una variante sin ID o la función de eliminación no está disponible.');
+    //         return;
+    //     }
+    //     setIsDeleting(true);
+    //     try {
+    //         await onDeleteVariant(safeCurrentVariant.id);
+    //     } catch (error) {
+    //         console.error("Error al eliminar variante:", error);
+    //         toast.error('Error al eliminar la variante.');
+    //     } finally {
+    //         setIsDeleting(false);
+    //     }
+    // };
 
     // NUEVA FUNCIÓN PARA ABRIR EL MODAL
     const handleOpenDeleteModal = (variantId: string) => {
@@ -184,7 +184,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
     };
 
     return (
-        <div className="border border-[#d3d3d3] p-4 rounded-lg mb-4 bg-white flex flex-col gap-4">
+        <div className="border p-4 rounded-lg mb-4 bg-white flex flex-col gap-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label className="block font-semibold text-[#4e4090] mb-2">
