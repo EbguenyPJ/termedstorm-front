@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import api from "@/lib/axiosInstance"
 import { SquarePen, Trash2 } from "lucide-react";
 import Notiflix from "notiflix";
+import { useRouter } from "next/navigation";
 
 interface Client {
   first_name: string;
@@ -26,6 +27,7 @@ const MySales = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [statusInput, setStatusInput] = useState("");
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -66,25 +68,24 @@ const handleUpdate = async () => {
     }
   };
 
-  const handleCancel = async (id: string) => {
-    Notiflix.Confirm.show(
-      "Cancelar orden",
-      "¿Estás seguro de cancelar esta orden?",
-      "Sí",
-      "No",
-      async () => {
-        try {
-          await api.delete(`/orders/${id}`);
-          fetchMyOrders();
-          Notiflix.Notify.success("Orden cancelada.");
-        } catch (err) {
-          console.error("Error al cancelar orden:", err);
-          Notiflix.Notify.failure("No se pudo cancelar la orden.");
-        }
-      }
-    );
-  };
-
+  // const handleCancel = async (id: string) => {
+  //   Notiflix.Confirm.show(
+  //     "Cancelar orden",
+  //     "¿Estás seguro de cancelar esta orden?",
+  //     "Sí",
+  //     "No",
+  //     async () => {
+  //       try {
+  //         await api.delete(`/orders/${id}`);
+  //         fetchMyOrders();
+  //         Notiflix.Notify.success("Orden cancelada.");
+  //       } catch (err) {
+  //         console.error("Error al cancelar orden:", err);
+  //         Notiflix.Notify.failure("No se pudo cancelar la orden.");
+  //       }
+  //     }
+  //   );
+  // };
 
 return (
     <div>
@@ -123,12 +124,24 @@ return (
                   >
                     <SquarePen size={18} />
                   </button>
-                  <button
+                  {/* <button
                     className="text-red-600"
                     onClick={() => handleCancel(order.id)}
                   >
                     <Trash2 size={18} />
-                  </button>
+                  </button> */}
+
+                  <button
+                  className={`text-red-600 ${order.status === "CANCELLED" ? "opacity-30 cursor-not-allowed" : ""}`}
+                  onClick={() => {
+                    if (order.status !== "CANCELLED") {
+                      router.push(`/manager/cashier/ordercancel?id=${order.id}`);
+                    }
+                  }}
+                  disabled={order.status === "CANCELLED"}
+                >
+                  <Trash2 size={18} />
+                </button>
                 </td>
               </tr>
             ))}

@@ -24,10 +24,10 @@ export const routes = {
   },
 
   payment: {
-    cartPaymentSuccess: "payment/cart/success",
-    cartPaymentCancelled: "payment/cart/cancelled",
-    subscriptioPaymentSuccess: "payment/subscription/success",
-    subscriptioPaymentCancelled: "payment/subscription/cancelled",
+    cartPaymentSuccess: "/payment/cart/success",
+    cartPaymentCancelled: "/payment/cart/cancelled",
+    subscriptioPaymentSuccess: "/payment/subscription/success",
+    subscriptioPaymentCancelled: "/payment/subscription/cancelled",
   },
 
   // Shop
