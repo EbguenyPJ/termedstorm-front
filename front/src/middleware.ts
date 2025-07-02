@@ -20,9 +20,12 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("access_token")?.value;
 
-  const isPublic = accessControl.publicRoutes.some((r) =>
-    pathname.startsWith(r)
-  );
+  const isPublic = accessControl.publicRoutes.some((r) => {
+  if (r === '/') {
+    return pathname === r;
+  }
+  return pathname.startsWith(r);
+});
 
   // CASO 1: No hay token
   if (!token) {
@@ -61,16 +64,18 @@ export async function middleware(req: NextRequest) {
   }
 
   // CASO 4: Token válido, pero el usuario no tiene permisos para la ruta
-  if (!accessControl.canAccessPath(user, pathname)) {
+  if (!isPublic && !accessControl.canAccessPath(user, pathname)) {
     const fallback = isClient
-      ? routes.client.subscription
-      : routes.shop.categories;
+      ? routes.public.loginClient
+      : routes.public.login;
 
     return NextResponse.redirect(new URL(fallback, req.url));
   }
 
   return NextResponse.next();
 }
+
+
 
 // Ignora assets estáticos y APIs
 export const config = {

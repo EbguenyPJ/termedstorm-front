@@ -184,7 +184,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
     };
 
     return (
-        <div className="border border-[#d3d3d3] p-4 rounded-lg mb-4 bg-white flex flex-col gap-4">
+        <div className="border p-4 rounded-lg mb-4 bg-white flex flex-col gap-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label className="block font-semibold text-[#4e4090] mb-2">

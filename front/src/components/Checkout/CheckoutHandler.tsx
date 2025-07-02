@@ -8,8 +8,12 @@ import { useAuthStore } from '@/stores/authStore';
 import { routes } from '@/app/routes';
 import toast from 'react-hot-toast';
 
-export const CheckoutHandler = () => {
-    const { items, clearCart } = useCartStore();
+interface CheckoutHandlerProps {
+  onSuccess: () => void;
+}
+
+export const CheckoutHandler = ({ onSuccess }: CheckoutHandlerProps) => {
+    const { items } = useCartStore();
     const { user } = useAuthStore();
     const router = useRouter();
     const paymentMethod = useCartStore((state) => state.paymentMethod);
@@ -30,21 +34,24 @@ export const CheckoutHandler = () => {
         if (invalidItem) {
             alert('Uno de los productos no tiene un talle seleccionado.');
             return;
-        }
-
+        };
+        
         const orderItems = items.map((item) => ({
             variant_id: item.idVariant, // 👈 este es el campo uuid de la tabla tw_variant_product
             quantity: item.quantity,
             size_id: item.sizeId,
         }));
-
+        
+        
         const payload = {
             email: user.email,
             employee_id: user.userId,
             payment_method: paymentMethod,
             products: orderItems,
         };
-
+        
+        console.log('Items del carrito:', items);
+        console.log('OrderItems transformados:', orderItems);
         console.log('Payload a enviar:', payload);
 
         try {
@@ -52,15 +59,29 @@ export const CheckoutHandler = () => {
                 withCredentials: true,
             });
 
-            if (data.url) {
-                clearCart();
-                window.location.href = data.url;
+            if (paymentMethod === 'Tarjeta') { // Asumiendo que así se llama el método para tarjetas
+                if (data.url) {
+                    toast.success('Redirigiendo para completar el pago...');
+                    onSuccess(); // Limpia el carrito y cierra el dropdown
+                    window.location.href = data.url;
+                } else {
+                    // El backend no devolvió la URL esperada para Mercado Pago
+                    toast.error('Hubo un problema al generar el link de pago.');
+                }
+            } else if (paymentMethod === 'Efectivo') {
+                // Para efectivo, no necesitamos nada de `data`. El éxito de la llamada es suficiente.
+                toast.success('¡Compra registrada con éxito!');
+                onSuccess(); // Limpia el carrito y cierra el dropdown
+                // Redirigimos a la página que sugeriste.
+                router.push(routes.shop.categories); 
             }
+
         } catch (err: any) {
             console.error('Error en el checkout:', err);
-            toast.error('Error al iniciar el pago. Intentalo más tarde')
+            toast.error('Error al procesar la orden. Inténtalo más tarde');
         }
     };
+
 
     return (
         <ButtonSecondary

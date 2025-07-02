@@ -49,13 +49,14 @@ const Profile = () => {
         <div className="grid gap-10 w-auto max-w-50">
           <ButtonSecondary
             textContent="Ver suscripciones de empresa"
-            onClick={() => router.push(routes.user.companySubscription)}
+            onClick={() => router.push(routes.user.companysubscription)}
           />
 
           <ButtonPrimary
             textContent="Cancelar suscripción"
-            onClick={() => router.push(routes.user.companyUnsubscribe)}
+            onClick={() => router.push(routes.payment.unsubscribe)}
           />
+          
         </div>
       </div>
     </div>

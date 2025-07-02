@@ -1,4 +1,3 @@
-// src/app/(views)/user/reports/components/DeletedEmployeesTable.tsx
 "use client";
 
 import React from "react";

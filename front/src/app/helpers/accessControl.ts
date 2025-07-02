@@ -9,7 +9,9 @@ export const accessByRole: Record<string, string[]> = {
     routes.user.support,
     routes.user.chat,
     routes.user.reportsemployee,
+    routes.user.ordercancel,
     ...Object.values(routes.shop),
+    ...Object.values(routes.payment)
   ],
   ADMIN: [
     ...Object.values(routes.user),
@@ -17,6 +19,7 @@ export const accessByRole: Record<string, string[]> = {
     ...Object.values(routes.manager.add),
     ...Object.values(routes.manager.settings),
     ...Object.values(routes.manager.cashier),
+    ...Object.values(routes.payment),
   ],
   SUPERADMIN: [
     ...Object.values(routes.user),
@@ -24,6 +27,7 @@ export const accessByRole: Record<string, string[]> = {
     ...Object.values(routes.manager.add),
     ...Object.values(routes.manager.settings),
     ...Object.values(routes.manager.cashier),
+    ...Object.values(routes.payment),
   ],
 };
 
