@@ -6,6 +6,7 @@ import { XCircle } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { routes } from '@/app/routes';
 
+
 export default function PaymentCancelledPage() {
     const router = useRouter();
     const user = useAuthStore((state) => state.user);

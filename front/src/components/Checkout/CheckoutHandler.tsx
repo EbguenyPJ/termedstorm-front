@@ -32,23 +32,23 @@ export const CheckoutHandler = () => {
             alert('Uno de los productos no tiene un talle seleccionado.');
             return;
         };
-
+        
         const orderItems = items.map((item) => ({
             variant_id: item.idVariant,
             quantity: item.quantity,
             size_id: item.sizeId,
         }));
-
-        console.log('Items del carrito:', items);
-        console.log('OrderItems transformados:', orderItems);
-
+        
+        
         const payload = {
             email: user.email,
             employee_id: user.userId,
             payment_method: 'Tarjeta',
             products: orderItems,
         };
-
+        
+        console.log('Items del carrito:', items);
+        console.log('OrderItems transformados:', orderItems);
         console.log('Payload a enviar:', payload);
 
         try {
