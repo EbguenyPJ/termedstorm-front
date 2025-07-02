@@ -29,14 +29,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/products/:path*",
-        destination: "https://nivoapp.netlify.app/:path*", // o el puerto real de tu backend
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/products/:path*",
+  //       destination: "https://nivoapp.netlify.app/:path*", // o el puerto real de tu backend
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;
