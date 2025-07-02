@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function PaymentSuccessPage() {
     const router = useRouter();
     // const user = useAuthStore((state) => state.user);
-
+console.log("🟢 Llegaste al success page!");
     // useEffect(() => {
     //     if (!user) {
     //         console.log("usuario de pago exitoso: ", );

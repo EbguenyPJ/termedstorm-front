@@ -23,6 +23,13 @@ export const routes = {
     companyUnsubscribe: "/user/unsubscribe"
   },
 
+  payment: {
+    cartPaymentSuccess: "payment/cart/success",
+    cartPaymentCancelled: "payment/cart/cancelled",
+    subscriptioPaymentSuccess: "payment/subscription/success",
+    subscriptioPaymentCancelled: "payment/subscription/cancelled",
+  },
+
   // Shop
   shop: {
     categories: "/shop/categories",

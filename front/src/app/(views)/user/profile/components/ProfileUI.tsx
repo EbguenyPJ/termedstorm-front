@@ -56,6 +56,10 @@ const Profile = () => {
             textContent="Cancelar suscripción"
             onClick={() => router.push(routes.user.companyUnsubscribe)}
           />
+          <ButtonPrimary
+            textContent="payment success"
+            onClick={() => router.push(routes.payment.cartPaymentSuccess)}
+          />
         </div>
       </div>
     </div>
