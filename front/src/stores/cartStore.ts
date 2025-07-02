@@ -8,11 +8,14 @@ export type CartItem = {
   quantity: number;
   stock?: number;
   idVariant: string;
+  // variant_product_id: string;
   sizeId: string;
 };
 
 type CartStore = {
   items: CartItem[];
+  paymentMethod: "Tarjeta" | "Efectivo";
+  setPaymentMethod: (method: "Tarjeta" | "Efectivo") => void;
   addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
@@ -24,6 +27,8 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set) => ({
       items: [],
+      paymentMethod: "Tarjeta",
+      setPaymentMethod: (method) => set({ paymentMethod: method }),
 
       addItem: (item) =>
         set((state) => ({

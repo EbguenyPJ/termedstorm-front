@@ -2,8 +2,8 @@
 
 import { routes } from '@/app/routes';
 import { CheckCircle } from 'lucide-react';
-// import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+// import { useEffect } from 'react';
 // import { useAuthStore } from '@/stores/authStore';
 
 export default function PaymentSuccessPage() {

@@ -189,12 +189,13 @@ const ProductViewerClient: React.FC<Props> = ({
 
               addItem({
                 id: itemId,
-                idVariant: currentVariant.id, // <- este campo es clave para Stripe
                 name: `${product.name} - ${getColorLabel(currentVariant.color_id)} - ${getSizeLabel(sizeId)}`,
                 price: product.sale_price,
                 quantity: 1,
                 stock: stockObj.stock,
-                sizeId: ""
+                sizeId: "",
+                idVariant: currentVariant.id, // <- este campo es clave para Stripe
+                // variant_product_id: "",
               });
             });
 

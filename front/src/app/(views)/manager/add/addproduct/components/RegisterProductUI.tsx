@@ -124,9 +124,9 @@ const RegisterProduct = () => {
                 })),
               })),
             };
+            console.log("Producto pasado al back", productToSend);
 
             const response = await api.post("/products", productToSend);
-            console.log("Producto pasado al back", productToSend);
             
 
             if (response.status === 201 || response.status === 200) {
