@@ -10,6 +10,7 @@
     "postinstall": "flowbite-react patch"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.11.4",
     "apexcharts": "^4.7.0",
     "axios": "^1.9.0",
     "cookies-next": "^6.0.0",
