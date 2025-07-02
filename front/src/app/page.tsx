@@ -6,8 +6,10 @@ import { routes } from "./routes";
 const LoginPage = () => {
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2">
+      
       {/* Sección izquierda: imagen o color */}
       <div className="hidden lg:block bg-[#4e4090] relative">
+
         {/* Texto */}
         <div className="relative z-10 flex items-center justify-center h-full px-10 text-base-100 text-center">
           <div>
