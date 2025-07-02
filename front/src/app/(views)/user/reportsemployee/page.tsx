@@ -131,11 +131,11 @@ return (
                     <Trash2 size={18} />
                   </button> */}
 
-                  <button
+                <button
                   className={`text-red-600 ${order.status === "CANCELLED" ? "opacity-30 cursor-not-allowed" : ""}`}
                   onClick={() => {
                     if (order.status !== "CANCELLED") {
-                      router.push(`/manager/cashier/ordercancel?id=${order.id}`);
+                      router.push(`/user/ordercancel?id=${order.id}`);
                     }
                   }}
                   disabled={order.status === "CANCELLED"}
