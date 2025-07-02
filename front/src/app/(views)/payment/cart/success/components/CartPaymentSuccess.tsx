@@ -1,22 +1,22 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
-import { useAuthStore } from '@/stores/authStore';
 import { routes } from '@/app/routes';
+// import { useEffect } from 'react';
+// import { useAuthStore } from '@/stores/authStore';
 
-export default function CartPaymentSuccessPage() {
+export default function CartPaymentSuccess() {
     const router = useRouter();
-    const user = useAuthStore((state) => state.user);
+    // const user = useAuthStore((state) => state.user);
 
-    useEffect(() => {
-        if (!user) {
-                router.push(routes.shop.categories);
-        }
-    }, [user, router]);
+    // useEffect(() => {
+    //     if (!user) {
+    //             router.push(routes.shop.categories);
+    //     }
+    // }, [user, router]);
 
-    if (!user) return null;
+    // if (!user) return null;
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4">

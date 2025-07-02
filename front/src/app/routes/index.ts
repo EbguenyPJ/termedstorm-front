@@ -20,6 +20,14 @@ export const routes = {
     support: "/user/support",
     chat: "/user/chat",
     companySubscription: "/user/company-subscription",
+    companyUnsubscribe: "/user/unsubscribe"
+  },
+
+  payment: {
+    cartPaymentSuccess: "/payment/cart/success",
+    cartPaymentCancelled: "/payment/cart/cancelled",
+    subscriptioPaymentSuccess: "/payment/subscription/success",
+    subscriptioPaymentCancelled: "/payment/subscription/cancelled",
   },
 
   // Shop

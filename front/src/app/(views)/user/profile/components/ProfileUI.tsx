@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { ButtonPrimary } from "@/components/UI/Buttons/Buttons";
 import { routes } from "@/app/routes";
+import { ButtonSecondary } from '@/components/UI/Buttons/Buttons';
 
 const Profile = () => {
   const router = useRouter();
@@ -45,10 +46,21 @@ const Profile = () => {
           <p><strong className="text-gray-700">Roles:</strong> {user.roles?.join(", ")}</p>
         </div>
 
-        <ButtonPrimary
-          textContent="Ver suscripciones de empresa"
-          onClick={() => router.push(routes.user.companySubscription)}
-        />
+        <div className="grid gap-10 w-auto max-w-50">
+          <ButtonSecondary
+            textContent="Ver suscripciones de empresa"
+            onClick={() => router.push(routes.user.companySubscription)}
+          />
+
+          <ButtonPrimary
+            textContent="Cancelar suscripción"
+            onClick={() => router.push(routes.user.companyUnsubscribe)}
+          />
+          <ButtonPrimary
+            textContent="payment success"
+            onClick={() => router.push(routes.payment.cartPaymentSuccess)}
+          />
+        </div>
       </div>
     </div>
   );
