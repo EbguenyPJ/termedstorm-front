@@ -45,7 +45,7 @@ const LoginPageClient = () => {
               Iniciá sesión para acceder a la app Cliente
             </p>
             <Image
-              src="front/shoes.webp"
+              src="/shoes.webp"
               alt="Nivo POS"
               width={600}
               height={600}
