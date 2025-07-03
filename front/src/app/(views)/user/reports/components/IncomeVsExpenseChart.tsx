@@ -24,7 +24,7 @@ export default function IncomeVsExpenseChart() {
     }, []);
 
     const options: ApexOptions = {
-        chart: { type: 'bar', toolbar: { show: false } },
+        chart: { type: 'bar', toolbar: { show: false }, foreColor: '#b8b9ba' },
         xaxis: { categories: ['Últimos 30 días'] },
         plotOptions: { bar: { horizontal: false, columnWidth: '55%' } },
         colors: ['#10b981', '#ef4444'],

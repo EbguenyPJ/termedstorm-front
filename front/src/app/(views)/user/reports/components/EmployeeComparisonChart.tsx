@@ -26,13 +26,13 @@ export default function EmployeeComparisonChart() {
     }, []);
 
     const options: ApexOptions = {
-        chart: { type: 'donut' },
+        chart: { type: 'donut', foreColor: '#b8b9ba' },
         labels,
         colors: ['#6366f1', '#ec4899', '#f59e0b', '#10b981'],
     };
 
     return (
-        <ChartCard title="Ventas por Empleado">
+        <ChartCard title="Ventas por Empleado en $">
             <Chart options={options} series={series} type="donut" height="100%" />
         </ChartCard>
     );

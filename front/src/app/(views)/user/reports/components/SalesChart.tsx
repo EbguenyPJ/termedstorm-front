@@ -31,7 +31,7 @@ export default function SalesChart() {
     }, []);
 
     const options: ApexOptions = {
-        chart: { type: 'area', toolbar: { show: false } },
+        chart: { type: 'area', toolbar: { show: false }, foreColor: '#b8b9ba' },
         xaxis: { categories },
         dataLabels: { enabled: false },
         stroke: { curve: 'smooth' },
