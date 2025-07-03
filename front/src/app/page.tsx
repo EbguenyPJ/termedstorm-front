@@ -21,8 +21,8 @@ const LoginPage = () => {
             <Image
               src="/bgclienttt.webp"
               alt="Ilustración financiera"
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               className="mx-auto mt-8"
             />
           </div>
