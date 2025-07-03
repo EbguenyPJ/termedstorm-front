@@ -32,8 +32,8 @@ const LoginForm = () => {
   ) => {
     try {
       await login("employee", values);
-      toast.success("Has ingresado exitosamente");
       router.push(routes.shop.categories);
+      toast.success("Has ingresado exitosamente");
     } catch (error: any) {
       const message = error.response?.data?.message || "Error desconocido";
       setErrors({ password: message });

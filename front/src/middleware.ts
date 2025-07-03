@@ -18,7 +18,9 @@ async function verifyToken(token: string): Promise<IAuthMeUser | null> {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const token = req.cookies.get("access_token")?.value;
+console.log("Cookies:", req.cookies);
+const token = req.cookies.get("access_token")?.value;
+console.log("Access token:", token);
 
   const isPublic = accessControl.publicRoutes.some((r) => {
   if (r === '/') {
@@ -80,6 +82,6 @@ export async function middleware(req: NextRequest) {
 // Ignora assets estáticos y APIs
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg||gif)).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|gif)).*)",
   ],
 };
