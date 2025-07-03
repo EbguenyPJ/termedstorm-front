@@ -18,6 +18,7 @@ export interface ICardProduct extends ICard {
   id?: string;
 }
 
+
 export interface ApiProduct {
   slug: string; //CORROBORAR QUE BACK LO TRAIGA
   id: string;
