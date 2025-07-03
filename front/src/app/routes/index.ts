@@ -4,6 +4,7 @@ export const routes = {
     login: "/",
     loginClient: "/loginclient",
     registerClient: "/registerclient",
+    googleSuccess: "/auth/success",
   },
   
   client: {
@@ -21,7 +22,6 @@ export const routes = {
     chat: "/user/chat",
     companysubscription: "/user/company-subscription",
     ordercancel: "/user/ordercancel",
-
   },
   
   payment: {
