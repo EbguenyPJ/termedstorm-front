@@ -7,7 +7,7 @@ import EmployeeComparisonChart from './EmployeeComparisonChart';
 
 export default function ReportsSlider() {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto overflow-y-hidden">
       <div className="flex gap-4 min-w-max">
         <SalesChart />
         <IncomeVsExpenseChart />
