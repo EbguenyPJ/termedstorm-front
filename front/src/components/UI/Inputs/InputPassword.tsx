@@ -30,6 +30,7 @@ const PasswordInputFormik: React.FC<PasswordInputFormikProps> = ({
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           required={required}
+          autocomplete="current-password"
           className="w-full py-3 mb-1 border border-zinc-500 rounded-lg px-3 pr-10 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
         />
         <button

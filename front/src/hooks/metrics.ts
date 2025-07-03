@@ -1,22 +1,23 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+import api from '@/lib/axiosInstance';
 
 export const fetchSalesByEmployee = async (startDate: string, endDate: string) => {
-    const res = await fetch(`${API_URL}/sales-by-employee?startDate=${startDate}&endDate=${endDate}`, {
-        credentials: 'include',
+    const res = await api.get(`/dashboard/sales-by-employee`, {
+        params: { startDate, endDate },
     });
-    return res.json();
+    return res.data;
 };
 
+
 export const fetchMonthlySales = async (year: number) => {
-    const res = await fetch(`${API_URL}/monthly-sales?year=${year}`, {
-        credentials: 'include',
+    const res = await api.get(`/dashboard/monthly-sales`, {
+        params: { year },
     });
-    return res.json();
+    return res.data;
 };
 
 export const fetchFinancialSummary = async (startDate: string, endDate: string) => {
-    const res = await fetch(`${API_URL}/financial-summary?startDate=${startDate}&endDate=${endDate}`, {
-        credentials: 'include',
+    const res = await api.get(`/dashboard/financial-summary`, {
+        params: { startDate, endDate },
     });
-    return res.json();
+    return res.data;
 };
