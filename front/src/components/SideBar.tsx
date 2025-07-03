@@ -189,7 +189,7 @@ const SideBar = forwardRef<HTMLDivElement, SideBarProps>(
               href: routes.manager.settings.createEmployee,
             },
             { label: "Precios", href: routes.manager.settings.prices },
-            { label: "Embarques", href: routes.manager.settings.shipping },
+            // { label: "Embarques", href: routes.manager.settings.shipping },
           ],
         },
       ],

@@ -46,7 +46,7 @@ const LoginPageClient = () => {
             </p>
             <Image
               src="/shoes.webp"
-              alt="Ilustración financiera"
+              alt="Nivo POS"
               width={600}
               height={600}
               className="mx-auto mt-8"
