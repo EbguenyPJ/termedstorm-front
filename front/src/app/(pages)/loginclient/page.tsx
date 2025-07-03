@@ -2,6 +2,7 @@ import React from "react";
 import LoginFormClient from "../../../components/Auth/Client/LoginFormClientUI";
 import Link from "next/link";
 import { routes } from "../../routes/index";
+import Image from "next/image";
 
 const LoginPageClient = () => {
   return (
@@ -43,7 +44,7 @@ const LoginPageClient = () => {
             <p className="text-lg">
               Iniciá sesión para acceder a la app Cliente
             </p>
-            <img
+            <Image
               src="front/shoes.webp"
               alt="Nivo POS"
               width={600}

@@ -28,7 +28,6 @@ const LoginPageClient = () => {
         </div>
       </div>
 
-      <div></div>
       {/* Sección derecha: formulario */}
       <div className="flex flex-col items-center justify-center bg-base-100 px-6 py-12">
         <div>

@@ -80,6 +80,6 @@ export async function middleware(req: NextRequest) {
 // Ignora assets estáticos y APIs
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|robots.txt|.*\\.(?:svg|png|jpg||gif)).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg||gif)).*)",
   ],
 };
