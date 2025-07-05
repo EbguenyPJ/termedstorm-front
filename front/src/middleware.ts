@@ -4,6 +4,8 @@ import { routes } from "./app/routes";
 import { jwtVerify } from "jose";
 import { IAuthMeUser } from "./interfaces";
 
+export const runtime = 'nodejs'; // <-- ¡AÑADE ESTA LÍNEA!
+
 // Verifica y decodifica el token JWT
 async function verifyToken(token: string): Promise<IAuthMeUser | null> {
   try {
