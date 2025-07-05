@@ -4,10 +4,8 @@ import { Inbox as InboxIcon } from "lucide-react";
 import { useChatStore } from "@/stores/chatStore";
 
 export const Inbox = () => {
-  const { unreadMessagesCount, resetUnreadCount } = useChatStore((state) => ({
-    unreadMessagesCount: state.unreadMessagesCount,
-    resetUnreadCount: state.resetUnreadCount,
-  }));
+  const unreadMessagesCount = useChatStore ((state) => state.unreadMessagesCount);
+  const resetUnreadCount = useChatStore ((state) => state.resetUnreadCount);
 
   const handleIconClick = () => {
     console.log("Ícono de Inbox clickeado, reiniciando contador.");
